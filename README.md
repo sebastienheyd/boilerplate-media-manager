@@ -17,7 +17,7 @@ composer require sebastienheyd/boilerplate-media-manager
 2. Run the command below to publish assets, lang files, ...
 
 ```
-php artisan vendor:publish --provider="Sebastienheyd\Boilerplate\BoilerplateServiceProvider"
+php artisan vendor:publish --provider="Sebastienheyd\BoilerplateMediaManager\BoilerplateMediaManagerServiceProvider"
 ```
 
 3. Create the symbolic link from `public/storage` to `storage/app/public`

@@ -37,8 +37,7 @@ class BoilerplateMediaManagerServiceProvider extends ServiceProvider
         $routesPath = base_path('routes/boilerplate-media-manager.php');
         $this->loadRoutesFrom(is_file($routesPath) ? $routesPath : __DIR__.'/routes/boilerplate-media-manager.php');
 
-        // Load migrations, views and translations from current directory
-        $this->loadMigrationsFrom(__DIR__.'/migrations');
+        // Load views and translations from current directory
         $this->loadViewsFrom(__DIR__.'/resources/views', 'boilerplate-media-manager');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'boilerplate-media-manager');
     }
