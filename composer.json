@@ -1,0 +1,30 @@
+{
+    "name": "sebastienheyd/boilerplate-media-manager",
+    "description": "Media Manager for Laravel Boilerplate",
+    "keywords": ["laravel", "boilerplate", "media", "file", "manager", "library", "plugin", "package"],
+    "type": "library",
+    "require": {
+        "intervention/image": "^2.4",
+        "sebastienheyd/boilerplate": "^5.7.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sebastien HEYD",
+            "email": "contact@sheyd.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sebastienheyd\\BoilerplateMediaManager\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sebastienheyd\\BoilerplateMediaManager\\BoilerplateMediaManagerServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev"
+}
