@@ -8,7 +8,7 @@ This package will add a media management tool to [`sebastienheyd/boilerplate`](h
 
 ## Installation
 
-1. In order to install Laravel/AdminLTE Boilerplate run :
+1. In order to install Laravel Boilerplate Media Manager run :
 
 ```
 composer require sebastienheyd/boilerplate-media-manager
