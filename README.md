@@ -77,7 +77,7 @@ $('#tinymce').tinymce({
 });
 ```
 
-## Package update
+## Package update
 
 Laravel Boilerplate Media Manager comes with assets such as Javascript, CSS, and images. Since you typically will need to overwrite the assets
 every time the package is updated, you may use the ```--force``` flag :
