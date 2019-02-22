@@ -229,8 +229,12 @@ class Path
      */
     public function delete($name)
     {
-        $path = $this->path.'/'.$name;
+        $path = $this->path.'/'.str_replace(['..','/'], '', $name);
         $fullPath = $this->getFullPath($path);
+        
+        if(!is_readable($fullPath)) {
+            return false;
+        }
 
         if(is_file($fullPath)) {
             if($this->exists('thumb_'.$name)) {
@@ -238,7 +242,9 @@ class Path
             }
 
             $this->storage->delete($path);
-        } else {
+        }
+
+        if(is_dir($fullPath)) {
             $this->storage->deleteDirectory($path);
         }
 
