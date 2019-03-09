@@ -62,13 +62,13 @@ class MediaManagerController extends Controller
         $path = str_replace(route('mediamanager.mce', [], false), '', $request->input('path'));
         $path = str_replace(route('mediamanager.index', [], false), '', $path);
 
-        if(empty($path)) {
+        if (empty($path)) {
             $path = '/';
         }
 
         $content = new Path($path, $mce);
 
-        if(!$content->exists()) {
+        if (!$content->exists()) {
             return view('boilerplate-media-manager::error', compact('mce'));
         }
 
@@ -122,7 +122,7 @@ class MediaManagerController extends Controller
             $path = new Path($request->input('path'));
             $path->delete($request->input('fileName'));
             return response()->json(['status' => 'success']);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
@@ -139,7 +139,7 @@ class MediaManagerController extends Controller
             $path = new Path($request->input('path'));
             $path->rename($request->input('fileName'), $request->input('newName'));
             return response()->json(['status' => 'success']);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
@@ -170,13 +170,15 @@ class MediaManagerController extends Controller
             $file = $request->file('file');
             $fullPath = $path->upload($file);
 
-            if(in_array(strtolower($file->getClientOriginalExtension()), ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif'])) {
+            $ext = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif'];
+
+            if (in_array(strtolower($file->getClientOriginalExtension()), $ext)) {
                 $fInfo = pathinfo($fullPath);
                 Image::make($fullPath)->fit(140)->save($fInfo['dirname'].'/thumb_'.$file->getClientOriginalName(), 75);
             }
 
             return response()->json(['status' => 'success']);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['status' => 'error']);
         }
     }

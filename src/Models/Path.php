@@ -2,7 +2,7 @@
 
 namespace Sebastienheyd\BoilerplateMediaManager\Models;
 
-use Jenssegers\Date\Date;
+use Carbon\Carbon;
 use Storage;
 use File;
 
@@ -26,7 +26,7 @@ class Path
      */
     public function breadcrumb()
     {
-        if($this->path === '/') {
+        if ($this->path === '/') {
             return [];
         }
 
@@ -35,7 +35,7 @@ class Path
         $result = [];
         $path = '';
 
-        foreach($chunks as $chunk) {
+        foreach ($chunks as $chunk) {
             $path = $path.'/'.$chunk;
 
             $result[] = [
@@ -66,7 +66,7 @@ class Path
     {
         $bc = $this->breadcrumb();
 
-        if(empty($bc)) {
+        if (empty($bc)) {
             return false;
         }
 
@@ -74,7 +74,7 @@ class Path
 
         $path = '';
 
-        if(!empty($bc)) {
+        if (!empty($bc)) {
             $last = end($bc);
             $path = $last['path'];
         }
@@ -94,13 +94,13 @@ class Path
 
         $result = $this->formatDirectories($directories)
             ->merge($this->formatFiles($files))
-            ->filter(function($value) use ($type) {
+            ->filter(function ($value) use ($type) {
 
-                if(preg_match('#^thumb_#', $value['name'])) {
+                if (preg_match('#^thumb_#', $value['name'])) {
                     return false;
                 }
 
-                if($value['isDir'] === false && $type === 'image' && $value['type'] !== 'image') {
+                if ($value['isDir'] === false && $type === 'image' && $value['type'] !== 'image') {
                     return false;
                 }
 
@@ -119,7 +119,7 @@ class Path
      */
     private function formatFiles($files = [])
     {
-        $files = array_map(function($file) {
+        $files = array_map(function ($file) {
             return [
                 'download' => '',
                 'icon'     => $this->getIcon($file),
@@ -144,7 +144,7 @@ class Path
      */
     private function formatDirectories($dirs = [])
     {
-        $dirs = array_map(function($dir) {
+        $dirs = array_map(function ($dir) {
             return [
                 'download' => '',
                 'isDir'    => true,
@@ -200,7 +200,7 @@ class Path
         $dest = rtrim($this->path, '/').'/'.trim($newName, '/');
         $this->storage->move($path, $dest);
 
-        if($this->exists('thumb_'.$name)) {
+        if ($this->exists('thumb_'.$name)) {
             $pathThumb = rtrim($this->path, '/').'/thumb_'.trim($name, '/');
             $destThumb = rtrim($this->path, '/').'/thumb_'.trim($newName, '/');
             $this->storage->move($pathThumb, $destThumb);
@@ -229,22 +229,22 @@ class Path
      */
     public function delete($name)
     {
-        $path = $this->path.'/'.str_replace(['..','/'], '', $name);
+        $path = $this->path.'/'.str_replace(['..', '/'], '', $name);
         $fullPath = $this->getFullPath($path);
-        
-        if(!is_readable($fullPath)) {
+
+        if (!is_readable($fullPath)) {
             return false;
         }
 
-        if(is_file($fullPath)) {
-            if($this->exists('thumb_'.$name)) {
+        if (is_file($fullPath)) {
+            if ($this->exists('thumb_'.$name)) {
                 $this->storage->delete($this->path.'/thumb_'.$name);
             }
 
             $this->storage->delete($path);
         }
 
-        if(is_dir($fullPath)) {
+        if (is_dir($fullPath)) {
             $this->storage->deleteDirectory($path);
         }
 
@@ -263,7 +263,7 @@ class Path
         $path = str_replace(route('mediamanager.mce', [], false), '', $path);
         $path = str_replace(route('mediamanager.index', [], false), '', $path);
 
-        if(empty($path)) {
+        if (empty($path)) {
             $path = '/';
         }
 
@@ -280,7 +280,7 @@ class Path
     public function exists($name = null)
     {
         $path = $this->path;
-        if($name !== null) {
+        if ($name !== null) {
             $path .= '/'.$name;
         }
         $path = $this->getFullPath($path);
@@ -309,8 +309,8 @@ class Path
     public function detectFileType($file)
     {
         $extension = File::extension($file);
-        foreach(config('mediamanager.filetypes') as $type => $regex) {
-            if(preg_match("/^($regex)$/i", $extension) !== 0) {
+        foreach (config('mediamanager.filetypes') as $type => $regex) {
+            if (preg_match("/^($regex)$/i", $extension) !== 0) {
                 return $type;
             }
         }
@@ -328,7 +328,7 @@ class Path
     {
         $bytes = filesize($this->getFullPath($file));
         $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
-        for($i = 0; $bytes > 1024; $i++) {
+        for ($i = 0; $bytes > 1024; $i++) {
             $bytes /= 1024;
         }
         return round($bytes, 2).' '.$units[$i];
@@ -343,6 +343,7 @@ class Path
      */
     public function getFileChangeTime($file)
     {
-        return Date::createFromTimestamp(filectime($this->getFullPath($file)))->format(__('boilerplate::date.YmdHis'));
+        return Carbon::createFromTimestamp(filectime($this->getFullPath($file)))
+            ->isoFormat(__('boilerplate::date.YmdHis'));
     }
 }

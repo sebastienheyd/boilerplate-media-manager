@@ -3,7 +3,7 @@
 return [
     'authorized' => [
         'size'  => '2048',
-        'mimes' => [ // Authorized mimes to upload (see : https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
+        'mimes' => [ // @see https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
                      'jpg',
                      'jpeg',
                      'png',

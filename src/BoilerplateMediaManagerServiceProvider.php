@@ -51,11 +51,12 @@ class BoilerplateMediaManagerServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/config/mediamanager.php', 'mediamanager');
 
-        config([
-            'boilerplate.menu.providers' => array_merge(
-                config('boilerplate.menu.providers'), [
-                \Sebastienheyd\BoilerplateMediaManager\Menu\BoilerplateMediaManager::class])
-        ]);
+        $config = array_merge(
+            config('boilerplate.menu.providers'),
+            [\Sebastienheyd\BoilerplateMediaManager\Menu\BoilerplateMediaManager::class]
+        );
+
+        config(['boilerplate.menu.providers' => $config]);
 
         $this->registerIntervention();
     }

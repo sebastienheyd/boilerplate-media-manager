@@ -11,8 +11,10 @@
             $(this).on("contextmenu", function (e) {
 
                 // return native menu if pressing control
-                if (e.ctrlKey) return;
-console.log(e);
+                if (e.ctrlKey) {
+                    return;
+                }
+
                 //open menu
                 var $menu = $(settings.menuSelector)
                     .data("invokedOn", $(this))
@@ -25,12 +27,12 @@ console.log(e);
                     .off('click')
                     .on('click', 'a', function (e) {
                         $menu.hide();
-                        if(typeof settings.onSelect === 'function') {
+                        if (typeof settings.onSelect === 'function') {
                             settings.onSelect.call(this, $menu.data("invokedOn"), $(e.target), e);
                         }
                     });
 
-                if(typeof settings.onShow === 'function') {
+                if (typeof settings.onShow === 'function') {
                     settings.onShow.call(this, $menu, $menu.data("invokedOn"));
                 }
 
@@ -43,15 +45,17 @@ console.log(e);
             });
         });
 
-        function getMenuPosition(mouse, direction, scrollDir) {
+        function getMenuPosition(mouse, direction, scrollDir)
+        {
             var win = $(window)[direction](),
                 scroll = $(window)[scrollDir](),
                 menu = $(settings.menuSelector)[direction](),
                 position = mouse;
 
             // opening menu would pass the side of the page
-            if (mouse + menu > win && menu < mouse)
+            if (mouse + menu > win && menu < mouse) {
                 position -= menu;
+            }
 
             return position;
         }
