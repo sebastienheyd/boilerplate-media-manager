@@ -8,6 +8,9 @@ This package will add a media management tool to [`sebastienheyd/boilerplate`](h
 
 ## Installation
 
+**Important** : Preferably, configure [`sebastienheyd/boilerplate`](https://github.com/sebastienheyd/boilerplate) before 
+installing this package.
+
 1. In order to install Laravel Boilerplate Media Manager run :
 
 ```

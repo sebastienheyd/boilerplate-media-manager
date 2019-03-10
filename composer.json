@@ -25,6 +25,9 @@
             "Sebastienheyd\\BoilerplateMediaManager\\": "src/"
         }
     },
+    "suggest": {
+        "sebastienheyd/boilerplate-email-editor": "Visual editor for e-mails"
+    },
     "extra": {
         "laravel": {
             "providers": [
