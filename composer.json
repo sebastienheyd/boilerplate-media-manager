@@ -1,6 +1,6 @@
 {
     "name": "sebastienheyd/boilerplate-media-manager",
-    "description": "Media Manager for Laravel Boilerplate",
+    "description": "Media Manager for sebastienheyd/boilerplate",
     "keywords": ["laravel", "boilerplate", "media", "file", "manager", "library", "plugin", "package"],
     "type": "library",
     "require": {
