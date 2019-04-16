@@ -2,10 +2,15 @@
 
 namespace Sebastienheyd\BoilerplateMediaManager;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Foundation\AliasLoader;
+use Intervention\Image\ImageServiceProvider;
+use Intervention\Image\Facades\Image;
+use Sebastienheyd\BoilerplateMediaManager\Lib\ImageResizer;
+use Sebastienheyd\BoilerplateMediaManager\Menu\BoilerplateMediaManager;
 
-class BoilerplateMediaManagerServiceProvider extends ServiceProvider
+class ServiceProvider extends BaseServiceProvider
 {
     protected $defer = false;
     protected $loader;
@@ -40,6 +45,16 @@ class BoilerplateMediaManagerServiceProvider extends ServiceProvider
         // Load views and translations from current directory
         $this->loadViewsFrom(__DIR__.'/resources/views', 'boilerplate-media-manager');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'boilerplate-media-manager');
+
+        Blade::directive('img', function($options) {
+            return "<?= img($options) ?>";
+        });
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Commands\Clearthumbs::class
+            ]);
+        }
     }
 
     /**
@@ -53,7 +68,7 @@ class BoilerplateMediaManagerServiceProvider extends ServiceProvider
 
         $config = array_merge(
             config('boilerplate.menu.providers'),
-            [\Sebastienheyd\BoilerplateMediaManager\Menu\BoilerplateMediaManager::class]
+            [BoilerplateMediaManager::class]
         );
 
         config(['boilerplate.menu.providers' => $config]);
@@ -66,7 +81,8 @@ class BoilerplateMediaManagerServiceProvider extends ServiceProvider
      */
     private function registerIntervention()
     {
-        $this->app->register(\Intervention\Image\ImageServiceProvider::class);
-        $this->loader->alias('Image', \Intervention\Image\Facades\Image::class);
+        $this->app->register(ImageServiceProvider::class);
+        $this->loader->alias('Image', Image::class);
+        $this->loader->alias('ImageResizer', ImageResizer::class);
     }
 }

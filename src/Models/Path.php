@@ -92,6 +92,12 @@ class Path
         $directories = $this->storage->directories($this->path);
         $files = $this->storage->files($this->path);
 
+        if(config('mediamanager.hide_thumbs_dir')) {
+            $directories = collect($directories)->filter(function($directory) {
+                return !preg_match('#^'.config('mediamanager.thumbs_dir').'#', $directory);
+            })->toArray();
+        }
+
         $result = $this->formatDirectories($directories)
             ->merge($this->formatFiles($files))
             ->filter(function ($value) use ($type) {

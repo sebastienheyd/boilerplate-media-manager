@@ -35,6 +35,7 @@ After `vendor:publish`, you can find the configuration file `mediamanager.php` i
 
 | configuration | description |
 |---|---|
+| mediamanager.thumbs_dir | Directory where to store dynamically generated thumbs |
 | mediamanager.authorized.size | Upload max size in bytes, default is 2048 |
 | mediamanager.authorized.mimes | Mime types by extension, see [Laravel documentation](https://laravel.com/docs/5.7/validation#rule-mimes)
 | mediamanager.filetypes | Associative array to get file type by extension |
@@ -42,6 +43,42 @@ After `vendor:publish`, you can find the configuration file `mediamanager.php` i
 | mediamanager.filter | Array of filtered files to hide |
 
 ## Integration
+
+### Img (fit or resize)
+
+Img will dynamically resize an image and returns the URL using Intervention and Storage (public disk)
+
+```blade
+{!! img('/storage/my_picture.jpg', 100, 100, [], 'resize') !!}
+```
+
+will return
+
+```blade
+<img src="/storage/thumbs/actualites/resize/100x100/my_picture.jpg?1555331285" width="100" height="100">
+```
+
+Or using the Blade directive :
+
+```blade
+@img('/storage/my_picture.jpg', 250, 150, ['class' => 'fluid-image'])
+```
+
+will return
+
+```blade
+<img src="/storage/thumbs/actualites/fit/250x150/my_picture.png?1555331285" width="250" height="150" class="fluid-image">
+```
+
+You can already get only the url by using `img_url` helper function.
+
+#### Clear cache
+
+You can clear all resized image by using the artisan command `thumbs:clear`
+
+```
+php artisan thumbs:clear
+```
 
 ### TinyMCE
 
@@ -79,7 +116,6 @@ $('#tinymce').tinymce({
     }
 });
 ```
-
 ## Package update
 
 Laravel Boilerplate Media Manager comes with assets such as Javascript, CSS, and images. Since you typically will need to overwrite the assets

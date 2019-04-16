@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'thumbs_dir' => 'thumbs',
+    'hide_thumbs_dir' => true,
     'authorized' => [
         'size'  => '2048',
         'mimes' => [ // @see https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)

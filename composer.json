@@ -21,6 +21,9 @@
         }
     ],
     "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
         "psr-4": {
             "Sebastienheyd\\BoilerplateMediaManager\\": "src/"
         }
@@ -31,7 +34,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Sebastienheyd\\BoilerplateMediaManager\\BoilerplateMediaManagerServiceProvider"
+                "Sebastienheyd\\BoilerplateMediaManager\\ServiceProvider"
             ]
         }
     },
