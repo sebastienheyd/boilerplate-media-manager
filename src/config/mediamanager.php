@@ -5,7 +5,7 @@ return [
     'hide_thumbs_dir' => true,
     'authorized' => [
         'size'  => '2048',
-        'mimes' => [ // @see https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
+        'mimes' => [// @see https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
                      'jpg',
                      'jpeg',
                      'png',
@@ -32,7 +32,7 @@ return [
                      'wmv',
         ],
     ],
-    'filetypes'  => [ // Recognized filetypes
+    'filetypes'  => [// Recognized filetypes
                       'image'   => 'png|jpg|jpeg|gif|svg',
                       'word'    => 'doc|docx|odt',
                       'excel'   => 'xls|xlsx|ods',
@@ -44,7 +44,7 @@ return [
                       'audio'   => 'mp3|wav|flac|3pg|aa|aac|ape|au|m4a|mpc|ogg',
                       'video'   => 'mkv|rmvb|flv|mp4|avi|wmv|rm|asf|mpeg',
     ],
-    'icons'      => [ // Icons linked to filetypes
+    'icons'      => [// Icons linked to filetypes
                       'file'    => 'file-o', // default
                       'image'   => 'file-image-o',
                       'word'    => 'file-word-o',

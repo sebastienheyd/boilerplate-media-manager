@@ -88,21 +88,21 @@ class ImageResizer
             return $this->storage->url($this->dest_file).'?'.filemtime($this->original_file);
         }
 
-        switch($this->type) {
+        switch ($this->type) {
             case 'fit':
             case 'resize':
                 try {
                     $mime = $this->storage->mimeType($this->path);
 
                     $image = Image::make($this->original_file)
-                        ->{$this->type}($this->width, $this->height, function ($constraint) {
+                        ->{$this->type}($this->width, $this->height, function($constraint) {
                             $constraint->aspectRatio();
                             $constraint->upsize();
                         })->encode($mime);
 
                     $this->storage->put($this->dest_file, (string) $image);
                     return $this->storage->url($this->dest_file).'?'.filemtime($this->original_file);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     return '';
                 }
                 break;

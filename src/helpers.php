@@ -5,7 +5,7 @@ if (!function_exists('img')) {
     {
         $url = img_url($path, $width, $height, $type);
 
-        if($url === '') {
+        if ($url === '') {
             return '';
         }
 
@@ -22,6 +22,6 @@ if (!function_exists('img')) {
 if (!function_exists('img_url')) {
     function img_url($path, $width, $height, $type = 'fit')
     {
-        return ImageResizer::url($path, $width, $height, $type);
+        return \Sebastienheyd\BoilerplateMediaManager\Lib\ImageResizer::url($path, $width, $height, $type);
     }
 }
