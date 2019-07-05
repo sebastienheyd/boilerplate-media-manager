@@ -20,7 +20,7 @@ composer require sebastienheyd/boilerplate-media-manager
 2. Run the command below to publish assets, lang files, ...
 
 ```
-php artisan vendor:publish --provider="Sebastienheyd\BoilerplateMediaManager\BoilerplateMediaManagerServiceProvider"
+php artisan vendor:publish --provider="Sebastienheyd\BoilerplateMediaManager\ServiceProvider"
 ```
 
 3. Create the symbolic link from `public/storage` to `storage/app/public`
@@ -122,7 +122,7 @@ Laravel Boilerplate Media Manager comes with assets such as Javascript, CSS, and
 every time the package is updated, you may use the ```--force``` flag :
 
 ```
-php artisan vendor:publish --provider="Sebastienheyd\BoilerplateMediaManager\BoilerplateMediaManagerServiceProvider" --tag=public --force
+php artisan vendor:publish --provider="Sebastienheyd\BoilerplateMediaManager\ServiceProvider" --tag=public --force
 ```
 
 To auto update assets each time package is updated, you can add this command to `post-autoload-dump` into the 
