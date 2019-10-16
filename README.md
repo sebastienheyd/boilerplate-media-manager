@@ -1,7 +1,7 @@
 # Laravel Boilerplate Media Manager
 
 ![Package](https://img.shields.io/badge/Package-sebastienheyd%2Fboilerplate--media--manager-lightgrey.svg)
-![Laravel](https://img.shields.io/badge/Laravel-≥_5.7-green.svg)
+![Laravel](https://img.shields.io/badge/Laravel-6.x-green.svg)
 ![MIT License](https://img.shields.io/github/license/sebastienheyd/boilerplate.svg)
 
 This package will add a media management tool to [`sebastienheyd/boilerplate`](https://github.com/sebastienheyd/boilerplate)
@@ -23,7 +23,13 @@ composer require sebastienheyd/boilerplate-media-manager
 php artisan vendor:publish --provider="Sebastienheyd\BoilerplateMediaManager\ServiceProvider"
 ```
 
-3. Create the symbolic link from `public/storage` to `storage/app/public`
+3. Run the migration to add permission
+
+```
+php artisan migrate
+```
+
+4. Create the symbolic link from `public/storage` to `storage/app/public`
 
 ```
 php artisan storage:link
