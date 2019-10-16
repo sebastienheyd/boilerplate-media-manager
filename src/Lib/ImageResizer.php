@@ -95,7 +95,7 @@ class ImageResizer
                     $mime = $this->storage->mimeType($this->path);
 
                     $image = Image::make($this->original_file)
-                        ->{$this->type}($this->width, $this->height, function($constraint) {
+                        ->{$this->type}($this->width, $this->height, function ($constraint) {
                             $constraint->aspectRatio();
                             $constraint->upsize();
                         })->encode($mime);

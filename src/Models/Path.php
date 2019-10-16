@@ -93,14 +93,14 @@ class Path
         $files = $this->storage->files($this->path);
 
         if (config('mediamanager.hide_thumbs_dir')) {
-            $directories = collect($directories)->filter(function($directory) {
+            $directories = collect($directories)->filter(function ($directory) {
                 return !preg_match('#^'.config('mediamanager.thumbs_dir').'#', $directory);
             })->toArray();
         }
 
         $result = $this->formatDirectories($directories)
             ->merge($this->formatFiles($files))
-            ->filter(function($value) use ($type) {
+            ->filter(function ($value) use ($type) {
 
                 if (preg_match('#^thumb_#', $value['name'])) {
                     return false;
@@ -125,7 +125,7 @@ class Path
      */
     private function formatFiles($files = [])
     {
-        $files = array_map(function($file) {
+        $files = array_map(function ($file) {
             return [
                 'download' => '',
                 'icon'     => $this->getIcon($file),
