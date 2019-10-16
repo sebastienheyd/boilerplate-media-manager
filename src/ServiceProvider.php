@@ -18,7 +18,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Create a new boilerplate service provider instance.
      *
-     * @param  \Illuminate\Foundation\Application $app
+     * @param \Illuminate\Foundation\Application $app
      *
      * @return void
      */
@@ -42,11 +42,12 @@ class ServiceProvider extends BaseServiceProvider
         $routesPath = base_path('routes/boilerplate-media-manager.php');
         $this->loadRoutesFrom(is_file($routesPath) ? $routesPath : __DIR__.'/routes/boilerplate-media-manager.php');
 
-        // Load views and translations from current directory
+        // Load views, migrations and translations from current directory
         $this->loadViewsFrom(__DIR__.'/resources/views', 'boilerplate-media-manager');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'boilerplate-media-manager');
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
 
-        Blade::directive('img', function($options) {
+        Blade::directive('img', function ($options) {
             return "<?= img($options) ?>";
         });
 
