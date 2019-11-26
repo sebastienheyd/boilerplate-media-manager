@@ -15,12 +15,12 @@
                 e.preventDefault();
 
                 if ($('#media-content').data('mce') == 1 && typeof parent.tinymce !== 'undefined') {
-                    parent.tinymce.activeEditor.windowManager.getParams().oninsert({
+
+                    window.parent.postMessage({
+                        mceAction: 'insertMedia',
                         url: $(this).attr('href'),
                         name: $(this).attr('data-filename')
-                    });
-
-                    parent.tinymce.activeEditor.windowManager.close();
+                    }, '*');
                 }
             });
 
