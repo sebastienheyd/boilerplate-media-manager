@@ -2,6 +2,9 @@
 
 ![Package](https://img.shields.io/badge/Package-sebastienheyd%2Fboilerplate--media--manager-lightgrey.svg)
 ![Laravel](https://img.shields.io/badge/Laravel-6.x-green.svg)
+[![Build Status](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-email-editor/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-email-editor/build-status/master)
+[![StyleCI](https://github.styleci.io/repos/170482496/shield?branch=master)](https://github.styleci.io/repos/170482496)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-email-editor/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-email-editor/?branch=master)
 ![MIT License](https://img.shields.io/github/license/sebastienheyd/boilerplate.svg)
 
 This package will add a media management tool to [`sebastienheyd/boilerplate`](https://github.com/sebastienheyd/boilerplate)
