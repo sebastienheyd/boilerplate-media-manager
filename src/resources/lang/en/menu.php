@@ -7,5 +7,5 @@ return [
     'rename'       => 'Rename',
     'delete'       => 'Delete',
     'upload'       => 'Upload',
-    'newFolder'    => 'New folder'
+    'newFolder'    => 'New folder',
 ];

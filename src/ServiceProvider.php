@@ -2,11 +2,11 @@
 
 namespace Sebastienheyd\BoilerplateMediaManager;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
-use Illuminate\Foundation\AliasLoader;
-use Intervention\Image\ImageServiceProvider;
 use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageServiceProvider;
 use Sebastienheyd\BoilerplateMediaManager\Lib\ImageResizer;
 use Sebastienheyd\BoilerplateMediaManager\Menu\BoilerplateMediaManager;
 
@@ -25,6 +25,7 @@ class ServiceProvider extends BaseServiceProvider
     public function __construct($app)
     {
         $this->loader = AliasLoader::getInstance();
+
         return parent::__construct($app);
     }
 
@@ -53,7 +54,7 @@ class ServiceProvider extends BaseServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                Commands\Clearthumbs::class
+                Commands\Clearthumbs::class,
             ]);
         }
     }
@@ -78,7 +79,7 @@ class ServiceProvider extends BaseServiceProvider
     }
 
     /**
-     * Register package intervention\image
+     * Register package intervention\image.
      */
     private function registerIntervention()
     {
