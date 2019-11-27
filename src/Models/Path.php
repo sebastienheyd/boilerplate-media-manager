@@ -3,8 +3,8 @@
 namespace Sebastienheyd\BoilerplateMediaManager\Models;
 
 use Carbon\Carbon;
-use Storage;
 use File;
+use Storage;
 
 class Path
 {
@@ -20,7 +20,7 @@ class Path
     }
 
     /**
-     * Return path as array
+     * Return path as array.
      *
      * @return array
      */
@@ -40,7 +40,7 @@ class Path
 
             $result[] = [
                 'path' => ltrim($path, '/'),
-                'name' => $chunk
+                'name' => $chunk,
             ];
         }
 
@@ -48,7 +48,7 @@ class Path
     }
 
     /**
-     * Return current path
+     * Return current path.
      *
      * @return string
      */
@@ -58,7 +58,7 @@ class Path
     }
 
     /**
-     * Return parent path
+     * Return parent path.
      *
      * @return bool|string
      */
@@ -83,7 +83,7 @@ class Path
     }
 
     /**
-     * Return list of files and directories in current path
+     * Return list of files and directories in current path.
      *
      * @return array
      */
@@ -101,7 +101,6 @@ class Path
         $result = $this->formatDirectories($directories)
             ->merge($this->formatFiles($files))
             ->filter(function ($value) use ($type) {
-
                 if (preg_match('#^thumb_#', $value['name'])) {
                     return false;
                 }
@@ -117,7 +116,7 @@ class Path
     }
 
     /**
-     * Format an array of files
+     * Format an array of files.
      *
      * @param array $files
      *
@@ -138,11 +137,12 @@ class Path
                 'time'     => $this->getFileChangeTime($file),
             ];
         }, $files);
+
         return collect($files);
     }
 
     /**
-     * Format an array of directories
+     * Format an array of directories.
      *
      * @param array $dirs
      *
@@ -162,11 +162,12 @@ class Path
                 'time'     => $this->getFileChangeTime($dir),
             ];
         }, $dirs);
+
         return collect($dirs);
     }
 
     /**
-     * Get icon for a given file
+     * Get icon for a given file.
      *
      * @param $file
      *
@@ -176,11 +177,12 @@ class Path
     {
         $type = $this->detectFileType($file);
         $icons = config('mediamanager.icons');
+
         return $icons[$type];
     }
 
     /**
-     * Create a new folder in the current path
+     * Create a new folder in the current path.
      *
      * @param $name
      *
@@ -189,11 +191,12 @@ class Path
     public function newFolder($name)
     {
         $path = rtrim($this->path, '/').'/'.trim($name, '/');
+
         return $this->storage->makeDirectory($path);
     }
 
     /**
-     * Rename a folder or media in the current path
+     * Rename a folder or media in the current path.
      *
      * @param string $name
      * @param string $newName
@@ -214,7 +217,7 @@ class Path
     }
 
     /**
-     * Store files
+     * Store files.
      *
      * @param $files
      *
@@ -223,11 +226,12 @@ class Path
     public function upload($file)
     {
         $this->storage->putFileAs($this->path, $file, $file->getClientOriginalName());
+
         return $this->getFullPath($this->path.'/'.$file->getClientOriginalName());
     }
 
     /**
-     * Delete a folder or a file in the current path
+     * Delete a folder or a file in the current path.
      *
      * @param $name
      *
@@ -258,7 +262,7 @@ class Path
     }
 
     /**
-     * Get relative path from root
+     * Get relative path from root.
      *
      * @param $path
      *
@@ -277,7 +281,7 @@ class Path
     }
 
     /**
-     * Check if current path exists
+     * Check if current path exists.
      *
      * @param string $name
      *
@@ -290,11 +294,12 @@ class Path
             $path .= '/'.$name;
         }
         $path = $this->getFullPath($path);
+
         return file_exists($path);
     }
 
     /**
-     * Get full path for a given relative path
+     * Get full path for a given relative path.
      *
      * @param string $name
      *
@@ -306,7 +311,7 @@ class Path
     }
 
     /**
-     * Return type for a given file
+     * Return type for a given file.
      *
      * @param $file
      *
@@ -320,11 +325,12 @@ class Path
                 return $type;
             }
         }
+
         return 'file';
     }
 
     /**
-     * Return size for a given file
+     * Return size for a given file.
      *
      * @param $file
      *
@@ -337,11 +343,12 @@ class Path
         for ($i = 0; $bytes > 1024; $i++) {
             $bytes /= 1024;
         }
+
         return round($bytes, 2).' '.$units[$i];
     }
 
     /**
-     * Return modification time for a given file
+     * Return modification time for a given file.
      *
      * @param $file
      *

@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'thumbs_dir' => 'thumbs',
+    'thumbs_dir'      => 'thumbs',
     'hide_thumbs_dir' => true,
-    'authorized' => [
+    'authorized'      => [
         'size'  => '2048',
         'mimes' => [// @see https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
                      'jpg',
@@ -60,6 +60,6 @@ return [
     'filter'     => [
         '.gitignore',
         '.git',
-        '.htaccess'
-    ]
+        '.htaccess',
+    ],
 ];

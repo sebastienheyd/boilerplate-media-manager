@@ -4,7 +4,6 @@ namespace Sebastienheyd\BoilerplateMediaManager\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Storage;
 use Image;
 use Sebastienheyd\BoilerplateMediaManager\Models\Path;
 
@@ -19,7 +18,7 @@ class MediaManagerController extends Controller
     }
 
     /**
-     * Display the media manager
+     * Display the media manager.
      *
      * @param Request $request
      *
@@ -29,11 +28,12 @@ class MediaManagerController extends Controller
     {
         $type = $request->query('type', 'all');
         $path = $request->path;
+
         return view('boilerplate-media-manager::index', compact('path', 'type'));
     }
 
     /**
-     * Display the media manager for MCE
+     * Display the media manager for MCE.
      *
      * @param Request $request
      *
@@ -43,11 +43,12 @@ class MediaManagerController extends Controller
     {
         $type = $request->query('type', 'all');
         $path = $request->path;
+
         return view('boilerplate-media-manager::index-mce', compact('path', 'type'));
     }
 
     /**
-     * Display files and directories list
+     * Display files and directories list.
      *
      * @param Request $request
      *
@@ -79,7 +80,7 @@ class MediaManagerController extends Controller
     }
 
     /**
-     * Add a new folder
+     * Add a new folder.
      *
      * @param Request $request
      *
@@ -88,6 +89,7 @@ class MediaManagerController extends Controller
     public function newFolder(Request $request)
     {
         $path = new Path($request->input('path'));
+
         return (string) $path->newFolder($request->input('name'));
     }
 
@@ -112,7 +114,7 @@ class MediaManagerController extends Controller
     }
 
     /**
-     * Delete a file or a folder
+     * Delete a file or a folder.
      *
      * @param Request $request
      */
@@ -121,15 +123,15 @@ class MediaManagerController extends Controller
         try {
             $path = new Path($request->input('path'));
             $path->delete($request->input('fileName'));
+
             return response()->json(['status' => 'success']);
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
 
-
     /**
-     * Delete a file or a folder
+     * Delete a file or a folder.
      *
      * @param Request $request
      */
@@ -138,6 +140,7 @@ class MediaManagerController extends Controller
         try {
             $path = new Path($request->input('path'));
             $path->rename($request->input('fileName'), $request->input('newName'));
+
             return response()->json(['status' => 'success']);
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
@@ -145,23 +148,24 @@ class MediaManagerController extends Controller
     }
 
     /**
-     * Upload file(s) to server
+     * Upload file(s) to server.
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function upload(Request $request)
     {
-        $authorizedMimes = join(',', config('mediamanager.authorized.mimes'));
+        $authorizedMimes = implode(',', config('mediamanager.authorized.mimes'));
         $authorizedSize = config('mediamanager.authorized.size');
 
         $this->validate($request, [
             'path' => 'required',
-            'file' => "required|mimes:$authorizedMimes|max:$authorizedSize"
+            'file' => "required|mimes:$authorizedMimes|max:$authorizedSize",
         ], [
-            'files.mimetypes' => 'File has not an authorized type'
+            'files.mimetypes' => 'File has not an authorized type',
         ]);
 
         $path = new Path($request->input('path'));
