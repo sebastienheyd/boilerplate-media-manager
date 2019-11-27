@@ -17,11 +17,11 @@ class ImageResizer
     protected $storage;
 
     /**
-     * Get resized image url from the given public path
+     * Get resized image url from the given public path.
      *
-     * @param string $path Image public path (/storage/*)
-     * @param integer $width
-     * @param integer $height
+     * @param string $path   Image public path (/storage/*)
+     * @param int    $width
+     * @param int    $height
      * @param string $type
      *
      * @return string
@@ -44,10 +44,10 @@ class ImageResizer
     }
 
     /**
-     * Set thumbnail size
+     * Set thumbnail size.
      *
-     * @param integer $width
-     * @param integer $height
+     * @param int    $width
+     * @param int    $height
      * @param string $type
      *
      * @return $this
@@ -70,7 +70,7 @@ class ImageResizer
     }
 
     /**
-     * Get thumbnail size
+     * Get thumbnail size.
      *
      * @return string
      */
@@ -101,6 +101,7 @@ class ImageResizer
                         })->encode($mime);
 
                     $this->storage->put($this->dest_file, (string) $image);
+
                     return $this->storage->url($this->dest_file).'?'.filemtime($this->original_file);
                 } catch (\Exception $e) {
                     return '';

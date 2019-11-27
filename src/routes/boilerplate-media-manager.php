@@ -5,11 +5,10 @@ $default = [
     'domain'     => config('boilerplate.app.domain', ''),
     'middleware' => ['web', 'boilerplatelocale', 'boilerplateauth', 'ability:admin,backend_access,media-manager'],
     'as'         => 'mediamanager.',
-    'namespace'  => '\Sebastienheyd\BoilerplateMediaManager\Controllers'
+    'namespace'  => '\Sebastienheyd\BoilerplateMediaManager\Controllers',
 ];
 
 Route::group($default, function () {
-
     Route::group(['prefix' => 'ajax', 'as' => 'ajax.'], function () {
         Route::post('list', ['as' => 'list', 'uses' => 'MediaManagerController@list']);
         Route::post('folder', ['as' => 'new-folder', 'uses' => 'MediaManagerController@newFolder']);

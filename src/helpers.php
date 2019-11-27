@@ -18,7 +18,6 @@ if (!function_exists('img')) {
     }
 }
 
-
 if (!function_exists('img_url')) {
     function img_url($path, $width, $height, $type = 'fit')
     {
