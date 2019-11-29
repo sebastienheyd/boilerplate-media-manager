@@ -109,6 +109,10 @@ class Path
                     return false;
                 }
 
+                if ($value['isDir'] === false && $type === 'media' && $value['type'] !== 'video') {
+                    return false;
+                }
+
                 return !in_array($value['name'], config('mediamanager.filter'));
             });
 

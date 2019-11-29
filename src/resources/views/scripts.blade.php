@@ -15,7 +15,6 @@
                 e.preventDefault();
 
                 if ($('#media-content').data('mce') == 1 && typeof parent.tinymce !== 'undefined') {
-
                     window.parent.postMessage({
                         mceAction: 'insertMedia',
                         url: $(this).attr('href'),

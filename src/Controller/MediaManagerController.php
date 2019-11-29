@@ -186,4 +186,42 @@ class MediaManagerController extends Controller
             return response()->json(['status' => 'error']);
         }
     }
+
+    /**
+     * Upload file(s) to server from TinyMCE.
+     *
+     * @param Request $request
+     *
+     * @throws \Exception
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function uploadMce(Request $request)
+    {
+        $authorizedMimes = implode(',', config('mediamanager.authorized.mimes'));
+        $authorizedSize = config('mediamanager.authorized.size');
+        $this->validate($request, [
+            'file' => "required",
+        ], [
+            'files.mimetypes' => 'File has not an authorized type',
+        ]);
+
+        $path = new Path(config('mediamanager.tinymce_upload_dir', 'mce'));
+
+        try {
+            $file = $request->file('file');
+            $fullPath = $path->upload($file);
+
+            $ext = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif'];
+
+            if (in_array(strtolower($file->getClientOriginalExtension()), $ext)) {
+                $fInfo = pathinfo($fullPath);
+                Image::make($fullPath)->fit(140)->save($fInfo['dirname'].'/thumb_'.$file->getClientOriginalName(), 75);
+            }
+
+            return response()->json(['location' => '/storage/blob/'.$file->getClientOriginalName()]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error']);
+        }
+    }
 }
