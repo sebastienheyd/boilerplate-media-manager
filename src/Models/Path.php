@@ -221,17 +221,21 @@ class Path
     }
 
     /**
-     * Store files.
+     * Store file.
      *
-     * @param $files
+     * @param \Illuminate\Http\UploadedFile $file
+     * @param string $fileName
      *
      * @return bool
      */
-    public function upload($file)
+    public function upload($file, $fileName = null)
     {
-        $this->storage->putFileAs($this->path, $file, $file->getClientOriginalName());
+        if($fileName === null) {
+            $fileName = $file->getClientOriginalName();
+        }
 
-        return $this->getFullPath($this->path.'/'.$file->getClientOriginalName());
+        $this->storage->putFileAs($this->path, $file, $fileName);
+        return $this->getFullPath($this->path.'/'.$fileName);
     }
 
     /**

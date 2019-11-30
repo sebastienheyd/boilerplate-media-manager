@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Image;
 use Sebastienheyd\BoilerplateMediaManager\Models\Path;
+use Validator;
 
 class MediaManagerController extends Controller
 {
@@ -152,21 +153,28 @@ class MediaManagerController extends Controller
      *
      * @param Request $request
      *
-     * @throws \Exception
-     *
      * @return \Illuminate\Http\JsonResponse
+     *@throws \Exception
+     *
      */
     public function upload(Request $request)
     {
         $authorizedMimes = implode(',', config('mediamanager.authorized.mimes'));
         $authorizedSize = config('mediamanager.authorized.size');
 
-        $this->validate($request, [
+        $validation = Validator::make($request->all(), [
             'path' => 'required',
             'file' => "required|mimes:$authorizedMimes|max:$authorizedSize",
         ], [
             'files.mimetypes' => 'File has not an authorized type',
         ]);
+
+        if($validation->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'error' => join(',', $validation->errors()->toArray())
+            ]);
+        }
 
         $path = new Path($request->input('path'));
 
@@ -188,40 +196,47 @@ class MediaManagerController extends Controller
     }
 
     /**
-     * Upload file(s) to server from TinyMCE.
+     * Upload file to server from TinyMCE.
      *
      * @param Request $request
      *
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      *
-     * @return \Illuminate\Http\JsonResponse
      */
     public function uploadMce(Request $request)
     {
-        $authorizedMimes = implode(',', config('mediamanager.authorized.mimes'));
+        $authorizedMimes = implode(',', ['jpg', 'jpeg', 'png', 'gif']);
         $authorizedSize = config('mediamanager.authorized.size');
-        $this->validate($request, [
-            'file' => "required",
-        ], [
-            'files.mimetypes' => 'File has not an authorized type',
+
+        $validation = Validator::make($request->all(), [
+            'file' => "required|mimes:$authorizedMimes|max:$authorizedSize",
         ]);
 
-        $path = new Path(config('mediamanager.tinymce_upload_dir', 'mce'));
+        if($validation->fails()) {
+            return response()->json(['status' => 'error', 'error' => $validation->errors()->first('file')]);
+        }
+
+        $path = new Path(config('mediamanager.tinymce_upload_dir', 'blob'));
 
         try {
             $file = $request->file('file');
-            $fullPath = $path->upload($file);
+            $fileExt = strtolower($file->getClientOriginalExtension());
+            $fileName = 'mce_'.uniqid().'.'.$fileExt;
 
-            $ext = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif'];
+            $fullPath = $path->upload($file, $fileName);
 
-            if (in_array(strtolower($file->getClientOriginalExtension()), $ext)) {
+            $ext = ['jpg', 'jpeg', 'gif', 'png'];
+            if (in_array($fileExt, $ext)) {
                 $fInfo = pathinfo($fullPath);
-                Image::make($fullPath)->fit(140)->save($fInfo['dirname'].'/thumb_'.$file->getClientOriginalName(), 75);
+                Image::make($fullPath)->fit(140)->save($fInfo['dirname'].'/thumb_'.$fileName, 75);
             }
 
-            return response()->json(['location' => '/storage/blob/'.$file->getClientOriginalName()]);
+            return response()->json([
+                'location' => '/storage/'.config('mediamanager.tinymce_upload_dir', 'blob').'/'.$fileName
+            ]);
         } catch (\Exception $e) {
-            return response()->json(['status' => 'error']);
+            return response()->json(['status' => 'error', 'error' => $e->getMessage()]);
         }
     }
 }
