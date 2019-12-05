@@ -159,8 +159,8 @@ class MediaManagerController extends Controller
      */
     public function upload(Request $request)
     {
-        $authorizedMimes = implode(',', config('mediamanager.authorized.mimes'));
-        $authorizedSize = config('mediamanager.authorized.size');
+        $authorizedMimes = implode(',', config('boilerplate.mediamanager.authorized.mimes'));
+        $authorizedSize = config('boilerplate.mediamanager.authorized.size');
 
         $validation = Validator::make($request->all(), [
             'path' => 'required',
@@ -169,7 +169,7 @@ class MediaManagerController extends Controller
             'files.mimetypes' => 'File has not an authorized type',
         ]);
 
-        if($validation->fails()) {
+        if ($validation->fails()) {
             return response()->json([
                 'status' => 'error',
                 'error' => join(',', $validation->errors()->toArray())
@@ -207,22 +207,22 @@ class MediaManagerController extends Controller
     public function uploadMce(Request $request)
     {
         $authorizedMimes = implode(',', ['jpg', 'jpeg', 'png', 'gif']);
-        $authorizedSize = config('mediamanager.authorized.size');
+        $authorizedSize = config('boilerplate.mediamanager.authorized.size');
 
         $validation = Validator::make($request->all(), [
             'file' => "required|mimes:$authorizedMimes|max:$authorizedSize",
         ]);
 
-        if($validation->fails()) {
+        if ($validation->fails()) {
             return response()->json(['status' => 'error', 'error' => $validation->errors()->first('file')]);
         }
 
-        $path = new Path(config('mediamanager.tinymce_upload_dir', 'blob'));
+        $path = new Path(config('boilerplate.mediamanager.tinymce_upload_dir', 'edition'));
 
         try {
             $file = $request->file('file');
             $fileExt = strtolower($file->getClientOriginalExtension());
-            $fileName = 'mce_'.uniqid().'.'.$fileExt;
+            $fileName = uniqid().'.'.$fileExt;
 
             $fullPath = $path->upload($file, $fileName);
 
@@ -233,7 +233,7 @@ class MediaManagerController extends Controller
             }
 
             return response()->json([
-                'location' => '/storage/'.config('mediamanager.tinymce_upload_dir', 'blob').'/'.$fileName
+                'location' => '/storage/'.config('boilerplate.mediamanager.tinymce_upload_dir', 'edition').'/'.$fileName
             ]);
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'error' => $e->getMessage()]);

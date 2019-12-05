@@ -40,9 +40,9 @@ class Clearthumbs extends Command
     {
         $storage = Storage::disk('public');
 
-        if ($storage->exists(config('mediamanager.thumbs_dir'))) {
-            $storage->deleteDirectory(config('mediamanager.thumbs_dir'));
-            $this->info('Folder '.config('mediamanager.thumbs_dir').' has been cleared');
+        if ($storage->exists(config('boilerplate.mediamanager.thumbs_dir'))) {
+            $storage->deleteDirectory(config('boilerplate.mediamanager.thumbs_dir'));
+            $this->info('Folder '.config('boilerplate.mediamanager.thumbs_dir').' has been cleared');
         }
     }
 }

@@ -60,7 +60,7 @@ class ImageResizer
 
         $this->original_file = $this->storage->path($this->path);
 
-        $destFile = config('mediamanager.thumbs_dir', 'thumbs').'/';
+        $destFile = config('boilerplate.mediamanager.thumbs_dir', 'thumbs').'/';
         $destFile .= $this->pathinfo['dirname'].'/'.$type.'/'.$width.'x'.$height.'/';
         $destFile .= $this->pathinfo['basename'];
 

@@ -36,17 +36,17 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-        $this->publishes([__DIR__ . '/config' => config_path()], 'config');
-        $this->publishes([__DIR__ . '/public' => public_path('assets/vendor/boilerplate-media-manager')], 'public');
+        $this->publishes([__DIR__.'/config' => config_path('boilerplate')], 'config');
+        $this->publishes([__DIR__.'/public' => public_path('assets/vendor/boilerplate-media-manager')], 'public');
 
         // If routes file has been published, load routes from the published file
         $routesPath = base_path('routes/boilerplate-media-manager.php');
-        $this->loadRoutesFrom(is_file($routesPath) ? $routesPath : __DIR__ . '/routes/boilerplate-media-manager.php');
+        $this->loadRoutesFrom(is_file($routesPath) ? $routesPath : __DIR__.'/routes/boilerplate-media-manager.php');
 
         // Load views, migrations and translations from current directory
-        $this->loadViewsFrom(__DIR__ . '/resources/views', 'boilerplate-media-manager');
-        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'boilerplate-media-manager');
-        $this->loadMigrationsFrom(__DIR__ . '/migrations');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'boilerplate-media-manager');
+        $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'boilerplate-media-manager');
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
 
         Blade::directive('img', function ($options) {
             return "<?= img($options) ?>";
@@ -64,9 +64,9 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/config/mediamanager.php', 'mediamanager');
+        $this->mergeConfigFrom(__DIR__.'/config/mediamanager.php', 'boilerplate.mediamanager');
         app('boilerplate.menu.items')->registerMenuItem(Menu\BoilerplateMediaManager::class);
-        config(['filesystems.disks.public.url' => config('mediamanager.base_url', '/storage')]);
+        config(['filesystems.disks.public.url' => config('boilerplate.mediamanager.base_url', '/storage')]);
         $this->registerIntervention();
     }
 

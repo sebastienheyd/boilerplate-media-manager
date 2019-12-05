@@ -2,7 +2,7 @@
 
 return [
     'base_url'           => '/storage',
-    'tinymce_upload_dir' => 'blob',
+    'tinymce_upload_dir' => 'edition',
     'thumbs_dir'         => 'thumbs',
     'hide_thumbs_dir'    => true,
     'authorized'         => [

@@ -92,9 +92,9 @@ class Path
         $directories = $this->storage->directories($this->path);
         $files = $this->storage->files($this->path);
 
-        if (config('mediamanager.hide_thumbs_dir')) {
+        if (config('boilerplate.mediamanager.hide_thumbs_dir')) {
             $directories = collect($directories)->filter(function ($directory) {
-                return !preg_match('#^'.config('mediamanager.thumbs_dir').'#', $directory);
+                return !preg_match('#^'.config('boilerplate.mediamanager.thumbs_dir').'#', $directory);
             })->toArray();
         }
 
@@ -113,7 +113,7 @@ class Path
                     return false;
                 }
 
-                return !in_array($value['name'], config('mediamanager.filter'));
+                return !in_array($value['name'], config('boilerplate.mediamanager.filter'));
             });
 
         return $result->all();
@@ -180,7 +180,7 @@ class Path
     public function getIcon($file)
     {
         $type = $this->detectFileType($file);
-        $icons = config('mediamanager.icons');
+        $icons = config('boilerplate.mediamanager.icons');
 
         return $icons[$type];
     }
@@ -230,7 +230,7 @@ class Path
      */
     public function upload($file, $fileName = null)
     {
-        if($fileName === null) {
+        if ($fileName === null) {
             $fileName = $file->getClientOriginalName();
         }
 
@@ -328,7 +328,7 @@ class Path
     public function detectFileType($file)
     {
         $extension = File::extension($file);
-        foreach (config('mediamanager.filetypes') as $type => $regex) {
+        foreach (config('boilerplate.mediamanager.filetypes') as $type => $regex) {
             if (preg_match("/^($regex)$/i", $extension) !== 0) {
                 return $type;
             }
