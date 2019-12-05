@@ -6,7 +6,7 @@
         <th style="width: 100px">{{ __('boilerplate-media-manager::list.weight') }}</th>
         <th style="width: 80px">{{ __('boilerplate-media-manager::list.type') }}</th>
         <th style="width: 160px">{{ __('boilerplate-media-manager::list.date') }}</th>
-        <th style="width: 120px"></th>
+        <th style="width: 150px"></th>
     </tr>
     </thead>
     <tbody>
@@ -48,6 +48,9 @@
                     @if(!$item['isDir'])
                         <a href="{{ $item['url'] }}" class="btn btn-sm btn-default btn-view">
                             <span class="fa fa-eye"></span>
+                        </a>
+                        <a href="{{ $item['url'] }}" class="btn btn-sm btn-default" download="{{ $item['url'] }}" target="_blank">
+                            <span class="fa fa-download"></span>
                         </a>
                     @endif
                     <a href="#" class="btn btn-sm btn-default btn-rename" data-filename="{{ $item['name'] }}">

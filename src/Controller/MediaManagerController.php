@@ -94,6 +94,13 @@ class MediaManagerController extends Controller
         return (string) $path->newFolder($request->input('name'));
     }
 
+    /**
+     * Display file in browser.
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show(Request $request)
     {
         $path = new Path($request->input('path'));
@@ -118,6 +125,8 @@ class MediaManagerController extends Controller
      * Delete a file or a folder.
      *
      * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function delete(Request $request)
     {

@@ -36,6 +36,9 @@
                         <a href="{{ $item['url'] }}" class="btn btn-sm btn-default btn-view">
                             <span class="fa fa-eye"></span>
                         </a>
+                        <a href="{{ $item['url'] }}" class="btn btn-sm btn-default" download="{{ $item['url'] }}" target="_blank">
+                            <span class="fa fa-download"></span>
+                        </a>
                     @endif
                     <a href="#" class="btn btn-sm btn-default btn-rename" data-filename="{{ $item['name'] }}">
                         <span class="fa fa-pencil"></span>
