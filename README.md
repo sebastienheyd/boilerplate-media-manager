@@ -26,7 +26,7 @@ composer require sebastienheyd/boilerplate-media-manager
 php artisan vendor:publish --provider="Sebastienheyd\BoilerplateMediaManager\ServiceProvider"
 ```
 
-3. Run the migration to add permission
+3. Run the migration to add permissions
 
 ```
 php artisan migrate
@@ -40,7 +40,7 @@ php artisan storage:link
 
 ## Configuration
 
-After `vendor:publish`, you can find the configuration file `mediamanager.php` in the `app/config` folder
+After `vendor:publish`, you can find the configuration file `mediamanager.php` in the `app/config/boilerplate` folder
 
 | configuration | description |
 |---|---|
@@ -91,40 +91,16 @@ php artisan thumbs:clear
 
 ### TinyMCE
 
-A small exemple on how to use Media Manager with TinyMCE
+TinyMCE is supported by using the "load" view included in this package :
 
-```js
-$('#tinymce').tinymce({
-    plugins: [ "image, link, media" ],
-    toolbar: "link image media",
-    image_advtab: true,
-    relative_urls: false,
-    remove_script_host: true,
-    file_picker_callback: function (callback, value, meta) {
-        tinymce.activeEditor.windowManager.open({
-            file: '/admin/medias/mce?type=' + meta.filetype,
-            title: 'Media Manager',
-            width: Math.round(window.innerWidth * 0.8),
-            height: Math.round(window.innerHeight * 0.8)
-        }, { oninsert: function (file) {
-                if (meta.filetype === 'image') {
-                    callback(file.url, {alt: file.name});
-                }
+```blade
+@include('boilerplate-media-manager::load.tinymce')
 
-                if (meta.filetype === 'file') {
-                    callback(file.url, {text: file.name, title: file.name});
-                }
-
-                if (meta.filetype == 'media') {
-                    callback(file.url);
-                }
-            }
-        });
-
-        return false;
-    }
-});
+<script>
+    $('#content').tinymce({})
+</script>
 ```
+
 ## Package update
 
 Laravel Boilerplate Media Manager comes with assets such as Javascript, CSS, and images. Since you typically will need to overwrite the assets
