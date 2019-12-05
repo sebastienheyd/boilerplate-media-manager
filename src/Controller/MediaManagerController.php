@@ -162,9 +162,9 @@ class MediaManagerController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
      *@throws \Exception
      *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function upload(Request $request)
     {
@@ -181,7 +181,7 @@ class MediaManagerController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'status' => 'error',
-                'error' => join(',', $validation->errors()->toArray())
+                'error'  => implode(',', $validation->errors()->toArray()),
             ]);
         }
 
@@ -209,9 +209,9 @@ class MediaManagerController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function uploadMce(Request $request)
     {
@@ -242,7 +242,7 @@ class MediaManagerController extends Controller
             }
 
             return response()->json([
-                'location' => '/storage/'.config('boilerplate.mediamanager.tinymce_upload_dir', 'edition').'/'.$fileName
+                'location' => '/storage/'.config('boilerplate.mediamanager.tinymce_upload_dir', 'edition').'/'.$fileName,
             ]);
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'error' => $e->getMessage()]);

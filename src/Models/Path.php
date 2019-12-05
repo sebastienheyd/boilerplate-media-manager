@@ -224,7 +224,7 @@ class Path
      * Store file.
      *
      * @param \Illuminate\Http\UploadedFile $file
-     * @param string $fileName
+     * @param string                        $fileName
      *
      * @return bool
      */
@@ -235,6 +235,7 @@ class Path
         }
 
         $this->storage->putFileAs($this->path, $file, $fileName);
+
         return $this->getFullPath($this->path.'/'.$fileName);
     }
 

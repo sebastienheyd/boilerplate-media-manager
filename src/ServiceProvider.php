@@ -8,7 +8,6 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Intervention\Image\Facades\Image;
 use Intervention\Image\ImageServiceProvider;
 use Sebastienheyd\BoilerplateMediaManager\Lib\ImageResizer;
-use Sebastienheyd\BoilerplateMediaManager\Menu\BoilerplateMediaManager;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -53,7 +52,7 @@ class ServiceProvider extends BaseServiceProvider
         });
 
         if ($this->app->runningInConsole()) {
-            $this->commands([Commands\Clearthumbs::class,]);
+            $this->commands([Commands\Clearthumbs::class]);
         }
     }
 
