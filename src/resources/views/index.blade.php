@@ -10,7 +10,6 @@
     <div id="disable"></div>
     <div id="loading"><div><span class="fa fa-4x fa-refresh fa-spin"></span></div></div>
     <div id="media-content" data-mce="0" data-display="list" data-type="{{ $type }}" data-path="/{{ (string) $path }}"></div>
-    @include('boilerplate-media-manager::context-menu')
 @endsection
 
 @push('css')

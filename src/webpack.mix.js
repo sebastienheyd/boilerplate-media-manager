@@ -7,8 +7,6 @@ mix.webpackConfig({plugins: [new Clean(['public'], {verbose: false})]})
 
 mix.sass('resources/scss/mediamanager.scss', 'public/mediamanager.min.css').version();
 
-mix.scripts('resources/js/contextmenu.js', 'public/contextmenu.min.js').version();
-
 mix.scripts([
     'node_modules/jquery-ui/ui/widget.js',
     'node_modules/blueimp-file-upload/js/jquery.iframe-transport.js',

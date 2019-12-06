@@ -21,7 +21,6 @@
         <section class="content">
             <div id="loading"><div><span class="fa fa-4x fa-refresh fa-spin"></span></div></div>
             <div id="media-content" data-mce="1" data-display="list" data-type="{{ $type }}" data-path="/{{ (string) $path }}"></div>
-            @include('boilerplate-media-manager::context-menu')
         </section>
     </div>
     <script src="{{ mix('/boilerplate.min.js', '/assets/vendor/boilerplate') }}"></script>

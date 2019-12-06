@@ -226,7 +226,8 @@ class MediaManagerController extends Controller
             return response()->json(['status' => 'error', 'error' => $validation->errors()->first('file')]);
         }
 
-        $path = new Path(config('boilerplate.mediamanager.tinymce_upload_dir', 'edition'));
+        $uploadDir = config('boilerplate.mediamanager.tinymce_upload_dir', 'edition');
+        $path = new Path($uploadDir);
 
         try {
             $file = $request->file('file');
@@ -242,7 +243,7 @@ class MediaManagerController extends Controller
             }
 
             return response()->json([
-                'location' => '/storage/'.config('boilerplate.mediamanager.tinymce_upload_dir', 'edition').'/'.$fileName,
+                'location' => '/storage/'.$uploadDir.'/'.$fileName,
             ]);
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'error' => $e->getMessage()]);

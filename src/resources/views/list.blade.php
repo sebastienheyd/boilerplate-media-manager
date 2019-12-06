@@ -13,7 +13,6 @@
         <a href="#" class="btn btn-default add-folder">
             <span class="fa fa-folder"></span> {{ __('boilerplate-media-manager::menu.newFolder') }}
         </a>
-
         <div class="btn-group pull-right">
             <a href="#" class="btn btn-{{ $display === 'list' ? 'secondary' : 'default' }} btn-toggle-display" data-display="list">
                 <span class="fa fa-th-list"></span>
@@ -22,7 +21,6 @@
                 <span class="fa fa-th"></span>
             </a>
         </div>
-
         <div class="btn-group pull-right mrs">
             <a href="#" class="btn btn-default btn-refresh">
                 <span class="fa fa-refresh"></span>

@@ -1,6 +1,5 @@
 @include('boilerplate::load.icheck')
 @push('js')
-    <script src="{{ mix('/contextmenu.min.js', '/assets/vendor/boilerplate-media-manager') }}"></script>
     <script src="{{ mix('/vendor/blueimp-file-upload/jquery.fileupload.min.js', '/assets/vendor/boilerplate-media-manager') }}"></script>
     <script src="{{ mix('/vendor/jquery-lazy/jquery.lazy.plugins.js', '/assets/vendor/boilerplate-media-manager') }}"></script>
     <script>
@@ -20,6 +19,8 @@
                         url: $(this).attr('href'),
                         name: $(this).attr('data-filename')
                     }, '*');
+                } else {
+                    $(this).closest('.media').find('input[type="checkbox"]').iCheck('toggle');
                 }
             });
 
@@ -152,7 +153,7 @@
                 });
             });
 
-            // Visualiser
+            // View
             $(document).on('click', '.btn-view', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -238,19 +239,6 @@
                     // iCheck
                     $('#media-list input[type="checkbox"]').iCheck({
                         checkboxClass: 'icheckbox_square-blue'
-                    });
-
-                    // Context menu
-                    $("#media-list tr.media").contextMenu({
-                        menuSelector: "#contextMenu",
-                        onShow: function (menu, el) {
-                            $(menu).find('a').attr('data-filename', el.data('filename'));
-
-                            $(menu).find('a.btn-view').hide();
-                            if (el.find('a.btn-view').length > 0) {
-                                $(menu).find('a.btn-view').attr('href', el.find('a.btn-view').attr('href')).show();
-                            }
-                        }
                     });
 
                     // Upload button
