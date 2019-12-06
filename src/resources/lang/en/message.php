@@ -16,4 +16,8 @@ return [
     'upload' => [
         'success' => 'The upload is complete',
     ],
+    'paste' => [
+        'success' => 'Item(s) successfully moved',
+        'files'   => 'item(s) selected',
+    ],
 ];

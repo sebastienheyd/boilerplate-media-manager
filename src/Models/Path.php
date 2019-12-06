@@ -209,14 +209,36 @@ class Path
      */
     public function rename($name, $newName)
     {
-        $path = rtrim($this->path, '/').'/'.trim($name, '/');
-        $dest = rtrim($this->path, '/').'/'.trim($newName, '/');
+        $name = trim($name, '/');
+        $newName = trim($newName, '/');
+        $path = rtrim($this->path, '/').'/'.$name;
+        $dest = rtrim($this->path, '/').'/'.$newName;
         $this->storage->move($path, $dest);
 
         if ($this->exists('thumb_'.$name)) {
-            $pathThumb = rtrim($this->path, '/').'/thumb_'.trim($name, '/');
-            $destThumb = rtrim($this->path, '/').'/thumb_'.trim($newName, '/');
+            $pathThumb = rtrim($this->path, '/').'/thumb_'.$name;
+            $destThumb = rtrim($this->path, '/').'/thumb_'.$newName;
             $this->storage->move($pathThumb, $destThumb);
+        }
+    }
+
+    /**
+     * Move a folder or media to the given path.
+     *
+     * @param string $name
+     * @param string $destinationPath
+     *
+     * @return mixed
+     */
+    public function move($name, $destinationPath)
+    {
+        $name = trim($name, '/');
+        $path = rtrim($this->path, '/').'/'.$name;
+        $this->storage->move($path, rtrim($destinationPath, '/').'/'.$name);
+
+        if ($this->exists('thumb_'.$name)) {
+            $pathThumb = rtrim($this->path, '/').'/thumb_'.$name;
+            $this->storage->move($pathThumb, rtrim($destinationPath, '/').'/thumb_'.$name);
         }
     }
 

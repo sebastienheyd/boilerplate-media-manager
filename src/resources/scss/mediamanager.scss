@@ -12,7 +12,7 @@
 
 #loading {
     position: relative;
-    z-index: 1;
+    z-index: 100;
     display: flex;
     justify-content: center;
     padding-top: 70px;
@@ -43,6 +43,21 @@
             color: #0d6aad;
         }
     }
+}
+
+#btn-paste-group {
+    position: absolute;
+    z-index: 99;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    background: #FFF;
+}
+
+.files-selected {
+    font-weight: bold;
 }
 
 #media-list {

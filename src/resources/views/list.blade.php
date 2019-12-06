@@ -1,8 +1,20 @@
 <div class="box box-primary">
+    <div id="btn-paste-group" style="display: none">
+        <div class="files-selected">
+            <span id="nb-files-selected"></span> {{ __('boilerplate-media-manager::message.paste.files') }}
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary btn-paste" disabled>{{ __('boilerplate-media-manager::menu.paste') }}</button>
+            <button class="btn btn-default btn-paste-cancel">{{ __('boilerplate-media-manager::menu.cancel') }}</button>
+        </div>
+    </div>
     <div class="box-header">
         <div class="btn-group">
             <a href="#" class="btn btn-default delete-checked" disabled>
                 <span class="fa fa-trash"></span>
+            </a>
+            <a href="#" class="btn btn-default copy-checked" disabled>
+                <span class="fa fa-clipboard"></span>
             </a>
         </div>
         <span class="btn btn-default fileinput-button">

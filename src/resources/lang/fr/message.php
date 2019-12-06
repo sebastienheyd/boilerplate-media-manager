@@ -16,4 +16,8 @@ return [
     'upload' => [
         'success' => 'Le téléchargement est terminé',
     ],
+    'paste' => [
+        'success' => 'Élément(s) correctement déplacé(s)',
+        'files'   => 'élément(s) sélectionné(s)',
+    ],
 ];

@@ -181,7 +181,7 @@ class MediaManagerController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'status' => 'error',
-                'error'  => implode(',', $validation->errors()->toArray()),
+                'error' => $validation->errors()->first('file'),
             ]);
         }
 
@@ -200,7 +200,27 @@ class MediaManagerController extends Controller
 
             return response()->json(['status' => 'success']);
         } catch (\Exception $e) {
-            return response()->json(['status' => 'error']);
+            return response()->json(['status' => 'error', 'error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Paste file(s) into the given path.
+     *
+     * @param Request $request
+     */
+    public function paste(Request $request)
+    {
+        $path = new Path($request->post('from'));
+
+        try {
+            foreach ($request->post('files') as $file) {
+                $path->move($file, $request->post('destination'));
+            }
+
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
 

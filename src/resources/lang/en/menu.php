@@ -8,4 +8,6 @@ return [
     'delete'       => 'Delete',
     'upload'       => 'Upload',
     'newFolder'    => 'New folder',
+    'paste'        => 'Move here',
+    'cancel'       => 'Cancel',
 ];
