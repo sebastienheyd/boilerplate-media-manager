@@ -181,7 +181,7 @@ class MediaManagerController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'status' => 'error',
-                'error' => $validation->errors()->first('file'),
+                'error'  => $validation->errors()->first('file'),
             ]);
         }
 
