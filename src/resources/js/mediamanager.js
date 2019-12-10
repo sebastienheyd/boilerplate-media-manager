@@ -250,6 +250,13 @@ $(function () {
 
 function loadPath(path)
 {
+    $('#loading').css({
+        position: 'absolute',
+        display: 'flex',
+        width: $('#media-content').width(),
+        height: $('#media-content').height() === 0 ? 200 : $('#media-content').height()
+    });
+
     $.ajax({
         url: routes.ajaxList,
         type: 'post',
@@ -258,17 +265,6 @@ function loadPath(path)
             mce: $('#media-content').data('mce'),
             display: $('#media-content').data('display'),
             type: $('#media-content').data('type')
-        },
-        beforeSend: function () {
-            $('#loading').css({
-                position: 'absolute',
-                display: 'flex',
-                width: $('#media-content').width(),
-                height: $('#media-content').height() === 0 ? 200 : $('#media-content').height()
-            });
-        },
-        complete: function () {
-            $('#loading').css('display', 'none');
         },
         success: function (html) {
             $('#media-content').html(html);
@@ -285,6 +281,8 @@ function loadPath(path)
 
             // Upload button
             uploadButton(path);
+
+            $('#loading').css('display', 'none');
         }
     });
 }
@@ -303,8 +301,7 @@ function uploadButton(path)
             $('#progress .progress-bar').css('width', progress + '%').text(progress + '%');
         },
         fail: function (e, data) {
-            var msg = data.files[0].name + ' : ' + data.jqXHR.responseJSON.error;
-            growl(msg, 'danger');
+            growl(data.files[0].name + ' : ' + data.jqXHR.responseJSON.error, 'danger');
         },
         always: function (e, data) {
             if (data.jqXHR.responseJSON.status === 'error') {
@@ -322,13 +319,15 @@ function uploadButton(path)
 
 function showMove()
 {
-    if (clipboard.files.length > 0) {
-        $('#nb-files-selected').text(clipboard.files.length);
-        $('#btn-paste-group').show();
-        $('#media-content .box-header').addClass('blur');
-        $('.btn-paste').attr('disabled', true);
-        if (clipboard.path !== $('#media-list').data('path')) {
-            $('.btn-paste').attr('disabled', false);
-        }
+    if (clipboard.files.length === 0) {
+        return;
+    }
+
+    $('#nb-files-selected').text(clipboard.files.length);
+    $('#btn-paste-group').show();
+    $('#media-content .box-header').addClass('blur');
+    $('.btn-paste').attr('disabled', true);
+    if (clipboard.path !== $('#media-list').data('path')) {
+        $('.btn-paste').attr('disabled', false);
     }
 }
