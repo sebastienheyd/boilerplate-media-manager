@@ -8,7 +8,7 @@ class BoilerplateMediaManager
 {
     public function make(Builder $menu)
     {
-        $menu->add(/** @scrutinizer ignore-type */ __('boilerplate-media-manager::menu.medialibrary'), [
+        $menu->add(__('boilerplate-media-manager::menu.medialibrary'), [
                 'permission' => 'media_manager',
                 'icon'       => 'picture-o',
                 'route'      => 'mediamanager.index', ])
