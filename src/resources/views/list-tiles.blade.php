@@ -14,7 +14,7 @@
         </div>
     @endif
     @foreach($list as $item)
-        <div class="tile media">
+        <div class="tile media" data-filename="{{ $item['name'] }}">
             <div class="tile-icon">
                 @if($item['isDir'])
                     <a href="{{ $item['link'] }}" class="link-folder">

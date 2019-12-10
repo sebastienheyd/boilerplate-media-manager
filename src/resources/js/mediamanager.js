@@ -87,7 +87,9 @@ $(function () {
                     if (res.status === 'success') {
                         growl(locales.deleteSuccess, 'success');
                         $('#disable').hide();
-                        loadPath(clipboard.path);
+                        $(clipboard.files).each(function (i, e) {
+                            $('.media[data-filename="'+e+'"]').remove();
+                        });
                         clipboard.files = [];
                     } else {
                         growl(res.message, 'error');
@@ -133,14 +135,6 @@ $(function () {
         $('#btn-paste-group').hide();
     });
 
-    // Delete key
-    $(document).on('keyup', function (e) {
-        // Delete checked
-        if (e.keyCode == 46) {
-            deleteChecked();
-        }
-    });
-
     // Delete
     $(document).on('click', '.btn-delete', function (e) {
         e.preventDefault();
@@ -152,17 +146,21 @@ $(function () {
         files.push(fileName);
 
         bootbox.confirm(locales.deleteConfirm, function (confirm) {
-            if (confirm !== false) {
-                $.ajax({
-                    url: routes.ajaxDelete,
-                    type: 'post',
-                    data: {path: path, files: files},
-                    success: function () {
-                        growl(locales.deleteSuccess, 'success');
-                        loadPath(path);
-                    }
-                });
+            if (confirm === false) {
+                return;
             }
+
+            $.ajax({
+                url: routes.ajaxDelete,
+                type: 'post',
+                data: {path: path, files: files},
+                success: function () {
+                    growl(locales.deleteSuccess, 'success');
+                    $(files).each(function (i, e) {
+                        $('.media[data-filename="'+e+'"]').remove();
+                    });
+                }
+            });
         });
     });
 
