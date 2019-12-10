@@ -44,6 +44,7 @@ $(function () {
 
     // Active delete all button
     $(document).on('ifToggled', '.media input[type="checkbox"]', function (e) {
+
         var checked = false;
 
         $('.media input[type="checkbox"]').each(function (i, e) {
@@ -57,43 +58,48 @@ $(function () {
         if (!checked) {
             $('.check-all').iCheck('unCheck');
         }
+
+        var checkedFiles = $('.media div.checked input[type="checkbox"]');
+
+        clipboard.path = $('#media-list').data('path');
+        clipboard.files = [];
+        checkedFiles.each(function (i, e) {
+            clipboard.files.push($(e).val());
+        });
     });
 
     // Delete checked
-    $(document).on('click', '.delete-checked', function (e) {
+    $(document).on('click', '.delete-checked:enabled', function (e) {
         e.preventDefault();
-
-        var checked = $('.media div.checked input[type="checkbox"]');
-
-        if (checked.length === 0) {
-            return;
-        }
 
         bootbox.confirm(locales.deleteConfirm, function (confirm) {
             if (confirm === false) {
                 return;
             }
 
-            deleteCheckedFiles(checked);
+            $('#disable').show();
+
+            $.ajax({
+                url: routes.ajaxDelete,
+                type: 'post',
+                data: {path: clipboard.path, files:clipboard.files},
+                success: function(res) {
+                    if (res.status === 'success') {
+                        growl(locales.deleteSuccess, 'success');
+                        $('#disable').hide();
+                        loadPath(clipboard.path);
+                        clipboard.files = [];
+                    } else {
+                        growl(res.message, 'error');
+                    }
+                }
+            });
         });
     });
 
     // Copy checked
-    $(document).on('click', '.copy-checked', function (e) {
+    $(document).on('click', '.copy-checked:enabled', function (e) {
         e.preventDefault();
-
-        var checked = $('.media div.checked input[type="checkbox"]');
-
-        if (checked.length === 0) {
-            return;
-        }
-
-        clipboard.path = $('#media-list').data('path');
-
-        checked.each(function (i, e) {
-            clipboard.files.push($(e).val());
-        });
-
         $('#nb-files-selected').text(clipboard.files.length);
         $('#btn-paste-group').show();
     });
@@ -142,13 +148,15 @@ $(function () {
 
         var path = $('#media-content').data('path');
         var fileName = $(this).attr('data-filename');
+        var files = [];
+        files.push(fileName);
 
         bootbox.confirm(locales.deleteConfirm, function (confirm) {
             if (confirm !== false) {
                 $.ajax({
                     url: routes.ajaxDelete,
                     type: 'post',
-                    data: {path: path, fileName: fileName},
+                    data: {path: path, files: files},
                     success: function () {
                         growl(locales.deleteSuccess, 'success');
                         loadPath(path);
@@ -241,33 +249,6 @@ $(function () {
     // Default on page load
     loadPath(window.location.pathname);
 });
-
-function deleteCheckedFiles(checked)
-{
-    $('#disable').show();
-
-    var path = $('#media-content').data('path');
-    var files = [];
-
-    checked.each(function (i, e) {
-        files.push($(e).val());
-    });
-
-    $.ajax({
-        url: routes.ajaxDelete,
-        type: 'post',
-        data: {path: path, files:files},
-        success: function(res) {
-            if (res.status === 'success') {
-                growl(locales.deleteSuccess, 'success');
-                $('#disable').hide();
-                loadPath(path);
-            } else {
-                growl(res.message, 'error');
-            }
-        }
-    });
-}
 
 function loadPath(path)
 {

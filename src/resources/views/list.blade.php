@@ -10,12 +10,12 @@
     </div>
     <div class="box-header">
         <div class="btn-group">
-            <a href="#" class="btn btn-default delete-checked" disabled>
+            <button href="#" class="btn btn-default delete-checked" disabled>
                 <span class="fa fa-trash"></span>
-            </a>
-            <a href="#" class="btn btn-default copy-checked" disabled>
+            </button>
+            <button href="#" class="btn btn-default copy-checked" disabled>
                 <span class="fa fa-clipboard"></span>
-            </a>
+            </button>
         </div>
         <span class="btn btn-default fileinput-button">
             <span class="fa fa-upload"></span>
