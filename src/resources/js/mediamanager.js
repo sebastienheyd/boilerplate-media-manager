@@ -238,32 +238,38 @@ function deleteChecked()
     }
 
     bootbox.confirm(locales.deleteConfirm, function (confirm) {
-        if (confirm !== false) {
-            $('#disable').show();
-            var path = $('#media-content').data('path');
-
-            var i = 0;
-            checked.each(function (i, e) {
-                $.ajax({
-                    url: routes.ajaxDelete,
-                    type: 'post',
-                    data: {path: path, fileName: $(e).val()},
-                    success: function () {
-                        if (++i === checked.length) {
-                            growl(locales.deleteSuccess, 'success');
-                            $('#disable').hide();
-                            loadPath(path);
-                        }
-                    }
-                });
-            });
+        if (confirm === false) {
+            return;
         }
+
+        deleteCheckedFiles(checked);
+    });
+}
+
+function deleteCheckedFiles(checked)
+{
+    $('#disable').show();
+
+    var path = $('#media-content').data('path');
+
+    checked.each(function (i, e) {
+        $.ajax({
+            url: routes.ajaxDelete,
+            type: 'post',
+            data: {path: path, fileName:$(e).val()},
+            success: function() {
+                if (++i === checked.length) {
+                    growl(locales.deleteSuccess, 'success');
+                    $('#disable').hide();
+                    loadPath(path);
+                }
+            }
+        });
     });
 }
 
 function loadPath(path)
 {
-
     $.ajax({
         url: routes.ajaxList,
         type: 'post',
