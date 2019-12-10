@@ -123,7 +123,7 @@ class MediaManagerController extends Controller
     }
 
     /**
-     * Delete a file or a folder.
+     * Delete file(s) or a folder.
      *
      * @param Request $request
      *
@@ -131,9 +131,23 @@ class MediaManagerController extends Controller
      */
     public function delete(Request $request)
     {
+        $validation = Validator::make($request->all(), [
+            'path'        => 'required',
+            'files'       => 'required',
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'error'  => implode(' / ', (array) $validation->errors()),
+            ]);
+        }
+        $path = new Path($request->input('path'));
+
         try {
-            $path = new Path($request->input('path'));
-            $path->delete($request->input('fileName'));
+            foreach ($request->post('files') as $file) {
+                $path->delete($file);
+            }
 
             return response()->json(['status' => 'success']);
         } catch (\Exception $e) {
@@ -228,7 +242,7 @@ class MediaManagerController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'status' => 'error',
-                'error'  => implode(' / ', $validation->errors()),
+                'error'  => implode(' / ', (array) $validation->errors()),
             ]);
         }
 
