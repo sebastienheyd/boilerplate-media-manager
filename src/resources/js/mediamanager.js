@@ -1,11 +1,10 @@
-/**
- * global: bootbox
- * global: locales
- * global: routes
- * global: localStorage
- * global: parent
- * global: clipboard
- */
+/** global: bootbox */
+/** global: locales */
+/** global: routes */
+/** global: localStorage */
+/** global: parent */
+/** global: clipboard */
+
 $(function () {
 
     if (localStorage.getItem('mediamanager_list_display')) {
