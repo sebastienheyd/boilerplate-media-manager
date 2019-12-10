@@ -25,7 +25,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->loader = AliasLoader::getInstance();
 
-        return parent::__construct($app);
+        parent::__construct($app);
     }
 
     /**

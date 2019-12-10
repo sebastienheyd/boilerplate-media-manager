@@ -2,8 +2,9 @@
 
 namespace Sebastienheyd\BoilerplateMediaManager\Controllers;
 
-use App\Http\Controllers\Controller;
+use \App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Image;
 use Sebastienheyd\BoilerplateMediaManager\Models\Path;
 use Validator;
@@ -23,7 +24,7 @@ class MediaManagerController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index(Request $request)
     {
@@ -38,7 +39,7 @@ class MediaManagerController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function mce(Request $request)
     {
@@ -189,6 +190,11 @@ class MediaManagerController extends Controller
 
         try {
             $file = $request->file('file');
+
+            if(!$file instanceof UploadedFile) {
+                throw new \UnexpectedValueException('File is not instance of UploadedFile');
+            }
+
             $fullPath = $path->upload($file);
 
             $ext = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif'];
@@ -212,6 +218,19 @@ class MediaManagerController extends Controller
     public function paste(Request $request)
     {
         $path = new Path($request->post('from'));
+
+        $validation = Validator::make($request->all(), [
+            'from'        => 'required',
+            'files'       => 'required',
+            'destination' => "required",
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'error'  => join(' / ',$validation->errors()),
+            ]);
+        }
 
         try {
             foreach ($request->post('files') as $file) {
@@ -251,6 +270,11 @@ class MediaManagerController extends Controller
 
         try {
             $file = $request->file('file');
+
+            if(!$file instanceof UploadedFile) {
+                throw new \UnexpectedValueException('File is not instance of UploadedFile');
+            }
+
             $fileExt = strtolower($file->getClientOriginalExtension());
             $fileName = uniqid().'.'.$fileExt;
 

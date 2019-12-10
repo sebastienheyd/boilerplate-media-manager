@@ -221,7 +221,7 @@ $(function () {
     });
 
     // History back
-    $(window).on('popstate', function (e) {
+    $(window).on('popstate', function () {
         loadPath(location.pathname);
     });
 
