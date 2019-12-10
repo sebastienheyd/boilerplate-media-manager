@@ -2,7 +2,7 @@
 
 namespace Sebastienheyd\BoilerplateMediaManager\Controllers;
 
-use \App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Image;
@@ -191,7 +191,7 @@ class MediaManagerController extends Controller
         try {
             $file = $request->file('file');
 
-            if(!$file instanceof UploadedFile) {
+            if (!$file instanceof UploadedFile) {
                 throw new \UnexpectedValueException('File is not instance of UploadedFile');
             }
 
@@ -222,13 +222,13 @@ class MediaManagerController extends Controller
         $validation = Validator::make($request->all(), [
             'from'        => 'required',
             'files'       => 'required',
-            'destination' => "required",
+            'destination' => 'required',
         ]);
 
         if ($validation->fails()) {
             return response()->json([
                 'status' => 'error',
-                'error'  => join(' / ',$validation->errors()),
+                'error'  => implode(' / ', $validation->errors()),
             ]);
         }
 
@@ -271,7 +271,7 @@ class MediaManagerController extends Controller
         try {
             $file = $request->file('file');
 
-            if(!$file instanceof UploadedFile) {
+            if (!$file instanceof UploadedFile) {
                 throw new \UnexpectedValueException('File is not instance of UploadedFile');
             }
 
