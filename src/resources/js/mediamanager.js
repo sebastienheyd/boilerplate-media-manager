@@ -1,3 +1,11 @@
+/**
+ * global: bootbox
+ * global: locales
+ * global: routes
+ * global: localStorage
+ * global: parent
+ * global: clipboard
+ */
 $(function () {
 
     if (localStorage.getItem('mediamanager_list_display')) {
@@ -8,7 +16,7 @@ $(function () {
     $(document).on('click', '.link-media', function (e) {
         e.preventDefault();
 
-        if ($('#media-content').data('mce') == 1 && typeof parent.tinymce !== 'undefined') {
+        if ($('#media-content').data('mce') === 1 && typeof parent.tinymce !== 'undefined') {
             window.parent.postMessage({
                 mceAction: 'insertMedia',
                 url: $(this).attr('href'),
@@ -27,8 +35,8 @@ $(function () {
     });
 
     // Check all
-    $(document).on('ifChanged', '.check-all', function (e) {
-        if ($(this).iCheck('udpate')[0].checked == true) {
+    $(document).on('ifChanged', '.check-all', function () {
+        if ($(this).iCheck('udpate')[0].checked === true) {
             $('.media input[type="checkbox"]').iCheck('check');
         } else {
             $('.media input[type="checkbox"]').iCheck('unCheck');
@@ -40,7 +48,7 @@ $(function () {
         var checked = false;
 
         $('.media input[type="checkbox"]').each(function (i, e) {
-            if ($(e).parent().iCheck('update')[0].checked == true) {
+            if ($(e).parent().iCheck('update')[0].checked === true) {
                 checked = true;
             }
         });
@@ -64,7 +72,7 @@ $(function () {
 
         var checked = $('.media div.checked input[type="checkbox"]');
 
-        if (checked.length == 0) {
+        if (checked.length === 0) {
             return;
         }
 
@@ -90,7 +98,7 @@ $(function () {
                 files: clipboard.files
             },
             success: function (res) {
-                if (res.status == 'success') {
+                if (res.status === 'success') {
                     loadPath($('#media-list').data('path'));
                     growl(locales.pasteSuccess, 'success');
                     clipboard.files = [];
@@ -226,7 +234,7 @@ function deleteChecked()
 {
     var checked = $('.media div.checked input[type="checkbox"]');
 
-    if (checked.length == 0) {
+    if (checked.length === 0) {
         return;
     }
 
@@ -242,7 +250,7 @@ function deleteChecked()
                     type: 'post',
                     data: {path: path, fileName: $(e).val()},
                     success: function () {
-                        if (++i == checked.length) {
+                        if (++i === checked.length) {
                             growl(locales.deleteSuccess, 'success');
                             $('#disable').hide();
                             loadPath(path);
@@ -318,7 +326,7 @@ function loadPath(path)
                         growl(data.files[0].name + ' : ' + data.jqXHR.responseJSON.error, 'danger');
                     }
 
-                    if ($('#fileupload').fileupload('active') == 1) {
+                    if ($('#fileupload').fileupload('active') === 1) {
                         growl(locales.uploadSuccess, 'success');
                         $('#disable').hide();
                         loadPath(path);
