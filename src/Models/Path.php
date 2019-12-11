@@ -140,7 +140,6 @@ class Path
     private function formatFiles($files = [])
     {
         $files = array_map(function ($file) {
-
             $this->generateThumb($file);
 
             return [
@@ -210,6 +209,7 @@ class Path
     {
         $this->clearCache();
         $path = rtrim($this->path, '/').'/'.trim($name, '/');
+
         return $this->storage->makeDirectory($path);
     }
 
