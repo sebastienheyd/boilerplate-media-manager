@@ -13,6 +13,7 @@ class Path
     protected $mce = false;
     protected $path = '/';
     protected $storage;
+    protected $cacheKey;
 
     public function __construct($path = '/', $mce = false)
     {
