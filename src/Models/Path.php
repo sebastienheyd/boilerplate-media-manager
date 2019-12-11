@@ -2,9 +2,9 @@
 
 namespace Sebastienheyd\BoilerplateMediaManager\Models;
 
+use Cache;
 use Carbon\Carbon;
 use File;
-use Cache;
 use Image;
 use Storage;
 
@@ -92,7 +92,7 @@ class Path
      */
     public function ls($type = 'all')
     {
-        if(Cache::has($this->cacheKey)) {
+        if (Cache::has($this->cacheKey)) {
             return Cache::get($this->cacheKey);
         }
 
@@ -419,7 +419,7 @@ class Path
         $fullPath = $this->getFullPath($file);
         $fInfo = pathinfo($fullPath);
 
-        if(preg_match('#^thumb_#', $fInfo['basename'])) {
+        if (preg_match('#^thumb_#', $fInfo['basename'])) {
             return;
         }
 
@@ -432,7 +432,7 @@ class Path
     }
 
     /**
-     * Clear current path cache
+     * Clear current path cache.
      */
     public function clearCache()
     {
