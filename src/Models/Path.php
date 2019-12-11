@@ -208,7 +208,7 @@ class Path
      */
     public function newFolder($name)
     {
-        Cache::forget($this->cacheKey);
+        $this->clearCache();
         $path = rtrim($this->path, '/').'/'.trim($name, '/');
         return $this->storage->makeDirectory($path);
     }
@@ -223,7 +223,7 @@ class Path
      */
     public function rename($name, $newName)
     {
-        Cache::forget($this->cacheKey);
+        $this->clearCache();
         $path = rtrim($this->path, '/').'/'.trim($name, '/');
         $dest = rtrim($this->path, '/').'/'.trim($newName, '/');
         $this->storage->move($path, $dest);
@@ -245,7 +245,7 @@ class Path
      */
     public function move($name, $destinationPath)
     {
-        Cache::forget($this->cacheKey);
+        $this->clearCache();
         Cache::forget(md5($destinationPath));
         $name = trim($name, '/');
         $path = rtrim($this->path, '/').'/'.$name;
@@ -266,7 +266,7 @@ class Path
      */
     public function upload($file, $fileName = null)
     {
-        Cache::forget($this->cacheKey);
+        $this->clearCache();
 
         if ($fileName === null) {
             $fileName = $file->getClientOriginalName();
@@ -305,7 +305,7 @@ class Path
             $this->storage->deleteDirectory($path);
         }
 
-        Cache::forget($this->cacheKey);
+        $this->clearCache();
 
         return true;
     }
@@ -419,11 +419,23 @@ class Path
         $fullPath = $this->getFullPath($file);
         $fInfo = pathinfo($fullPath);
 
+        if(preg_match('#^thumb_#', $fInfo['basename'])) {
+            return;
+        }
+
         $ext = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif'];
         $destFile = $fInfo['dirname'].'/thumb_'.$fInfo['basename'];
 
         if (in_array(strtolower($fInfo['extension']), $ext) && !is_file($destFile)) {
             Image::make($fullPath)->fit(140)->save($destFile, 75);
         }
+    }
+
+    /**
+     * Clear current path cache
+     */
+    public function clearCache()
+    {
+        Cache::forget($this->cacheKey);
     }
 }

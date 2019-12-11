@@ -30,7 +30,7 @@ $(function () {
     $(document).on('click', '.btn-refresh', function (e) {
         e.preventDefault();
         var path = $('#media-content').data('path');
-        loadPath(path);
+        loadPath(path, true);
     });
 
     // Check all
@@ -248,7 +248,7 @@ $(function () {
     loadPath(window.location.pathname);
 });
 
-function loadPath(path)
+function loadPath(path, clearcache = false)
 {
     $('#loading').css({
         position: 'absolute',
@@ -264,7 +264,8 @@ function loadPath(path)
             path: path,
             mce: $('#media-content').data('mce'),
             display: $('#media-content').data('display'),
-            type: $('#media-content').data('type')
+            type: $('#media-content').data('type'),
+            clearcache: clearcache
         },
         success: function (html) {
             $('#media-content').html(html);

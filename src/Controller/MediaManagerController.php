@@ -75,6 +75,10 @@ class MediaManagerController extends Controller
             return view('boilerplate-media-manager::error', compact('mce'));
         }
 
+        if($request->input('clearcache', 'false') === 'true') {
+            $content->clearCache();
+        }
+
         $list = $content->ls($type);
         $parent = $content->parent();
 
