@@ -4,6 +4,8 @@ namespace Sebastienheyd\BoilerplateMediaManager\Models;
 
 use Carbon\Carbon;
 use File;
+use Cache;
+use Image;
 use Storage;
 
 class Path
@@ -17,6 +19,7 @@ class Path
         $this->mce = $mce;
         $this->path = $this->getRelativePath($path);
         $this->storage = Storage::disk('public');
+        $this->cacheKey = md5($this->path());
     }
 
     /**
@@ -89,6 +92,10 @@ class Path
      */
     public function ls($type = 'all')
     {
+        if(Cache::has($this->cacheKey)) {
+            return Cache::get($this->cacheKey);
+        }
+
         $directories = $this->storage->directories($this->path);
         $files = $this->storage->files($this->path);
 
@@ -116,7 +123,11 @@ class Path
                 return !in_array($value['name'], config('boilerplate.mediamanager.filter'));
             });
 
-        return $result->all();
+        $result = $result->all();
+
+        Cache::forever($this->cacheKey, $result);
+
+        return $result;
     }
 
     /**
@@ -129,6 +140,9 @@ class Path
     private function formatFiles($files = [])
     {
         $files = array_map(function ($file) {
+
+            $this->generateThumb($file);
+
             return [
                 'download' => '',
                 'icon'     => $this->getIcon($file),
@@ -194,8 +208,8 @@ class Path
      */
     public function newFolder($name)
     {
+        Cache::forget($this->cacheKey);
         $path = rtrim($this->path, '/').'/'.trim($name, '/');
-
         return $this->storage->makeDirectory($path);
     }
 
@@ -209,15 +223,14 @@ class Path
      */
     public function rename($name, $newName)
     {
-        $name = trim($name, '/');
-        $newName = trim($newName, '/');
-        $path = rtrim($this->path, '/').'/'.$name;
-        $dest = rtrim($this->path, '/').'/'.$newName;
+        Cache::forget($this->cacheKey);
+        $path = rtrim($this->path, '/').'/'.trim($name, '/');
+        $dest = rtrim($this->path, '/').'/'.trim($newName, '/');
         $this->storage->move($path, $dest);
 
         if ($this->exists('thumb_'.$name)) {
-            $pathThumb = rtrim($this->path, '/').'/thumb_'.$name;
-            $destThumb = rtrim($this->path, '/').'/thumb_'.$newName;
+            $pathThumb = rtrim($this->path, '/').'/thumb_'.trim($name, '/');
+            $destThumb = rtrim($this->path, '/').'/thumb_'.trim($newName, '/');
             $this->storage->move($pathThumb, $destThumb);
         }
     }
@@ -232,10 +245,11 @@ class Path
      */
     public function move($name, $destinationPath)
     {
+        Cache::forget($this->cacheKey);
+        Cache::forget(md5($destinationPath));
         $name = trim($name, '/');
         $path = rtrim($this->path, '/').'/'.$name;
         $this->storage->move($path, rtrim($destinationPath, '/').'/'.$name);
-
         if ($this->exists('thumb_'.$name)) {
             $pathThumb = rtrim($this->path, '/').'/thumb_'.$name;
             $this->storage->move($pathThumb, rtrim($destinationPath, '/').'/thumb_'.$name);
@@ -252,6 +266,8 @@ class Path
      */
     public function upload($file, $fileName = null)
     {
+        Cache::forget($this->cacheKey);
+
         if ($fileName === null) {
             $fileName = $file->getClientOriginalName();
         }
@@ -288,6 +304,8 @@ class Path
         if (is_dir($fullPath)) {
             $this->storage->deleteDirectory($path);
         }
+
+        Cache::forget($this->cacheKey);
 
         return true;
     }
@@ -389,5 +407,23 @@ class Path
     {
         return Carbon::createFromTimestamp(filectime($this->getFullPath($file)))
             ->isoFormat(__('boilerplate::date.YmdHis'));
+    }
+
+    /**
+     * Automatically generate thumb for image files if not exists.
+     *
+     * @param string $file
+     */
+    public function generateThumb($file)
+    {
+        $fullPath = $this->getFullPath($file);
+        $fInfo = pathinfo($fullPath);
+
+        $ext = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif'];
+        $destFile = $fInfo['dirname'].'/thumb_'.$fInfo['basename'];
+
+        if (in_array(strtolower($fInfo['extension']), $ext) && !is_file($destFile)) {
+            Image::make($fullPath)->fit(140)->save($destFile, 75);
+        }
     }
 }

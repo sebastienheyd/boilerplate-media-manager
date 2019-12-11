@@ -159,6 +159,8 @@ class MediaManagerController extends Controller
      * Delete a file or a folder.
      *
      * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function rename(Request $request)
     {
@@ -177,9 +179,9 @@ class MediaManagerController extends Controller
      *
      * @param Request $request
      *
-     *@throws \Exception
+     * @throws \Exception
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function upload(Request $request)
     {
@@ -228,6 +230,8 @@ class MediaManagerController extends Controller
      * Paste file(s) into the given path.
      *
      * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function paste(Request $request)
     {
@@ -264,7 +268,7 @@ class MediaManagerController extends Controller
      *
      * @throws \Exception
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function uploadMce(Request $request)
     {
