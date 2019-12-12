@@ -93,8 +93,8 @@ class Path
      */
     public function ls($type = 'all')
     {
-        if (Cache::has($this->cacheKey)) {
-            return Cache::get($this->cacheKey);
+        if (Cache::has($this->cacheKey."_$type")) {
+            return Cache::get($this->cacheKey."_$type");
         }
 
         $directories = $this->storage->directories($this->path);
@@ -109,16 +109,31 @@ class Path
         $result = $this->formatDirectories($directories)
             ->merge($this->formatFiles($files))
             ->filter(function ($value) use ($type) {
-                if (preg_match('#^thumb_#', $value['name'])) {
-                    return false;
-                }
+                if ($value['isDir'] === false) {
+                    if (preg_match('#^thumb_#', $value['name'])) {
+                        return false;
+                    }
 
-                if ($value['isDir'] === false && $type === 'image' && $value['type'] !== 'image') {
-                    return false;
-                }
+                    switch ($type) {
+                        case 'file':
+                            if ($value['type'] === 'image') {
+                                return false;
+                            }
+                            break;
 
-                if ($value['isDir'] === false && $type === 'media' && $value['type'] !== 'video') {
-                    return false;
+                        case 'image';
+                            if ($value['type'] !== 'image') {
+                                return false;
+                            }
+                            break;
+
+                        case 'media':
+                        case 'video':
+                            if ($value['type'] !== 'video') {
+                                return false;
+                            }
+                            break;
+                    }
                 }
 
                 return !in_array($value['name'], config('boilerplate.mediamanager.filter'));
@@ -126,7 +141,7 @@ class Path
 
         $result = $result->all();
 
-        Cache::forever($this->cacheKey, $result);
+        Cache::forever($this->cacheKey."_$type", $result);
 
         return $result;
     }
@@ -437,6 +452,8 @@ class Path
      */
     public function clearCache()
     {
-        Cache::forget($this->cacheKey);
+        foreach (['all', 'file', 'image', 'media', 'video'] as $type) {
+            Cache::forget($this->cacheKey."_$type");
+        }
     }
 }

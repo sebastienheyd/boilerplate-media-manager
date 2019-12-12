@@ -15,12 +15,22 @@ $(function () {
     $(document).on('click', '.link-media', function (e) {
         e.preventDefault();
 
-        if ($('#media-content').data('mce') === 1 && typeof parent.tinymce !== 'undefined') {
-            window.parent.postMessage({
-                mceAction: 'insertMedia',
-                url: $(this).attr('href'),
-                name: $(this).attr('data-filename')
-            }, '*');
+        if ($('#media-content').data('mce') === 1) {
+            if ($('#media-content').data('field') !== '') {
+                window.parent.postMessage({
+                    action: 'insertMedia',
+                    url: $(this).attr('href'),
+                    name: $(this).attr('data-filename'),
+                    field: $('#media-content').data('field'),
+                    type: $('#media-content').data('return')
+                }, '*');
+            } else if (typeof parent.tinymce !== 'undefined') {
+                window.parent.postMessage({
+                    mceAction: 'insertMedia',
+                    url: $(this).attr('href'),
+                    name: $(this).attr('data-filename')
+                }, '*');
+            }
         } else {
             $(this).closest('.media').find('input[type="checkbox"]').iCheck('toggle');
         }

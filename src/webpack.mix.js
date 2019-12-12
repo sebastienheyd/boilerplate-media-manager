@@ -6,8 +6,10 @@ mix.webpackConfig({plugins: [new Clean(['public'], {verbose: false})]})
     .setResourceRoot('/');
 
 mix.sass('resources/scss/mediamanager.scss', 'public/mediamanager.min.css').version();
-
 mix.scripts('resources/js/mediamanager.js', 'public/mediamanager.min.js').version();
+
+mix.sass('resources/scss/select-media.scss', 'public/select-media.min.css').version();
+mix.scripts('resources/js/select-media.js', 'public/select-media.min.js').version();
 
 mix.scripts([
     'node_modules/jquery-ui/ui/widget.js',

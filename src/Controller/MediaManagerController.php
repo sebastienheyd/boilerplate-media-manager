@@ -43,10 +43,12 @@ class MediaManagerController extends Controller
      */
     public function mce(Request $request)
     {
-        $type = $request->query('type', 'all');
+        $type = $request->input('type', 'all');
         $path = $request->path;
+        $field = $request->input('field');
+        $return_type = $request->input('return_type');
 
-        return view('boilerplate-media-manager::index-mce', compact('path', 'type'));
+        return view('boilerplate-media-manager::index-mce', compact('path', 'type', 'field', 'return_type'));
     }
 
     /**

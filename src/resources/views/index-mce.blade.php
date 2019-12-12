@@ -1,5 +1,5 @@
 @include('boilerplate-media-manager::scripts')
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="{{ App::getLocale() }}">
 <head>
     <meta charset="utf-8">
@@ -11,39 +11,44 @@
     <link rel="stylesheet" href="{{ mix('/boilerplate.min.css', '/assets/vendor/boilerplate') }}">
     <link rel="stylesheet" href="{{ mix('/mediamanager.min.css', '/assets/vendor/boilerplate-media-manager') }}">
     <style>
-        .content-wrapper {margin-left: 0}
+        .content-wrapper {
+            margin-left: 0
+        }
     </style>
     @stack('css')
 </head>
 <body class="sidebar-mini skin-blue">
-    <div id="disable"></div>
-    <div class="content-wrapper">
-        <section class="content">
-            <div id="loading"><div><span class="fa fa-4x fa-refresh fa-spin"></span></div></div>
-            <div id="media-content" data-mce="1" data-display="list" data-type="{{ $type }}" data-path="/{{ (string) $path }}"></div>
-        </section>
-    </div>
-    <script src="{{ mix('/boilerplate.min.js', '/assets/vendor/boilerplate') }}"></script>
-    <script>
-        $(function() {
-            $.ajaxSetup({headers:{'X-CSRF-TOKEN':'{{ csrf_token() }}'}});
-            bootbox.setLocale("{{ App::getLocale() }}");
-            @if(Session::has('growl'))
-            @if(is_array(Session::get('growl')))
-            growl("{!! Session::get('growl')[0] !!}", "{{ Session::get('growl')[1] }}");
-            @else
-            growl("{{Session::get('growl')}}");
-            @endif
-            @endif
-            $('.logout').click(function(e){
-                e.preventDefault();
-                if(bootbox.confirm("{{ __('boilerplate::layout.logoutconfirm') }}", function(e){
-                    if(e === false) return;
-                    $('#logout-form').submit();
-                }));
-            });
+<div id="disable"></div>
+<div class="content-wrapper">
+    <section class="content">
+        <div id="loading">
+            <div><span class="fa fa-4x fa-refresh fa-spin"></span></div>
+        </div>
+        <div id="media-content" data-mce="1" data-display="list" data-type="{{ $type }}"
+             data-path="/{{ (string) $path }}" data-field="{{ $field }}" data-return="{{ $return_type }}"></div>
+    </section>
+</div>
+<script src="{{ mix('/boilerplate.min.js', '/assets/vendor/boilerplate') }}"></script>
+<script>
+    $(function () {
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}});
+        bootbox.setLocale("{{ App::getLocale() }}");
+        @if(Session::has('growl'))
+        @if(is_array(Session::get('growl')))
+        growl("{!! Session::get('growl')[0] !!}", "{{ Session::get('growl')[1] }}");
+        @else
+        growl("{{Session::get('growl')}}");
+        @endif
+        @endif
+        $('.logout').click(function (e) {
+            e.preventDefault();
+            if (bootbox.confirm("{{ __('boilerplate::layout.logoutconfirm') }}", function (e) {
+                if (e === false) return;
+                $('#logout-form').submit();
+            })) ;
         });
-    </script>
-    @stack('js')
+    });
+</script>
+@stack('js')
 </body>
 
