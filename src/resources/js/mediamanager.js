@@ -324,7 +324,7 @@ function uploadButton(path)
             if ($('#fileupload').fileupload('active') === 1) {
                 growl(locales.uploadSuccess, 'success');
                 $('#disable').hide();
-                loadPath(path);
+                loadPath(path, true);
             }
         }
     });
