@@ -20,5 +20,5 @@ return [
         'success' => 'Item(s) successfully moved',
         'files'   => 'item(s) selected',
     ],
-    'deletemedia' => "Remove image ?"
+    'deletemedia' => 'Remove image ?',
 ];

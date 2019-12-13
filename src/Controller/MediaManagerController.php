@@ -55,7 +55,7 @@ class MediaManagerController extends Controller
             'path'        => $path,
             'field'       => $request->input('field'),
             'return_type' => $request->input('return_type'),
-            'selected'    => $selected
+            'selected'    => $selected,
         ];
 
         return view('boilerplate-media-manager::index-mce', $data);
