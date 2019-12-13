@@ -255,7 +255,7 @@ $(function () {
     });
 
     // Default on page load
-    loadPath(window.location.pathname);
+    loadPath($('#media-content').data('path'));
 });
 
 function loadPath(path, clearcache = false)
@@ -280,6 +280,7 @@ function loadPath(path, clearcache = false)
         success: function (html) {
             $('#media-content').html(html);
             $('#media-content').data('path', $('#media-list').data('path'));
+            $('.media[data-url="'+$('#media-content').data('selected')+'"]').addClass('selected');
             $('.lazy').lazy();
 
             // iCheck

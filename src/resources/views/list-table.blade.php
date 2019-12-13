@@ -25,7 +25,7 @@
         </tr>
     @endif
     @foreach($list as $item)
-        <tr class="media" data-filename="{{ $item['name'] }}">
+        <tr class="media" data-filename="{{ $item['name'] }}" data-url="{{ $item['url'] }}">
             <td>
                 <input type="checkbox" class="icheck" name="check[]" value="{{ $item['name'] }}">
             </td>

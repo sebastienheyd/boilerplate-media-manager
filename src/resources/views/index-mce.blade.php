@@ -20,13 +20,12 @@
 <body class="sidebar-mini skin-blue">
 <div id="disable"></div>
 <div class="content-wrapper">
-    <section class="content">
-        <div id="loading">
-            <div><span class="fa fa-4x fa-refresh fa-spin"></span></div>
-        </div>
-        <div id="media-content" data-mce="1" data-display="list" data-type="{{ $type }}"
-             data-path="/{{ (string) $path }}" data-field="{{ $field }}" data-return="{{ $return_type }}"></div>
-    </section>
+    <div id="loading">
+        <div><span class="fa fa-4x fa-refresh fa-spin"></span></div>
+    </div>
+    <div id="media-content" data-mce="1" data-display="list" data-type="{{ $type }}"
+         data-path="{{ (string) $path }}" data-field="{{ $field }}" data-return="{{ $return_type }}"
+         data-selected="{{ $selected }}"></div>
 </div>
 <script src="{{ mix('/boilerplate.min.js', '/assets/vendor/boilerplate') }}"></script>
 <script>

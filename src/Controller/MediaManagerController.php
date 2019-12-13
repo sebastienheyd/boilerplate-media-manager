@@ -43,12 +43,22 @@ class MediaManagerController extends Controller
      */
     public function mce(Request $request)
     {
-        $type = $request->input('type', 'all');
-        $path = $request->path;
-        $field = $request->input('field');
-        $return_type = $request->input('return_type');
+        $path = $request->input('path', '');
+        if ($selected = $request->input('selected')) {
+            $baseUrl = config('boilerplate.mediamanager.base_url', '/');
+            $pInfo = pathinfo($selected);
+            $path = preg_replace('#^'.$baseUrl.'#', '', $pInfo['dirname']);
+        }
 
-        return view('boilerplate-media-manager::index-mce', compact('path', 'type', 'field', 'return_type'));
+        $data = [
+            'type'        => $request->input('type', 'all'),
+            'path'        => $path,
+            'field'       => $request->input('field'),
+            'return_type' => $request->input('return_type'),
+            'selected'    => $selected
+        ];
+
+        return view('boilerplate-media-manager::index-mce', $data);
     }
 
     /**

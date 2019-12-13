@@ -20,7 +20,7 @@ class Path
         $this->mce = $mce;
         $this->path = $this->getRelativePath($path);
         $this->storage = Storage::disk('public');
-        $this->cacheKey = md5($this->path());
+        $this->cacheKey = md5($this->path.intval($mce));
     }
 
     /**
