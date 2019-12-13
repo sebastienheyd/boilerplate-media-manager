@@ -20,5 +20,5 @@ return [
         'success' => 'Élément(s) correctement déplacé(s)',
         'files'   => 'élément(s) sélectionné(s)',
     ],
-    'deletemedia' => "Déselectionner l'image ?"
+    'deletemedia' => "Déselectionner l'image ?",
 ];

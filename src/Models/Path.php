@@ -121,7 +121,7 @@ class Path
                             }
                             break;
 
-                        case 'image';
+                        case 'image':
                             if ($value['type'] !== 'image') {
                                 return false;
                             }
