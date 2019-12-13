@@ -106,44 +106,54 @@ class Path
             })->toArray();
         }
 
-        $result = $this->formatDirectories($directories)
-            ->merge($this->formatFiles($files))
-            ->filter(function ($value) use ($type) {
-                if ($value['isDir'] === false) {
-                    if (preg_match('#^thumb_#', $value['name'])) {
-                        return false;
-                    }
-
-                    switch ($type) {
-                        case 'file':
-                            if ($value['type'] === 'image') {
-                                return false;
-                            }
-                            break;
-
-                        case 'image':
-                            if ($value['type'] !== 'image') {
-                                return false;
-                            }
-                            break;
-
-                        case 'media':
-                        case 'video':
-                            if ($value['type'] !== 'video') {
-                                return false;
-                            }
-                            break;
-                    }
-                }
-
-                return !in_array($value['name'], config('boilerplate.mediamanager.filter'));
-            });
-
-        $result = $result->all();
+        $result = $this->formatDirectories($directories)->merge($this->formatFiles($files));
+        $result = $this->filterMedia($result, $type)->all();
 
         Cache::forever($this->cacheKey."_$type", $result);
 
         return $result;
+    }
+
+    /**
+     * Filter media collection.
+     *
+     * @param \Illuminate\Support\Collection $collection
+     * @param string                         $type
+     *
+     * @return mixed
+     */
+    private function filterMedia($collection, $type)
+    {
+        return $collection->filter(function ($value) use ($type) {
+            if ($value['isDir'] === false) {
+                if (preg_match('#^thumb_#', $value['name'])) {
+                    return false;
+                }
+
+                switch ($type) {
+                    case 'file':
+                        if ($value['type'] === 'image') {
+                            return false;
+                        }
+                        break;
+
+                    case 'image':
+                        if ($value['type'] !== 'image') {
+                            return false;
+                        }
+                        break;
+
+                    case 'media':
+                    case 'video':
+                        if ($value['type'] !== 'video') {
+                            return false;
+                        }
+                        break;
+                }
+            }
+
+            return !in_array($value['name'], config('boilerplate.mediamanager.filter'));
+        });
     }
 
     /**

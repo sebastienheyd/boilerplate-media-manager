@@ -1,6 +1,7 @@
 /** global: selectMediaLocales */
+/** global: bootbox */
 $(function () {
-    $(document).on('click', '.btn-select-image, .btn-select-file', function (e) {
+    $(document).on('click', '.btn-select-image, .btn-select-file', function () {
         $('body').css('overflow', 'hidden').append(
             '<div id="select-media-bg">' +
             '<div id="select-media-wrapper">' +
