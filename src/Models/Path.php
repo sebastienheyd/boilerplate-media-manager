@@ -3,7 +3,6 @@
 namespace Sebastienheyd\BoilerplateMediaManager\Models;
 
 use Cache;
-use Image;
 use Storage;
 
 class Path
@@ -166,6 +165,7 @@ class Path
         $files = array_map(function ($file) {
             $file = new File($file, $this->storage);
             $file->generateThumb();
+
             return $file->toArray($this->mce);
         }, $files);
 
@@ -183,6 +183,7 @@ class Path
     {
         $dirs = array_map(function ($dir) {
             $dir = new Directory($dir, $this->storage);
+
             return $dir->toArray($this->mce);
         }, $dirs);
 
@@ -201,6 +202,7 @@ class Path
         $path = rtrim($this->path, '/').'/'.trim($name, '/');
         $result = $this->storage->makeDirectory($path);
         $this->clearCache();
+
         return $result;
     }
 

@@ -96,7 +96,7 @@ class File extends BaseFile
      */
     public function detectFileType()
     {
-        $extension = File::extension($this->file);
+        $extension = self::extension($this->file);
         foreach (config('boilerplate.mediamanager.filetypes') as $type => $regex) {
             if (preg_match("/^($regex)$/i", $extension) !== 0) {
                 return $type;
