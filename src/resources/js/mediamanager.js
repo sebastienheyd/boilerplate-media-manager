@@ -125,7 +125,8 @@ $(function () {
             data: {
                 destination: $('#media-list').data('path'),
                 from: clipboard.path,
-                files: clipboard.files
+                files: clipboard.files,
+                mce: $('#media-content').data('mce')
             },
             success: function (res) {
                 if (res.status === 'success') {
@@ -187,7 +188,7 @@ $(function () {
                     data: {path: path, name: name},
                     success: function () {
                         growl(locales.folderSuccess, 'success');
-                        loadPath(path);
+                        loadPath(path, true);
                     }
                 });
             }
@@ -225,7 +226,7 @@ $(function () {
                             } else {
                                 growl(result.message, 'danger');
                             }
-                            loadPath(path);
+                            loadPath(path, true);
                         }
                     });
                 }

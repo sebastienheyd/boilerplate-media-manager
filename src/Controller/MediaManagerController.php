@@ -251,12 +251,11 @@ class MediaManagerController extends Controller
      */
     public function paste(Request $request)
     {
-        $path = new Path($request->post('from'));
-
         $validation = Validator::make($request->all(), [
             'from'        => 'required',
             'files'       => 'required',
             'destination' => 'required',
+            'mce'         => 'required',
         ]);
 
         if ($validation->fails()) {
@@ -265,6 +264,8 @@ class MediaManagerController extends Controller
                 'error'  => implode(' / ', (array) $validation->errors()),
             ]);
         }
+
+        $path = new Path($request->post('from'), $request->post('mce'));
 
         try {
             foreach ($request->post('files') as $file) {

@@ -3,8 +3,6 @@
 namespace Sebastienheyd\BoilerplateMediaManager\Models;
 
 use Cache;
-use Carbon\Carbon;
-use File;
 use Image;
 use Storage;
 
@@ -166,19 +164,9 @@ class Path
     private function formatFiles($files = [])
     {
         $files = array_map(function ($file) {
-            $this->generateThumb($file);
-
-            return [
-                'download' => '',
-                'icon'     => $this->getIcon($file),
-                'type'     => $this->detectFileType($file),
-                'name'     => basename($file),
-                'isDir'    => false,
-                'size'     => $this->getFilesize($file),
-                'link'     => route('mediamanager.'.($this->mce == true ? 'mce' : 'index'), ['path' => $file], false),
-                'url'      => $this->storage->url($file),
-                'time'     => $this->getFileChangeTime($file),
-            ];
+            $file = new File($file, $this->storage);
+            $file->generateThumb();
+            return $file->toArray($this->mce);
         }, $files);
 
         return collect($files);
@@ -194,34 +182,11 @@ class Path
     private function formatDirectories($dirs = [])
     {
         $dirs = array_map(function ($dir) {
-            return [
-                'download' => '',
-                'isDir'    => true,
-                'type'     => 'folder',
-                'name'     => basename($dir),
-                'size'     => '-',
-                'link'     => route('mediamanager.'.($this->mce == true ? 'mce' : 'index'), ['path' => $dir], false),
-                'url'      => $this->storage->url($dir),
-                'time'     => $this->getFileChangeTime($dir),
-            ];
+            $dir = new Directory($dir, $this->storage);
+            return $dir->toArray($this->mce);
         }, $dirs);
 
         return collect($dirs);
-    }
-
-    /**
-     * Get icon for a given file.
-     *
-     * @param $file
-     *
-     * @return mixed
-     */
-    public function getIcon($file)
-    {
-        $type = $this->detectFileType($file);
-        $icons = config('boilerplate.mediamanager.icons');
-
-        return $icons[$type];
     }
 
     /**
@@ -233,10 +198,10 @@ class Path
      */
     public function newFolder($name)
     {
-        $this->clearCache();
         $path = rtrim($this->path, '/').'/'.trim($name, '/');
-
-        return $this->storage->makeDirectory($path);
+        $result = $this->storage->makeDirectory($path);
+        $this->clearCache();
+        return $result;
     }
 
     /**
@@ -249,7 +214,6 @@ class Path
      */
     public function rename($name, $newName)
     {
-        $this->clearCache();
         $path = rtrim($this->path, '/').'/'.trim($name, '/');
         $dest = rtrim($this->path, '/').'/'.trim($newName, '/');
         $this->storage->move($path, $dest);
@@ -259,6 +223,8 @@ class Path
             $destThumb = rtrim($this->path, '/').'/thumb_'.trim($newName, '/');
             $this->storage->move($pathThumb, $destThumb);
         }
+
+        $this->clearCache();
     }
 
     /**
@@ -272,7 +238,7 @@ class Path
     public function move($name, $destinationPath)
     {
         $this->clearCache();
-        Cache::forget(md5($destinationPath));
+        $this->clearCache($destinationPath);
         $name = trim($name, '/');
         $path = rtrim($this->path, '/').'/'.$name;
         $this->storage->move($path, rtrim($destinationPath, '/').'/'.$name);
@@ -368,9 +334,8 @@ class Path
         if ($name !== null) {
             $path .= '/'.$name;
         }
-        $path = $this->getFullPath($path);
 
-        return file_exists($path);
+        return file_exists($this->getFullPath($path));
     }
 
     /**
@@ -386,84 +351,16 @@ class Path
     }
 
     /**
-     * Return type for a given file.
-     *
-     * @param $file
-     *
-     * @return bool|int|mixed|string
-     */
-    public function detectFileType($file)
-    {
-        $extension = File::extension($file);
-        foreach (config('boilerplate.mediamanager.filetypes') as $type => $regex) {
-            if (preg_match("/^($regex)$/i", $extension) !== 0) {
-                return $type;
-            }
-        }
-
-        return 'file';
-    }
-
-    /**
-     * Return size for a given file.
-     *
-     * @param $file
-     *
-     * @return string
-     */
-    public function getFilesize($file)
-    {
-        $bytes = filesize($this->getFullPath($file));
-        $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
-        for ($i = 0; $bytes > 1024; $i++) {
-            $bytes /= 1024;
-        }
-
-        return round($bytes, 2).' '.$units[$i];
-    }
-
-    /**
-     * Return modification time for a given file.
-     *
-     * @param $file
-     *
-     * @return false|string
-     */
-    public function getFileChangeTime($file)
-    {
-        return Carbon::createFromTimestamp(filectime($this->getFullPath($file)))
-            ->isoFormat(__('boilerplate::date.YmdHis'));
-    }
-
-    /**
-     * Automatically generate thumb for image files if not exists.
-     *
-     * @param string $file
-     */
-    public function generateThumb($file)
-    {
-        $fullPath = $this->getFullPath($file);
-        $fInfo = pathinfo($fullPath);
-
-        if (preg_match('#^thumb_#', $fInfo['basename'])) {
-            return;
-        }
-
-        $ext = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif'];
-        $destFile = $fInfo['dirname'].'/thumb_'.$fInfo['basename'];
-
-        if (in_array(strtolower($fInfo['extension']), $ext) && !is_file($destFile)) {
-            Image::make($fullPath)->fit(140)->save($destFile, 75);
-        }
-    }
-
-    /**
      * Clear current path cache.
+     *
+     * @param string $path
      */
-    public function clearCache()
+    public function clearCache($path = null)
     {
+        $key = $path ? md5($path.intval($this->mce)) : $this->cacheKey;
+
         foreach (['all', 'file', 'image', 'media', 'video'] as $type) {
-            Cache::forget($this->cacheKey."_$type");
+            Cache::forget($key."_$type");
         }
     }
 }
