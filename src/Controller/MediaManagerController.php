@@ -105,13 +105,14 @@ class MediaManagerController extends Controller
      *
      * @param Request $request
      *
-     * @return string
+     * @return @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function newFolder(Request $request)
     {
         $path = new Path($request->input('path'));
+        $path->newFolder($request->input('name'));
 
-        return (string) $path->newFolder($request->input('name'));
+        return response()->json(['status' => 'success']);
     }
 
     /**

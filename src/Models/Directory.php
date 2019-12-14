@@ -37,7 +37,7 @@ class Directory
      *
      * @return array
      */
-    public function toArray($mce = false)
+    public function toArray()
     {
         return [
             'download' => '',

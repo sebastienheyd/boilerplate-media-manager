@@ -141,15 +141,12 @@ class Path
             switch ($type) {
                 case 'file':
                     return !in_array($value['type'], ['image', 'video']);
-                    break;
 
                 case 'image':
                     return $value['type'] === 'image';
-                    break;
 
                 case 'video':
                     return $value['type'] === 'video';
-                    break;
 
                 default:
                     return true;
