@@ -19,7 +19,7 @@ class Path
     }
 
     /**
-     * Get current path or file path
+     * Get current path or file path.
      *
      * @param string $name
      *

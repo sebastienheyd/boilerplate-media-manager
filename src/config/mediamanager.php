@@ -63,6 +63,6 @@ return [
         '.gitignore',
         '.git',
         '.htaccess',
-        'thumb_.*'
+        'thumb_.*',
     ],
 ];
