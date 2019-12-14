@@ -105,7 +105,7 @@ class MediaManagerController extends Controller
      *
      * @param Request $request
      *
-     * @return @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function newFolder(Request $request)
     {
