@@ -35,8 +35,6 @@ class Directory
     /**
      * Return data as array.
      *
-     * @param bool $mce
-     *
      * @return array
      */
     public function toArray($mce = false)
@@ -47,7 +45,7 @@ class Directory
             'type'     => 'folder',
             'name'     => basename($this->directory),
             'size'     => '-',
-            'link'     => route('mediamanager.'.($mce == true ? 'mce' : 'index'), ['path' => $this->directory], false),
+            'link'     => route('mediamanager.index', ['path' => $this->directory], false),
             'url'      => $this->storage->url($this->directory),
             'time'     => $this->getFileChangeTime(),
         ];

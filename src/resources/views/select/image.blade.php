@@ -1,7 +1,7 @@
 @php($id = uniqid())
 <div class="select-image-wrapper {{ empty($value) ? '' : 'editable' }}" style="width:{{ $width ?? 300 }}px;height:{{ $height ?? 200 }}px">
     <button type="button" style="max-width:{{ $width ?? 300 }}px;height:{{ $height ?? 200 }}px" class="btn-select-image" data-field="{{ $id }}"
-            data-src="{!! route('mediamanager.mce', ['type' => 'image', 'return_type' => 'image', 'field' => $id], false) !!}">
+            data-src="{!! route('mediamanager.index', ['mce' => true, 'type' => 'image', 'return_type' => 'image', 'field' => $id], false) !!}">
         @empty($value)
             <span class="fa fa-image fa-3x"></span>
         @else

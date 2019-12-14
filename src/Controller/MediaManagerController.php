@@ -28,7 +28,11 @@ class MediaManagerController extends Controller
      */
     public function index(Request $request)
     {
-        $type = $request->query('type', 'all');
+        if ($request->get('mce')) {
+            return $this->mce($request);
+        }
+
+        $type = $request->get('type', 'all');
         $path = $request->path;
 
         return view('boilerplate-media-manager::index', compact('path', 'type'));
@@ -43,7 +47,8 @@ class MediaManagerController extends Controller
      */
     public function mce(Request $request)
     {
-        $path = $request->input('path', '');
+        $path = $request->path;
+
         if ($selected = $request->input('selected')) {
             $baseUrl = config('boilerplate.mediamanager.base_url', '/');
             $pInfo = pathinfo($selected);
@@ -70,21 +75,19 @@ class MediaManagerController extends Controller
      */
     public function list(Request $request)
     {
-        $mce = $request->input('mce', '0') == 1;
         $type = $request->input('type', 'all');
         $display = $request->input('display', 'list');
 
-        $path = str_replace(route('mediamanager.mce', [], false), '', $request->input('path'));
-        $path = str_replace(route('mediamanager.index', [], false), '', $path);
+        $path = str_replace(route('mediamanager.index', [], false), '', $request->input('path'));
 
         if (empty($path)) {
             $path = '/';
         }
 
-        $content = new Path($path, $mce);
+        $content = new Path($path);
 
         if (!$content->exists()) {
-            return view('boilerplate-media-manager::error', compact('mce'));
+            return view('boilerplate-media-manager::error');
         }
 
         if ($request->input('clearcache', 'false') === 'true') {
@@ -94,7 +97,7 @@ class MediaManagerController extends Controller
         $list = $content->ls($type);
         $parent = $content->parent();
 
-        return view('boilerplate-media-manager::list', compact('content', 'list', 'parent', 'path', 'mce', 'display'));
+        return view('boilerplate-media-manager::list', compact('content', 'list', 'parent', 'path', 'display'));
     }
 
     /**
@@ -236,6 +239,8 @@ class MediaManagerController extends Controller
                 Image::make($fullPath)->fit(140)->save($fInfo['dirname'].'/thumb_'.$file->getClientOriginalName(), 75);
             }
 
+            $path->clearCache();
+
             return response()->json(['status' => 'success']);
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'error' => $e->getMessage()]);
@@ -255,7 +260,6 @@ class MediaManagerController extends Controller
             'from'        => 'required',
             'files'       => 'required',
             'destination' => 'required',
-            'mce'         => 'required',
         ]);
 
         if ($validation->fails()) {
@@ -265,7 +269,7 @@ class MediaManagerController extends Controller
             ]);
         }
 
-        $path = new Path($request->post('from'), $request->post('mce'));
+        $path = new Path($request->post('from'));
 
         try {
             foreach ($request->post('files') as $file) {
@@ -301,7 +305,7 @@ class MediaManagerController extends Controller
         }
 
         $uploadDir = config('boilerplate.mediamanager.tinymce_upload_dir', 'edition');
-        $path = new Path($uploadDir);
+        $path = new Path('/'.ltrim($uploadDir, '/'));
 
         try {
             $file = $request->file('file');
@@ -320,6 +324,8 @@ class MediaManagerController extends Controller
                 $fInfo = pathinfo($fullPath);
                 Image::make($fullPath)->fit(140)->save($fInfo['dirname'].'/thumb_'.$fileName, 75);
             }
+
+            $path->clearCache();
 
             return response()->json([
                 'location' => '/storage/'.$uploadDir.'/'.$fileName,

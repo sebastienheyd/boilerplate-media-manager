@@ -1,5 +1,5 @@
 @include('boilerplate-media-manager::scripts')
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ App::getLocale() }}">
 <head>
     <meta charset="utf-8">
@@ -10,11 +10,7 @@
     <title>{{ config('app.name') }}</title>
     <link rel="stylesheet" href="{{ mix('/boilerplate.min.css', '/assets/vendor/boilerplate') }}">
     <link rel="stylesheet" href="{{ mix('/mediamanager.min.css', '/assets/vendor/boilerplate-media-manager') }}">
-    <style>
-        .content-wrapper {
-            margin-left: 0
-        }
-    </style>
+    <style>.content-wrapper { margin-left: 0 }</style>
     @stack('css')
 </head>
 <body class="sidebar-mini skin-blue">
@@ -32,20 +28,6 @@
     $(function () {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}});
         bootbox.setLocale("{{ App::getLocale() }}");
-        @if(Session::has('growl'))
-        @if(is_array(Session::get('growl')))
-        growl("{!! Session::get('growl')[0] !!}", "{{ Session::get('growl')[1] }}");
-        @else
-        growl("{{Session::get('growl')}}");
-        @endif
-        @endif
-        $('.logout').click(function (e) {
-            e.preventDefault();
-            if (bootbox.confirm("{{ __('boilerplate::layout.logoutconfirm') }}", function (e) {
-                if (e === false) return;
-                $('#logout-form').submit();
-            })) ;
-        });
     });
 </script>
 @stack('js')

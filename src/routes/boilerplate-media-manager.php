@@ -19,6 +19,5 @@ Route::group($default, function () {
         Route::post('paste', ['as' => 'paste', 'uses' => 'MediaManagerController@paste']);
     });
 
-    Route::get('mce/{path?}', ['as' => 'mce', 'uses' => 'MediaManagerController@mce'])->where('path', '.*');
     Route::get('/{path?}', ['as' => 'index', 'uses' => 'MediaManagerController@index'])->where('path', '.*');
 });

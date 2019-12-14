@@ -7,17 +7,33 @@ use Storage;
 
 class Path
 {
-    protected $mce = false;
     protected $path = '/';
     protected $storage;
     protected $cacheKey;
 
-    public function __construct($path = '/', $mce = false)
+    public function __construct($path = '/')
     {
-        $this->mce = $mce;
         $this->path = $this->getRelativePath($path);
         $this->storage = Storage::disk('public');
-        $this->cacheKey = md5($this->path.intval($mce));
+        $this->cacheKey = md5($this->path);
+    }
+
+    /**
+     * Get current path or file path
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public function path($name = '', $path = null)
+    {
+        $path = $path ? $this->getRelativePath($path) : $this->path;
+
+        if (empty($name)) {
+            return $path;
+        }
+
+        return ($path === '/' ? '' : $path).'/'.str_replace(['..', '/'], '', $name);
     }
 
     /**
@@ -46,16 +62,6 @@ class Path
         }
 
         return $result;
-    }
-
-    /**
-     * Return current path.
-     *
-     * @return string
-     */
-    public function path()
-    {
-        return $this->path;
     }
 
     /**
@@ -90,8 +96,8 @@ class Path
      */
     public function ls($type = 'all')
     {
-        if (Cache::has($this->cacheKey."_$type")) {
-            return Cache::get($this->cacheKey."_$type");
+        if (Cache::has($this->cacheKey.$type)) {
+            return Cache::get($this->cacheKey.$type);
         }
 
         $directories = $this->storage->directories($this->path);
@@ -106,7 +112,7 @@ class Path
         $result = $this->formatDirectories($directories)->merge($this->formatFiles($files));
         $result = $this->filterMedia($result, $type)->all();
 
-        Cache::forever($this->cacheKey."_$type", $result);
+        Cache::forever($this->cacheKey.$type, $result);
 
         return $result;
     }
@@ -122,34 +128,32 @@ class Path
     private function filterMedia($collection, $type)
     {
         return $collection->filter(function ($value) use ($type) {
-            if ($value['isDir'] === false) {
-                if (preg_match('#^thumb_#', $value['name'])) {
+            foreach (config('boilerplate.mediamanager.filter') as $str) {
+                if (preg_match('#^'.$str.'$#', $value['name'])) {
                     return false;
-                }
-
-                switch ($type) {
-                    case 'file':
-                        if ($value['type'] === 'image') {
-                            return false;
-                        }
-                        break;
-
-                    case 'image':
-                        if ($value['type'] !== 'image') {
-                            return false;
-                        }
-                        break;
-
-                    case 'media':
-                    case 'video':
-                        if ($value['type'] !== 'video') {
-                            return false;
-                        }
-                        break;
                 }
             }
 
-            return !in_array($value['name'], config('boilerplate.mediamanager.filter'));
+            if ($value['isDir'] === true) {
+                return true;
+            }
+
+            switch ($type) {
+                case 'file':
+                    return !in_array($value['type'], ['image', 'video']);
+                    break;
+
+                case 'image':
+                    return $value['type'] === 'image';
+                    break;
+
+                case 'video':
+                    return $value['type'] === 'video';
+                    break;
+
+                default:
+                    return true;
+            }
         });
     }
 
@@ -166,7 +170,7 @@ class Path
             $file = new File($file, $this->storage);
             $file->generateThumb();
 
-            return $file->toArray($this->mce);
+            return $file->toArray();
         }, $files);
 
         return collect($files);
@@ -184,7 +188,7 @@ class Path
         $dirs = array_map(function ($dir) {
             $dir = new Directory($dir, $this->storage);
 
-            return $dir->toArray($this->mce);
+            return $dir->toArray();
         }, $dirs);
 
         return collect($dirs);
@@ -194,16 +198,12 @@ class Path
      * Create a new folder in the current path.
      *
      * @param $name
-     *
-     * @return mixed
      */
     public function newFolder($name)
     {
         $path = rtrim($this->path, '/').'/'.trim($name, '/');
-        $result = $this->storage->makeDirectory($path);
+        $this->storage->makeDirectory($path);
         $this->clearCache();
-
-        return $result;
     }
 
     /**
@@ -211,19 +211,13 @@ class Path
      *
      * @param string $name
      * @param string $newName
-     *
-     * @return mixed
      */
     public function rename($name, $newName)
     {
-        $path = rtrim($this->path, '/').'/'.trim($name, '/');
-        $dest = rtrim($this->path, '/').'/'.trim($newName, '/');
-        $this->storage->move($path, $dest);
+        $this->storage->move($this->path($name), $this->path($newName));
 
         if ($this->exists('thumb_'.$name)) {
-            $pathThumb = rtrim($this->path, '/').'/thumb_'.trim($name, '/');
-            $destThumb = rtrim($this->path, '/').'/thumb_'.trim($newName, '/');
-            $this->storage->move($pathThumb, $destThumb);
+            $this->storage->move($this->path('thumb_'.$name), $this->path('thumb_'.$newName));
         }
 
         $this->clearCache();
@@ -234,20 +228,18 @@ class Path
      *
      * @param string $name
      * @param string $destinationPath
-     *
-     * @return mixed
      */
     public function move($name, $destinationPath)
     {
+        $this->storage->move($this->path($name), $this->path($name, $destinationPath));
+
+        if ($this->exists('thumb_'.$name)) {
+            $name = '/thumb_'.$name;
+            $this->storage->move($this->path($name), $this->path($name, $destinationPath));
+        }
+
         $this->clearCache();
         $this->clearCache($destinationPath);
-        $name = trim($name, '/');
-        $path = rtrim($this->path, '/').'/'.$name;
-        $this->storage->move($path, rtrim($destinationPath, '/').'/'.$name);
-        if ($this->exists('thumb_'.$name)) {
-            $pathThumb = rtrim($this->path, '/').'/thumb_'.$name;
-            $this->storage->move($pathThumb, rtrim($destinationPath, '/').'/thumb_'.$name);
-        }
     }
 
     /**
@@ -256,17 +248,16 @@ class Path
      * @param \Illuminate\Http\UploadedFile $file
      * @param string                        $fileName
      *
-     * @return bool
+     * @return string
      */
     public function upload($file, $fileName = null)
     {
-        $this->clearCache();
-
         if ($fileName === null) {
             $fileName = $file->getClientOriginalName();
         }
 
         $this->storage->putFileAs($this->path, $file, $fileName);
+        $this->clearCache();
 
         return $this->getFullPath($this->path.'/'.$fileName);
     }
@@ -280,7 +271,7 @@ class Path
      */
     public function delete($name)
     {
-        $path = $this->path.'/'.str_replace(['..', '/'], '', $name);
+        $path = $this->path($name);
         $fullPath = $this->getFullPath($path);
 
         if (!is_readable($fullPath)) {
@@ -289,7 +280,7 @@ class Path
 
         if (is_file($fullPath)) {
             if ($this->exists('thumb_'.$name)) {
-                $this->storage->delete($this->path.'/thumb_'.$name);
+                $this->storage->delete($this->path('thumb_'.$name));
             }
 
             $this->storage->delete($path);
@@ -297,6 +288,7 @@ class Path
 
         if (is_dir($fullPath)) {
             $this->storage->deleteDirectory($path);
+            $this->clearCache($path);
         }
 
         $this->clearCache();
@@ -313,14 +305,8 @@ class Path
      */
     private function getRelativePath($path)
     {
-        $path = str_replace(route('mediamanager.mce', [], false), '', $path);
-        $path = str_replace(route('mediamanager.index', [], false), '', $path);
-
-        if (empty($path)) {
-            $path = '/';
-        }
-
-        return $path;
+        $path = str_replace([route('mediamanager.index', [], false), '..'], '', $path);
+        return empty($path) ? '/' : $path;
     }
 
     /**
@@ -345,7 +331,7 @@ class Path
      *
      * @param string $name
      *
-     * @return mixed
+     * @return string
      */
     public function getFullPath($name)
     {
@@ -359,10 +345,10 @@ class Path
      */
     public function clearCache($path = null)
     {
-        $key = $path ? md5($path.intval($this->mce)) : $this->cacheKey;
+        $key = $path ? md5($path) : $this->cacheKey;
 
         foreach (['all', 'file', 'image', 'media', 'video'] as $type) {
-            Cache::forget($key."_$type");
+            Cache::forget($key.$type);
         }
     }
 }

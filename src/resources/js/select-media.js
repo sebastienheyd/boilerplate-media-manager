@@ -8,7 +8,8 @@ $(function () {
             '<div id="select-media-close">File manager<span class="fa fa-times text-muted"></span></div>' +
             '<iframe src="' + $(this).data('src') + '&selected=' + $('input[data-id=' + $(this).data('field') + ']').val() + '"></iframe>' +
             '</div>' +
-            '</div>');
+            '</div>'
+        );
     });
 
     $(document).on('click', '#select-media-close span', function () {
@@ -28,8 +29,8 @@ $(function () {
     $(document).on('click', '.select-image-delete', function (e) {
         e.preventDefault();
         var wrapper = $(this).closest('.select-image-wrapper');
-        bootbox.confirm(selectMediaLocales.confirm, function(r) {
-            if(r === false) {
+        bootbox.confirm(selectMediaLocales.confirm, function (r) {
+            if (r === false) {
                 return;
             }
 

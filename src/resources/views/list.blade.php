@@ -41,9 +41,9 @@
     </div>
     <div class="box-body">
         <ol class="breadcrumb" style="margin-bottom: 10px;" id="media-breadcrumb">
-            <li><a href="{{ route('mediamanager.'.($mce ? 'mce' : 'index'), [], false) }}"><i class="fa fa-home"></i></a></li>
+            <li><a href="{{ route('mediamanager.index', [], false) }}"><i class="fa fa-home"></i></a></li>
             @foreach($content->breadcrumb() as $dir)
-                <li><a href="{{ route('mediamanager.'.($mce ? 'mce' : 'index'), ['path' => $dir['path']], false) }}">{{ $dir['name'] }}</a></li>
+                <li><a href="{{ route('mediamanager.index', ['path' => $dir['path']], false) }}">{{ $dir['name'] }}</a></li>
             @endforeach
         </ol>
         <div id="progress" class="progress" style="display:none;">

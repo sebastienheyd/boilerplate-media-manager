@@ -93,7 +93,7 @@ $(function () {
                 url: routes.ajaxDelete,
                 type: 'post',
                 data: {path: clipboard.path, files:clipboard.files},
-                success: function(res) {
+                success: function (res) {
                     if (res.status === 'success') {
                         growl(locales.deleteSuccess, 'success');
                         $('#disable').hide();
@@ -125,8 +125,7 @@ $(function () {
             data: {
                 destination: $('#media-list').data('path'),
                 from: clipboard.path,
-                files: clipboard.files,
-                mce: $('#media-content').data('mce')
+                files: clipboard.files
             },
             success: function (res) {
                 if (res.status === 'success') {
@@ -188,7 +187,7 @@ $(function () {
                     data: {path: path, name: name},
                     success: function () {
                         growl(locales.folderSuccess, 'success');
-                        loadPath(path, true);
+                        loadPath(path);
                     }
                 });
             }
@@ -226,7 +225,7 @@ $(function () {
                             } else {
                                 growl(result.message, 'danger');
                             }
-                            loadPath(path, true);
+                            loadPath(path);
                         }
                     });
                 }
@@ -273,7 +272,6 @@ function loadPath(path, clearcache = false)
         type: 'post',
         data: {
             path: path,
-            mce: $('#media-content').data('mce'),
             display: $('#media-content').data('display'),
             type: $('#media-content').data('type'),
             clearcache: clearcache
@@ -324,7 +322,7 @@ function uploadButton(path)
             if ($('#fileupload').fileupload('active') === 1) {
                 growl(locales.uploadSuccess, 'success');
                 $('#disable').hide();
-                loadPath(path, true);
+                loadPath(path);
             }
         }
     });

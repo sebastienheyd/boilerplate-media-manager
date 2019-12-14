@@ -24,7 +24,7 @@
             },
             file_picker_callback: function (callback, value, meta) {
                 tinymce.activeEditor.windowManager.openUrl({
-                    url: '{{ route('mediamanager.mce', [], false) }}?type=' + meta.filetype + '&selected=' + value,
+                    url: '{{ route('mediamanager.index', [], false) }}?mce=1&type=' + meta.filetype + '&selected=' + value,
                     title: 'File Manager',
                     width: Math.round(window.innerWidth * 0.8),
                     height: Math.round(window.innerHeight * 0.8),

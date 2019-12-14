@@ -57,11 +57,9 @@ class File extends BaseFile
     /**
      * Return date as array.
      *
-     * @param bool $mce
-     *
      * @return array
      */
-    public function toArray($mce = false)
+    public function toArray()
     {
         return [
             'download' => '',
@@ -70,7 +68,7 @@ class File extends BaseFile
             'name'     => basename($this->file),
             'isDir'    => false,
             'size'     => $this->getFilesize(),
-            'link'     => route('mediamanager.'.($mce == true ? 'mce' : 'index'), ['path' => $this->file], false),
+            'link'     => route('mediamanager.index', ['path' => $this->file], false),
             'url'      => $this->storage->url($this->file),
             'time'     => $this->getFileChangeTime(),
         ];
