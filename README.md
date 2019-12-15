@@ -44,6 +44,8 @@ After `vendor:publish`, you can find the configuration file `mediamanager.php` i
 
 | configuration | description |
 |---|---|
+| mediamanager.base_url | Relative path to the public storage folder  |
+| mediamanager.tinymce_upload_dir | Directory where TinyMCE will store his edited image  |
 | mediamanager.thumbs_dir | Directory where to store dynamically generated thumbs |
 | mediamanager.authorized.size | Upload max size in bytes, default is 2048 |
 | mediamanager.authorized.mimes | Mime types by extension, see [Laravel documentation](https://laravel.com/docs/5.7/validation#rule-mimes)
@@ -51,11 +53,43 @@ After `vendor:publish`, you can find the configuration file `mediamanager.php` i
 | mediamanager.icons | Associative array to get icon class (Fontawesome) by file type |
 | mediamanager.filter | Array of filtered files to hide |
 
-## Integration
+## Backend
+
+### TinyMCE
+
+TinyMCE is supported by using the "load" view included in this package :
+
+```blade
+@include('boilerplate-media-manager::load.tinymce')
+
+<script>
+    $('#content').tinymce({})
+</script>
+```
+
+### Image selector
+
+You can use the `boilerplate-media-manager::select.image` view to insert an input field into your forms. 
+This view allows you to use the media manager to select the image to use.
+
+```blade
+@include('boilerplate-media-manager::select.image', ['name' => 'myImageInputName', 'value' => '/storage/picture.jpg'])
+```
+
+Parameters are :
+
+| name | description | default |
+|---|---|---|
+| name | Input name | image |
+| value | Input value | - |
+| width | Width of the selector | 300 |
+| height | Height of the selector | 200 |
+
+## Frontend
 
 ### Img (fit or resize)
 
-Img will dynamically resize an image and returns the URL using Intervention and Storage (public disk)
+`img` will dynamically resize an image and returns the URL using Intervention and Storage (public disk)
 
 ```blade
 {!! img('/storage/my_picture.jpg', 100, 100, [], 'resize') !!}
@@ -67,7 +101,7 @@ will return
 <img src="/storage/thumbs/actualites/resize/100x100/my_picture.jpg?1555331285" width="100" height="100">
 ```
 
-Or using the Blade directive :
+Or using the `@img` Blade directive :
 
 ```blade
 @img('/storage/my_picture.jpg', 250, 150, ['class' => 'fluid-image'])
@@ -87,18 +121,6 @@ You can clear all resized image by using the artisan command `thumbs:clear`
 
 ```
 php artisan thumbs:clear
-```
-
-### TinyMCE
-
-TinyMCE is supported by using the "load" view included in this package :
-
-```blade
-@include('boilerplate-media-manager::load.tinymce')
-
-<script>
-    $('#content').tinymce({})
-</script>
 ```
 
 ## Package update
