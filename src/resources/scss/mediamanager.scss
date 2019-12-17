@@ -38,7 +38,7 @@
 
     .box-header {
         position: sticky;
-        top: 0;
+        top: 50px;
         background: #FFF;
         z-index: 3;
     }
@@ -46,6 +46,18 @@
     &[data-mce="1"] {
         .box.box-primary {
             border-top: none;
+        }
+
+        .box-header {
+            top: 0;
+        }
+    }
+}
+
+@media screen and (max-width: 767px) {
+    #media-content {
+        .box-header {
+            top: 100px;
         }
     }
 }
