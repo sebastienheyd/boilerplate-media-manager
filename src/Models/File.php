@@ -5,7 +5,7 @@ namespace Sebastienheyd\BoilerplateMediaManager\Models;
 use Carbon\Carbon;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\File as BaseFile;
-use Illuminate\Support\Facades\Image;
+use Intervention\Image\Facades\Image;
 
 class File extends BaseFile
 {
