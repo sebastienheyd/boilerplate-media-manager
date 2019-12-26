@@ -237,7 +237,7 @@ class MediaManagerController extends Controller
 
             if (in_array(strtolower($file->getClientOriginalExtension()), $ext)) {
                 $fInfo = pathinfo($fullPath);
-                Image::make($fullPath)->fit(140)->save($fInfo['dirname'].'/thumb_'.$file->getClientOriginalName(), 75);
+                Image::make($fullPath)->fit(150)->save($fInfo['dirname'].'/thumb_'.$file->getClientOriginalName(), 75);
             }
 
             $path->clearCache();
@@ -323,7 +323,7 @@ class MediaManagerController extends Controller
             $ext = ['jpg', 'jpeg', 'gif', 'png'];
             if (in_array($fileExt, $ext)) {
                 $fInfo = pathinfo($fullPath);
-                Image::make($fullPath)->fit(140)->save($fInfo['dirname'].'/thumb_'.$fileName, 75);
+                Image::make($fullPath)->fit(150)->save($fInfo['dirname'].'/thumb_'.$fileName, 75);
             }
 
             $path->clearCache();

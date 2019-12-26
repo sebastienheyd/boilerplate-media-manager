@@ -1,7 +1,12 @@
-<table class="table table-striped table-hover" id="media-list" data-path="{{ $content->path() }}">
+<table class="table table-striped table-sm table-hover" id="media-list" data-path="{{ $content->path() }}">
     <thead>
     <tr>
-        <th style="width:35px"><input type="checkbox" class="icheck check-all"></th>
+        <th style="width:35px">
+            <div class="icheck-primary">
+                <input type="checkbox" class="check-all" id="check-all">
+                <label for="check-all"></label>
+            </div>
+        </th>
         <th>{{ __('boilerplate-media-manager::list.name') }}</th>
         <th style="width: 100px">{{ __('boilerplate-media-manager::list.weight') }}</th>
         <th style="width: 80px">{{ __('boilerplate-media-manager::list.type') }}</th>
@@ -15,7 +20,7 @@
             <td></td>
             <td>
                 <a href="{{ $parent['link'] }}" class="link-folder">
-                    <span class="fa fa-level-up fa-lg fa-fw media-icon fa-flip-horizontal" ></span> ..
+                    <span class="fa fa-level-up-alt fa-lg fa-fw media-icon fa-flip-horizontal" ></span> ..
                 </a>
             </td>
             <td>-</td>
@@ -24,26 +29,29 @@
             <td></td>
         </tr>
     @endif
-    @foreach($list as $item)
+    @foreach($list as $k => $item)
         <tr class="media" data-filename="{{ $item['name'] }}" data-url="{{ $item['url'] }}">
             <td>
-                <input type="checkbox" class="icheck" name="check[]" value="{{ $item['name'] }}">
+                <div class="icheck-primary">
+                    <input type="checkbox" name="check[]" value="{{ $item['name'] }}" id="item_{{ $k }}">
+                    <label for="item_{{ $k }}"></label>
+                </div>
             </td>
             <td>
                 @if($item['isDir'])
                     <a href="{{ $item['link'] }}" class="link-folder">
-                        <span class="fa fa-folder-o fa-lg fa-fw media-icon"></span>&nbsp;{{ $item['name'] }}
+                        <span class="far fa-folder fa-lg fa-fw media-icon"></span>&nbsp;{{ $item['name'] }}
                     </a>
                 @else
                     <a href="{{ $item['url'] }}" class="link-media" data-filename="{{ $item['name'] }}">
-                        <span class="fa fa-{{ $item['icon'] }} fa-lg fa-fw media-icon"></span>&nbsp;{{ $item['name'] }}
+                        <span class="far fa-{{ $item['icon'] }} fa-lg fa-fw media-icon"></span>&nbsp;{{ $item['name'] }}
                     </a>
                 @endif
             </td>
             <td>{{ $item['size'] }}</td>
             <td>{{ __('boilerplate-media-manager::types.'.$item['type']) }}</td>
             <td>{{ $item['time'] }}</td>
-            <td>
+            <td class="visible-on-hover">
                 <div class="btn-group">
                     @if(!$item['isDir'])
                         <a href="{{ $item['url'] }}" class="btn btn-sm btn-default btn-view">
@@ -54,7 +62,7 @@
                         </a>
                     @endif
                     <a href="#" class="btn btn-sm btn-default btn-rename" data-filename="{{ $item['name'] }}">
-                        <span class="fa fa-pencil"></span>
+                        <span class="fa fa-pencil-alt"></span>
                     </a>
                     <a href="#" class="btn btn-sm btn-default btn-delete" data-filename="{{ $item['name'] }}">
                         <span class="fa fa-trash"></span>

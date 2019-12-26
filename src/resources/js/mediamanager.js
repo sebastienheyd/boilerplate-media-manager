@@ -32,7 +32,7 @@ $(function () {
                 }, '*');
             }
         } else {
-            $(this).closest('.media').find('input[type="checkbox"]').iCheck('toggle');
+            $(this).closest('.media').find('input[type="checkbox"]').trigger('click');
         }
     });
 
@@ -44,38 +44,14 @@ $(function () {
     });
 
     // Check all
-    $(document).on('ifChanged', '.check-all', function () {
-        if ($(this).iCheck('udpate')[0].checked === true) {
-            $('.media input[type="checkbox"]').iCheck('check');
-        } else {
-            $('.media input[type="checkbox"]').iCheck('unCheck');
-        }
+    $(document).on('click', '.check-all', function () {
+        $('.media input[type="checkbox"]').prop("checked", $(this).prop('checked')).trigger('change');
     });
 
-    // Active delete all button
-    $(document).on('ifToggled', '.media input[type="checkbox"]', function (e) {
-
-        var checked = false;
-
-        $('.media input[type="checkbox"]').each(function (i, e) {
-            if ($(e).parent().iCheck('update')[0].checked === true) {
-                checked = true;
-            }
-        });
-
-        $('.delete-checked, .copy-checked').attr('disabled', !checked);
-
-        if (!checked) {
-            $('.check-all').iCheck('unCheck');
-        }
-
-        var checkedFiles = $('.media div.checked input[type="checkbox"]');
-
-        clipboard.path = $('#media-list').data('path');
-        clipboard.files = [];
-        checkedFiles.each(function (i, e) {
-            clipboard.files.push($(e).val());
-        });
+    // Active delete selection button
+    $(document).on('change', '.media input[type="checkbox"]', function (e) {
+        var checkedFiles = $('.media input[type="checkbox"]:checked');
+        $('.delete-checked, .copy-checked').attr('disabled', !checkedFiles.length > 0);
     });
 
     // Delete checked
@@ -89,18 +65,25 @@ $(function () {
 
             $('#disable').show();
 
+            var checkedFiles = $('.media input[type="checkbox"]:checked');
+
+            var files = [];
+            checkedFiles.each(function (i, e) {
+                files.push($(e).val());
+            });
+
             $.ajax({
                 url: routes.ajaxDelete,
                 type: 'post',
-                data: {path: clipboard.path, files:clipboard.files},
+                data: {path: $('#media-list').data('path'), files:files},
                 success: function (res) {
                     if (res.status === 'success') {
                         growl(locales.deleteSuccess, 'success');
                         $('#disable').hide();
-                        $(clipboard.files).each(function (i, e) {
+                        $(files).each(function (i, e) {
                             $('.media[data-filename="'+e+'"]').remove();
                         });
-                        clipboard.files = [];
+                        $('.media input[type="checkbox"]').trigger('change');
                     } else {
                         growl(res.message, 'error');
                     }
@@ -112,6 +95,15 @@ $(function () {
     // Copy checked
     $(document).on('click', '.copy-checked:enabled', function (e) {
         e.preventDefault();
+
+        var checkedFiles = $('.media input[type="checkbox"]:checked');
+
+        clipboard.path = $('#media-list').data('path');
+        clipboard.files = [];
+        checkedFiles.each(function (i, e) {
+            clipboard.files.push($(e).val());
+        });
+
         $('#nb-files-selected').text(clipboard.files.length);
         $('#btn-paste-group').show();
     });
@@ -132,6 +124,7 @@ $(function () {
                     loadPath($('#media-list').data('path'));
                     growl(locales.pasteSuccess, 'success');
                     clipboard.files = [];
+                    $('.media input[type="checkbox"]').trigger('change');
                 } else {
                     growl(res.message, 'error');
                 }
@@ -282,11 +275,6 @@ function loadPath(path, clearcache = false)
             $('.media[data-url="'+$('#media-content').data('selected')+'"]').addClass('selected');
             $('.lazy').lazy();
 
-            // iCheck
-            $('#media-list input[type="checkbox"]').iCheck({
-                checkboxClass: 'icheckbox_square-blue'
-            });
-
             // Show move button
             showMove();
 
@@ -336,7 +324,7 @@ function showMove()
 
     $('#nb-files-selected').text(clipboard.files.length);
     $('#btn-paste-group').show();
-    $('#media-content .box-header').addClass('blur');
+    $('#media-content .card-header').addClass('blur');
     $('.btn-paste').attr('disabled', true);
     if (clipboard.path !== $('#media-list').data('path')) {
         $('.btn-paste').attr('disabled', false);

@@ -50,7 +50,7 @@ class File extends BaseFile
         $destFile = $fInfo['dirname'].'/thumb_'.$fInfo['basename'];
 
         if (in_array(strtolower($fInfo['extension']), $ext) && !is_file($destFile)) {
-            Image::make($fullPath)->fit(140)->save($destFile, 75);
+            Image::make($fullPath)->fit(150)->save($destFile, 75);
         }
     }
 

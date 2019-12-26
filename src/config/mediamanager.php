@@ -47,17 +47,17 @@ return [
                          'video'   => 'mkv|rmvb|flv|mp4|avi|wmv|rm|asf|mpeg',
     ],
     'icons'     => [// Icons linked to filetypes
-                     'file'    => 'file-o', // default
-                     'image'   => 'file-image-o',
-                     'word'    => 'file-word-o',
-                     'excel'   => 'file-excel-o',
-                     'ppt'     => 'file-powerpoint-o',
-                     'pdf'     => 'file-pdf-o',
-                     'code'    => 'file-code-o',
-                     'archive' => 'file-zip-o',
-                     'txt'     => 'file-text-o',
-                     'audio'   => 'file-audio-o',
-                     'video'   => 'file-video-o',
+                     'file'    => 'file', // default
+                     'image'   => 'file-image',
+                     'word'    => 'file-word',
+                     'excel'   => 'file-excel',
+                     'ppt'     => 'file-powerpoint',
+                     'pdf'     => 'file-pdf',
+                     'code'    => 'file-code',
+                     'archive' => 'file-zip',
+                     'txt'     => 'file-text',
+                     'audio'   => 'file-audio',
+                     'video'   => 'file-video',
         ],
     'filter'             => [
         '.gitignore',

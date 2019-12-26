@@ -3,6 +3,7 @@
 namespace Sebastienheyd\BoilerplateMediaManager\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class Clearthumbs extends Command
@@ -19,7 +20,7 @@ class Clearthumbs extends Command
      *
      * @var string
      */
-    protected $description = 'Clear all boilerplate media manager images cache';
+    protected $description = 'Clear all boilerplate media manager images thumbs';
 
     /**
      * Create a new command instance.
@@ -40,9 +41,15 @@ class Clearthumbs extends Command
     {
         $storage = Storage::disk('public');
 
-        if ($storage->exists(config('boilerplate.mediamanager.thumbs_dir'))) {
-            $storage->deleteDirectory(config('boilerplate.mediamanager.thumbs_dir'));
-            $this->info('Folder '.config('boilerplate.mediamanager.thumbs_dir').' has been cleared');
-        }
+        $nb = 0;
+
+        Collection::make(Storage::allFiles())->filter(function ($item) use ($storage, &$nb) {
+            if (preg_match('`/thumb_.*?$`', $item)) {
+                $storage->delete(preg_replace('#^public/#', '', $item));
+                $nb++;
+            }
+        });
+
+        $this->info($nb.' thumb(s) deleted');
     }
 }

@@ -1,4 +1,4 @@
-@include('boilerplate::load.icheck')
+
 @push('js')
     <script>
         var clipboard = {path: '', files: []};

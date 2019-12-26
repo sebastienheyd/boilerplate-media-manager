@@ -3,22 +3,20 @@
         <div class="tile">
             <div class="tile-icon">
                 <a href="{{ $parent['link'] }}" class="link-folder">
-                    <span class="fa fa-level-up fa-5x fa-fw media-icon fa-flip-horizontal" ></span>
+                    <span class="fa fa-level-up-alt fa-4x fa-fw media-icon fa-flip-horizontal" ></span>
                 </a>
             </div>
             <div class="tile-label">
-                <label style="justify-content: center">
-                    <span class="text-center">..</span>
-                </label>
+                <label class="text-center">..</label>
             </div>
         </div>
     @endif
-    @foreach($list as $item)
+    @foreach($list as $k => $item)
         <div class="tile media" data-filename="{{ $item['name'] }}" data-url="{{ $item['url'] }}">
             <div class="tile-icon">
                 @if($item['isDir'])
                     <a href="{{ $item['link'] }}" class="link-folder">
-                        <span class="fa fa-folder-o }} fa-5x fa-fw media-icon"></span>
+                        <span class="far fa-folder }} fa-4x fa-fw media-icon"></span>
                     </a>
                 @else
                     <a href="{{ $item['url'] }}" class="link-media" data-filename="{{ $item['name'] }}">
@@ -41,7 +39,7 @@
                         </a>
                     @endif
                     <a href="#" class="btn btn-sm btn-default btn-rename" data-filename="{{ $item['name'] }}">
-                        <span class="fa fa-pencil"></span>
+                        <span class="fa fa-pencil-alt"></span>
                     </a>
                     <a href="#" class="btn btn-sm btn-default btn-delete" data-filename="{{ $item['name'] }}">
                         <span class="fa fa-trash"></span>
@@ -49,10 +47,10 @@
                 </div>
             </div>
             <div class="tile-label">
-                <label>
-                    <input type="checkbox" class="icheck" name="check[]" value="{{ $item['name'] }}">
-                    <span>{{ $item['name'] }}</span>
-                </label>
+                <div class="icheck-primary d-inline">
+                    <input type="checkbox" name="check[]" value="{{ $item['name'] }}" id="item_{{ $k }}">
+                    <label for="item_{{ $k }}">{{ $item['name'] }}</label>
+                </div>
             </div>
         </div>
     @endforeach
