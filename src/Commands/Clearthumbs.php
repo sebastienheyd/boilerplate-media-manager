@@ -57,7 +57,7 @@ class Clearthumbs extends Command
 
         $this->info('thumbs directory deleted');
 
-        Collection::make($storage->allDirectories())->filter(function ($item) use ($storage) {
+        Collection::make($storage->allDirectories())->filter(function ($item) {
             if (!preg_match('`^thumbs`', $item)) {
                 $path = new Path('/'.$item);
                 $path->clearCache();
