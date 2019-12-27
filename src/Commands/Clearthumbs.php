@@ -5,6 +5,7 @@ namespace Sebastienheyd\BoilerplateMediaManager\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Sebastienheyd\BoilerplateMediaManager\Models\Path;
 
 class Clearthumbs extends Command
 {
@@ -43,13 +44,24 @@ class Clearthumbs extends Command
 
         $nb = 0;
 
-        Collection::make(Storage::allFiles())->filter(function ($item) use ($storage, &$nb) {
+        Collection::make($storage->allFiles())->filter(function ($item) use ($storage, &$nb) {
             if (preg_match('`/thumb_.*?$`', $item)) {
                 $storage->delete(preg_replace('#^public/#', '', $item));
                 $nb++;
             }
         });
 
-        $this->info($nb.' thumb(s) deleted');
+        $this->info($nb.' thumb'.($nb > 1 ? 's' : '').' deleted');
+
+        $storage->deleteDirectory('thumbs');
+
+        $this->info('thumbs directory deleted');
+
+        Collection::make($storage->allDirectories())->filter(function ($item) use ($storage) {
+            if (!preg_match('`^thumbs`', $item)) {
+                $path = new Path('/'.$item);
+                $path->clearCache();
+            }
+        });
     }
 }
