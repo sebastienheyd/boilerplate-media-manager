@@ -75,7 +75,7 @@ class ImageResizer
      */
     public function getDestFileSize()
     {
-        if(!$this->storage->exists($this->dest_file)) {
+        if (!$this->storage->exists($this->dest_file)) {
             return false;
         }
 

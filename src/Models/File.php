@@ -62,6 +62,7 @@ class File extends BaseFile
     public function toArray()
     {
         $ts = filemtime($this->getFullPath());
+
         return [
             'download' => '',
             'icon'     => $this->getIcon(),
@@ -72,7 +73,7 @@ class File extends BaseFile
             'link'     => route('mediamanager.index', ['path' => $this->file], false),
             'url'      => $this->storage->url($this->file).'?'.$ts,
             'time'     => $this->getFileChangeTime(),
-            'ts'       => $ts
+            'ts'       => $ts,
         ];
     }
 

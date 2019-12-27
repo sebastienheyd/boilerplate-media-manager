@@ -12,7 +12,7 @@ if (!function_exists('img')) {
             return '';
         }
 
-        if($type === 'resize') {
+        if ($type === 'resize') {
             list($width, $height) = $img->getDestFileSize();
         }
 
@@ -29,6 +29,7 @@ if (!function_exists('img_url')) {
     function img_url($path, $width, $height, $type = 'fit')
     {
         $path = preg_replace('`\?.*?$`', '', $path);
+
         return \Sebastienheyd\BoilerplateMediaManager\Lib\ImageResizer::url($path, $width, $height, $type);
     }
 }
