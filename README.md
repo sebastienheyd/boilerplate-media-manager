@@ -1,4 +1,4 @@
-# Laravel Boilerplate Media Manager
+# Laravel Media Manager for 
 
 ![Package](https://img.shields.io/badge/Package-sebastienheyd%2Fboilerplate--media--manager-lightgrey.svg)
 ![Laravel](https://img.shields.io/badge/Laravel-6.x-green.svg)
@@ -7,7 +7,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-media-manager/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-media-manager/?branch=master)
 ![MIT License](https://img.shields.io/github/license/sebastienheyd/boilerplate.svg)
 
-This package will add a media management tool to [`sebastienheyd/boilerplate`](https://github.com/sebastienheyd/boilerplate)
+This package adds a media management tool to [`sebastienheyd/boilerplate`](https://github.com/sebastienheyd/boilerplate)
 
 ## Installation
 
@@ -98,7 +98,7 @@ Parameters are :
 will return
 
 ```blade
-<img src="/storage/thumbs/actualites/resize/100x100/my_picture.jpg?1555331285" width="100" height="100">
+<img src="/storage/thumbs/resize/100x100/my_picture.jpg?1555331285" width="100" height="100">
 ```
 
 Or using the `@img` Blade directive :
@@ -110,7 +110,7 @@ Or using the `@img` Blade directive :
 will return
 
 ```blade
-<img src="/storage/thumbs/actualites/fit/250x150/my_picture.png?1555331285" width="250" height="150" class="fluid-image">
+<img src="/storage/thumbs/fit/250x150/my_picture.png?1555331285" width="250" height="150" class="fluid-image">
 ```
 
 You can already get only the url by using `img_url` helper function.
