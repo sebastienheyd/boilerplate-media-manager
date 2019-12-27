@@ -116,33 +116,6 @@ class MediaManagerController extends Controller
     }
 
     /**
-     * Display file in browser.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function show(Request $request)
-    {
-        $path = new Path($request->input('path'));
-        $file = $request->input('fileName');
-        $fPath = $request->input('path').'/'.$file;
-
-        $infos = [
-            'download' => '',
-            'icon'     => $path->getIcon($file),
-            'type'     => $path->detectFileType($file),
-            'name'     => basename($file),
-            'isDir'    => false,
-            'size'     => $path->getFilesize($fPath),
-            'url'      => '',
-            'time'     => $path->getFileChangeTime($fPath),
-        ];
-
-        return view('boilerplate-media-manager::file', compact('filePath', 'infos'));
-    }
-
-    /**
      * Delete file(s) or a folder.
      *
      * @param Request $request
