@@ -326,7 +326,16 @@ function showMove()
     $('#btn-paste-group').show();
     $('#media-content .card-header').addClass('blur');
     $('.btn-paste').attr('disabled', true);
-    if (clipboard.path !== $('#media-list').data('path')) {
+
+    var enabled = true;
+    clipboard.files.forEach(function (file) {
+        if ($('#media-list').data('path').startsWith((clipboard.path === '/' ? '' : clipboard.path) + '/' + file) ||
+            $('#media-list').data('path') === clipboard.path) {
+            enabled = false;
+        }
+    });
+
+    if (enabled) {
         $('.btn-paste').attr('disabled', false);
     }
 }
