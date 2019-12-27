@@ -12,6 +12,7 @@
         </div>
     @endif
     @foreach($list as $k => $item)
+
         <div class="tile media" data-filename="{{ $item['name'] }}" data-url="{{ $item['url'] }}">
             <div class="tile-icon">
                 @if($item['isDir'])
@@ -21,7 +22,7 @@
                 @else
                     <a href="{{ $item['url'] }}" class="link-media" data-filename="{{ $item['name'] }}">
                         @if($item['type'] === 'image')
-                            <img class="lazy" data-src="/storage{{ $content->path().'/thumb_'.$item['name'] }}" alt="{{ $item['name'] }}">
+                            <img class="lazy" data-src="/storage{{ rtrim($content->path(), '/').'/thumb_'.$item['name'].'?'.$item['ts'] }}" alt="{{ $item['name'] }}">
                         @else
                             <span class="fa fa-{{ $item['icon'] }} fa-5x fa-fw media-icon"></span>
                         @endif

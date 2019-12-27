@@ -121,7 +121,7 @@ class Path
      * Filter media collection.
      *
      * @param \Illuminate\Support\Collection $collection
-     * @param string                         $type
+     * @param string $type
      *
      * @return mixed
      */
@@ -211,6 +211,24 @@ class Path
      */
     public function rename($name, $newName)
     {
+        if (is_file($this->getFullPath($this->path($name)))) {
+            if ($this->storage->exists('thumbs'.$this->path)) {
+                foreach ($this->storage->allFiles('thumbs'.$this->path.'/fit') as $file) {
+                    if (preg_match("#(.*?)/".$name."$#", $file, $m)) {
+                        $this->storage->move('/'.$file, '/'.$m[1].'/'.$newName);
+                    }
+                }
+
+                foreach ($this->storage->allFiles('thumbs'.$this->path.'/resize') as $file) {
+                    if (preg_match("#(.*?)/".$name."$#", $file, $m)) {
+                        $this->storage->move('/'.$file, '/'.$m[1].'/'.$newName);
+                    }
+                }
+            }
+        } elseif ($this->storage->exists('thumbs'.$this->path($name))) {
+            $this->storage->move('thumbs'.$this->path($name), 'thumbs'.$this->path($newName));
+        }
+
         $this->storage->move($this->path($name), $this->path($newName));
 
         if ($this->exists('thumb_'.$name)) {
@@ -228,11 +246,29 @@ class Path
      */
     public function move($name, $destinationPath)
     {
+        if (is_file($this->getFullPath($this->path($name)))) {
+            if ($this->storage->exists('thumbs'.$this->path)) {
+                foreach ($this->storage->allFiles('thumbs'.$this->path.'/fit') as $file) {
+                    if (preg_match("#thumbs/.*?fit/(.*?)/".$name."$#", $file, $m)) {
+                        $this->storage->move('/'.$file, '/thumbs'.rtrim($destinationPath, '/').'/fit/'.$m[1].'/'.$name);
+                    }
+                }
+
+                foreach ($this->storage->allFiles('thumbs'.$this->path.'/resize') as $file) {
+                    if (preg_match("#thumbs/.*?resize/(.*?)/".$name."$#", $file, $m)) {
+                        $this->storage->move('/'.$file,
+                            '/thumbs'.rtrim($destinationPath, '/').'/resize/'.$m[1].'/'.$name);
+                    }
+                }
+            }
+        } elseif ($this->storage->exists('thumbs'.$this->path($name))) {
+            $this->storage->move('thumbs'.$this->path($name), 'thumbs'.rtrim($destinationPath, '/'));
+        }
+
         $this->storage->move($this->path($name), $this->path($name, $destinationPath));
 
         if ($this->exists('thumb_'.$name)) {
-            $name = '/thumb_'.$name;
-            $this->storage->move($this->path($name), $this->path($name, $destinationPath));
+            $this->storage->move($this->path('/thumb_'.$name), $this->path('/thumb_'.$name, $destinationPath));
         }
 
         $this->clearCache();
@@ -243,7 +279,7 @@ class Path
      * Store file.
      *
      * @param \Illuminate\Http\UploadedFile $file
-     * @param string                        $fileName
+     * @param string $fileName
      *
      * @return string
      */
@@ -276,6 +312,14 @@ class Path
         }
 
         if (is_file($fullPath)) {
+            if ($this->storage->exists('thumbs'.$this->path)) {
+                foreach ($this->storage->allFiles('thumbs'.$this->path) as $file) {
+                    if (preg_match("#".$name."$#", $file)) {
+                        $this->storage->delete($file);
+                    }
+                }
+            }
+
             if ($this->exists('thumb_'.$name)) {
                 $this->storage->delete($this->path('thumb_'.$name));
             }
@@ -284,6 +328,10 @@ class Path
         }
 
         if (is_dir($fullPath)) {
+            if ($this->storage->exists('thumbs')) {
+                $this->storage->deleteDirectory('/thumbs/'.$path);
+            }
+
             $this->storage->deleteDirectory($path);
             $this->clearCache($path);
         }

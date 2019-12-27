@@ -3,10 +3,16 @@
 if (!function_exists('img')) {
     function img($path, $width, $height, $options = [], $type = 'fit')
     {
-        $url = img_url($path, $width, $height, $type);
+        $img = new \Sebastienheyd\BoilerplateMediaManager\Lib\ImageResizer($path);
+        $img->setSize($width, $height, $type);
+        $url = $img->getUrl();
 
         if ($url === '') {
             return '';
+        }
+
+        if($type === 'resize') {
+            list($width, $height) = $img->getDestFileSize();
         }
 
         $opts = '';

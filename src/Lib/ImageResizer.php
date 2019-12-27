@@ -60,13 +60,28 @@ class ImageResizer
 
         $this->original_file = $this->storage->path($this->path);
 
-        $destFile = config('boilerplate.mediamanager.thumbs_dir', 'thumbs').'/';
-        $destFile .= $this->pathinfo['dirname'].'/'.$type.'/'.$width.'x'.$height.'/';
+        $destFile = config('boilerplate.mediamanager.thumbs_dir', 'thumbs');
+        $destFile .= $this->pathinfo['dirname'] === '.' ? '' : '/'.$this->pathinfo['dirname'];
+        $destFile .= '/'.$type.'/'.$width.'x'.$height.'/';
         $destFile .= $this->pathinfo['basename'];
 
         $this->dest_file = $destFile;
 
         return $this;
+    }
+
+    /**
+     * @return array|bool
+     */
+    public function getDestFileSize()
+    {
+        if(!$this->storage->exists($this->dest_file)) {
+            return false;
+        }
+
+        $img = Image::make($this->storage->path($this->dest_file));
+
+        return [$img->width(), $img->height()];
     }
 
     /**
