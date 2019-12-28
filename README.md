@@ -1,4 +1,4 @@
-# Laravel Media Manager for 
+# Laravel Media Manager for [sebastienheyd/boilerplate](https://github.com/sebastienheyd/boilerplate)
 
 ![Package](https://img.shields.io/badge/Package-sebastienheyd%2Fboilerplate--media--manager-lightgrey.svg)
 ![Laravel](https://img.shields.io/badge/Laravel-6.x-green.svg)
