@@ -69,9 +69,10 @@ class File extends BaseFile
     public function move($destinationPath)
     {
         $dest = rtrim($destinationPath, '/');
+        $tPath = config('boilerplate.mediamanager.thumbs_dir');
 
         foreach ($this->getThumbs() as $thumb) {
-            $this->storage->move($thumb['fullpath'], 'thumbs'.$dest.'/'.$thumb['path'].'/'.$thumb['basename']);
+            $this->storage->move($thumb['fullpath'], $tPath.$dest.'/'.$thumb['path'].'/'.$thumb['basename']);
         }
 
         $this->storage->move($this->file, $dest.'/'.$this->pathinfo['basename']);
@@ -90,12 +91,13 @@ class File extends BaseFile
     {
         $result = [];
 
-        $path = rtrim($this->path, '/');
+        $tPath = config('boilerplate.mediamanager.thumbs_dir');
+        $path = $tPath.'/'.rtrim($this->path, '/');
 
         foreach (['fit', 'resize'] as $type) {
-            if ($this->storage->exists('thumbs'.$path.'/'.$type)) {
-                foreach ($this->storage->allFiles('thumbs'.$path.'/'.$type) as $file) {
-                    if (preg_match('#thumbs/.*?'.$type.'/(.*?)/'.$this->pathinfo['basename'].'$#', $file, $m)) {
+            if ($this->storage->exists($path.'/'.$type)) {
+                foreach ($this->storage->allFiles($path.'/'.$type) as $file) {
+                    if (preg_match('#'.$tPath.'/.*?'.$type.'/(.*?)/'.$this->pathinfo['basename'].'$#', $file, $m)) {
                         $info = pathinfo($file);
                         $info['fullpath'] = $file;
                         $info['path'] = $type.'/'.$m[1];
