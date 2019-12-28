@@ -13,7 +13,7 @@ class Directory
     /**
      * File constructor.
      *
-     * @param string            $directory
+     * @param string $directory
      */
     public function __construct($directory)
     {

@@ -138,7 +138,7 @@ class MediaManagerController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'status' => 'error',
-                'error'  => implode(' / ', (array)$validation->errors()),
+                'error'  => implode(' / ', (array) $validation->errors()),
             ]);
         }
         $path = new Path($request->input('path'));
@@ -178,9 +178,9 @@ class MediaManagerController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      * @throws \Exception
      *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function upload(Request $request)
     {
@@ -245,7 +245,7 @@ class MediaManagerController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'status' => 'error',
-                'error'  => implode(' / ', (array)$validation->errors()),
+                'error'  => implode(' / ', (array) $validation->errors()),
             ]);
         }
 
@@ -267,9 +267,9 @@ class MediaManagerController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      * @throws \Exception
      *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function uploadMce(Request $request)
     {

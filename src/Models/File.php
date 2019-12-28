@@ -17,7 +17,7 @@ class File extends BaseFile
     /**
      * File constructor.
      *
-     * @param string            $file
+     * @param string $file
      */
     public function __construct($file)
     {
