@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Image;
+use Sebastienheyd\BoilerplateMediaManager\Models\Breadcrumb;
 use Sebastienheyd\BoilerplateMediaManager\Models\Path;
 use Validator;
 
@@ -95,9 +96,14 @@ class MediaManagerController extends Controller
         }
 
         $list = $content->ls($type);
-        $parent = $content->parent();
 
-        return view('boilerplate-media-manager::list', compact('content', 'list', 'parent', 'path', 'display'));
+        $breadcrumb = new Breadcrumb($path);
+        $parent = $breadcrumb->parent();
+
+        return view(
+            'boilerplate-media-manager::list',
+            compact('content', 'list', 'parent', 'path', 'display', 'breadcrumb')
+        );
     }
 
     /**
@@ -125,14 +131,14 @@ class MediaManagerController extends Controller
     public function delete(Request $request)
     {
         $validation = Validator::make($request->all(), [
-            'path'        => 'required',
-            'files'       => 'required',
+            'path'  => 'required',
+            'files' => 'required',
         ]);
 
         if ($validation->fails()) {
             return response()->json([
                 'status' => 'error',
-                'error'  => implode(' / ', (array) $validation->errors()),
+                'error'  => implode(' / ', (array)$validation->errors()),
             ]);
         }
         $path = new Path($request->input('path'));
@@ -172,9 +178,9 @@ class MediaManagerController extends Controller
      *
      * @param Request $request
      *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      * @throws \Exception
      *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function upload(Request $request)
     {
@@ -239,7 +245,7 @@ class MediaManagerController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'status' => 'error',
-                'error'  => implode(' / ', (array) $validation->errors()),
+                'error'  => implode(' / ', (array)$validation->errors()),
             ]);
         }
 
@@ -261,9 +267,9 @@ class MediaManagerController extends Controller
      *
      * @param Request $request
      *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      * @throws \Exception
      *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function uploadMce(Request $request)
     {

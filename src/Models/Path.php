@@ -37,59 +37,6 @@ class Path
     }
 
     /**
-     * Return path as array.
-     *
-     * @return array
-     */
-    public function breadcrumb()
-    {
-        if ($this->path === '/') {
-            return [];
-        }
-
-        $chunks = explode('/', ltrim($this->path, '/'));
-
-        $result = [];
-        $path = '';
-
-        foreach ($chunks as $chunk) {
-            $path = $path.'/'.$chunk;
-
-            $result[] = [
-                'path' => ltrim($path, '/'),
-                'name' => $chunk,
-            ];
-        }
-
-        return $result;
-    }
-
-    /**
-     * Return parent path.
-     *
-     * @return bool|string
-     */
-    public function parent()
-    {
-        $bc = $this->breadcrumb();
-
-        if (empty($bc)) {
-            return false;
-        }
-
-        array_pop($bc);
-
-        $path = '';
-
-        if (!empty($bc)) {
-            $last = end($bc);
-            $path = $last['path'];
-        }
-
-        return $this->formatDirectories([$path])[0];
-    }
-
-    /**
      * Return list of files and directories in current path.
      *
      * @return array
@@ -164,7 +111,7 @@ class Path
     private function formatFiles($files = [])
     {
         $files = array_map(function ($file) {
-            $file = new File($file, $this->storage);
+            $file = new File($file);
             $file->generateThumb();
 
             return $file->toArray();
@@ -183,7 +130,7 @@ class Path
     private function formatDirectories($dirs = [])
     {
         $dirs = array_map(function ($dir) {
-            $dir = new Directory($dir, $this->storage);
+            $dir = new Directory($dir);
 
             return $dir->toArray();
         }, $dirs);
@@ -212,27 +159,11 @@ class Path
     public function rename($name, $newName)
     {
         if (is_file($this->getFullPath($this->path($name)))) {
-            if ($this->storage->exists('thumbs'.$this->path)) {
-                foreach ($this->storage->allFiles('thumbs'.$this->path.'/fit') as $file) {
-                    if (preg_match('#(.*?)/'.$name.'$#', $file, $m)) {
-                        $this->storage->move('/'.$file, '/'.$m[1].'/'.$newName);
-                    }
-                }
-
-                foreach ($this->storage->allFiles('thumbs'.$this->path.'/resize') as $file) {
-                    if (preg_match('#(.*?)/'.$name.'$#', $file, $m)) {
-                        $this->storage->move('/'.$file, '/'.$m[1].'/'.$newName);
-                    }
-                }
-            }
-        } elseif ($this->storage->exists('thumbs'.$this->path($name))) {
-            $this->storage->move('thumbs'.$this->path($name), 'thumbs'.$this->path($newName));
-        }
-
-        $this->storage->move($this->path($name), $this->path($newName));
-
-        if ($this->exists('thumb_'.$name)) {
-            $this->storage->move($this->path('thumb_'.$name), $this->path('thumb_'.$newName));
+            $file = new File($this->path($name));
+            $file->rename($newName);
+        } else {
+            $file = new Directory($this->path($name));
+            $file->rename($newName);
         }
 
         $this->clearCache();
@@ -247,28 +178,11 @@ class Path
     public function move($name, $destinationPath)
     {
         if (is_file($this->getFullPath($this->path($name)))) {
-            if ($this->storage->exists('thumbs'.$this->path)) {
-                foreach ($this->storage->allFiles('thumbs'.$this->path.'/fit') as $file) {
-                    if (preg_match('#thumbs/.*?fit/(.*?)/'.$name.'$#', $file, $m)) {
-                        $this->storage->move('/'.$file, '/thumbs'.rtrim($destinationPath, '/').'/fit/'.$m[1].'/'.$name);
-                    }
-                }
-
-                foreach ($this->storage->allFiles('thumbs'.$this->path.'/resize') as $file) {
-                    if (preg_match('#thumbs/.*?resize/(.*?)/'.$name.'$#', $file, $m)) {
-                        $this->storage->move('/'.$file,
-                            '/thumbs'.rtrim($destinationPath, '/').'/resize/'.$m[1].'/'.$name);
-                    }
-                }
-            }
-        } elseif ($this->storage->exists('thumbs'.$this->path($name))) {
-            $this->storage->move('thumbs'.$this->path($name), 'thumbs'.rtrim($destinationPath, '/'));
-        }
-
-        $this->storage->move($this->path($name), $this->path($name, $destinationPath));
-
-        if ($this->exists('thumb_'.$name)) {
-            $this->storage->move($this->path('/thumb_'.$name), $this->path('/thumb_'.$name, $destinationPath));
+            $file = new File($this->path($name));
+            $file->move($destinationPath);
+        } else {
+            $file = new Directory($this->path($name));
+            $file->move($destinationPath);
         }
 
         $this->clearCache();
@@ -312,27 +226,11 @@ class Path
         }
 
         if (is_file($fullPath)) {
-            if ($this->storage->exists('thumbs'.$this->path)) {
-                foreach ($this->storage->allFiles('thumbs'.$this->path) as $file) {
-                    if (preg_match('#'.$name.'$#', $file)) {
-                        $this->storage->delete($file);
-                    }
-                }
-            }
-
-            if ($this->exists('thumb_'.$name)) {
-                $this->storage->delete($this->path('thumb_'.$name));
-            }
-
-            $this->storage->delete($path);
-        }
-
-        if (is_dir($fullPath)) {
-            if ($this->storage->exists('thumbs')) {
-                $this->storage->deleteDirectory('/thumbs/'.$path);
-            }
-
-            $this->storage->deleteDirectory($path);
+            $file = new File($this->path($name));
+            $file->delete();
+        } else {
+            $directory = new Directory($this->path($name));
+            $directory->delete();
             $this->clearCache($path);
         }
 

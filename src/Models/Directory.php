@@ -3,7 +3,7 @@
 namespace Sebastienheyd\BoilerplateMediaManager\Models;
 
 use Carbon\Carbon;
-use Illuminate\Filesystem\FilesystemAdapter;
+use Storage;
 
 class Directory
 {
@@ -14,12 +14,55 @@ class Directory
      * File constructor.
      *
      * @param string            $directory
-     * @param FilesystemAdapter $storage
      */
-    public function __construct($directory, FilesystemAdapter $storage)
+    public function __construct($directory)
     {
         $this->directory = $directory;
-        $this->storage = $storage;
+        $this->storage = Storage::disk('public');
+        $this->pathinfo = pathinfo($this->getFullPath());
+        $this->path = rtrim(preg_replace('#'.$this->pathinfo['basename'].'$#', '', $this->directory), '/');
+    }
+
+    /**
+     * Rename current directory.
+     *
+     * @param string $newName
+     */
+    public function rename($newName)
+    {
+        if ($this->storage->exists('thumbs'.$this->directory)) {
+            $this->storage->move('thumbs'.$this->directory, 'thumbs'.$this->path.'/'.$newName);
+        }
+
+        $this->storage->move($this->directory, $this->path.'/'.$newName);
+    }
+
+    /**
+     * Move current directory.
+     *
+     * @param string $destinationPath
+     */
+    public function move($destinationPath)
+    {
+        $destinationPath = rtrim($destinationPath, '/').'/'.$this->pathinfo['basename'];
+
+        if ($this->storage->exists('thumbs'.$this->directory)) {
+            $this->storage->move('thumbs'.$this->directory, 'thumbs'.$destinationPath);
+        }
+
+        $this->storage->move($this->directory, $destinationPath);
+    }
+
+    /**
+     * Delete current directory.
+     */
+    public function delete()
+    {
+        if ($this->storage->exists('thumbs'.$this->directory)) {
+            $this->storage->deleteDirectory('thumbs'.$this->directory);
+        }
+
+        $this->storage->deleteDirectory($this->directory);
     }
 
     /**
