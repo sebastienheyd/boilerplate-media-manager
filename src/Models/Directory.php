@@ -9,6 +9,8 @@ class Directory
 {
     private $directory;
     private $storage;
+    private $pathinfo;
+    private $path;
 
     /**
      * File constructor.
