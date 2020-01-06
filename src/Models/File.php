@@ -24,7 +24,7 @@ class File extends BaseFile
         $this->file = $file;
         $this->storage = Storage::disk('public');
         $this->pathinfo = pathinfo($this->getFullPath());
-        $this->path = rtrim(preg_replace('#'.$this->pathinfo['basename'].'$#', '', $this->file), '/');
+        $this->path = rtrim(preg_replace('#'.preg_quote($this->pathinfo['basename']).'$#', '', $this->file), '/');
     }
 
     /**
@@ -97,7 +97,8 @@ class File extends BaseFile
         foreach (['fit', 'resize'] as $type) {
             if ($this->storage->exists($path.'/'.$type)) {
                 foreach ($this->storage->allFiles($path.'/'.$type) as $file) {
-                    if (preg_match('#'.$tPath.'/.*?'.$type.'/(.*?)/'.$this->pathinfo['basename'].'$#', $file, $m)) {
+                    if (preg_match('#'.$tPath.'/.*?'.$type.'/(.*?)/'.preg_quote($this->pathinfo['basename']).'$#',
+                        $file, $m)) {
                         $info = pathinfo($file);
                         $info['fullpath'] = $file;
                         $info['path'] = $type.'/'.$m[1];
@@ -137,7 +138,7 @@ class File extends BaseFile
      */
     public function generateThumb()
     {
-        if (preg_match('#^thumb_#', $this->pathinfo['basename'])) {
+        if (preg_match('#^thumb_#', preg_quote($this->pathinfo['basename']))) {
             return;
         }
 

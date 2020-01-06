@@ -22,7 +22,7 @@ class Directory
         $this->directory = $directory;
         $this->storage = Storage::disk('public');
         $this->pathinfo = pathinfo($this->getFullPath());
-        $this->path = rtrim(preg_replace('#'.$this->pathinfo['basename'].'$#', '', $this->directory), '/');
+        $this->path = rtrim(preg_replace('#'.preg_quote($this->pathinfo['basename']).'$#', '', $this->directory), '/');
     }
 
     /**
