@@ -91,7 +91,7 @@ class ImageResizer
      */
     public function getUrl()
     {
-        if (!$this->storage->exists($this->path)) {
+        if (empty($this->path) || !$this->storage->exists($this->path)) {
             return '';
         }
 
