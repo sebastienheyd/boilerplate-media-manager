@@ -28,6 +28,10 @@ class ImageResizer
      */
     public static function url(string $path, $width, $height, $type = 'fit')
     {
+        if(empty($path)) {
+            return '';
+        }
+
         return (new self($path))->setSize($width, $height, $type)->getUrl();
     }
 
@@ -54,6 +58,10 @@ class ImageResizer
      */
     public function setSize($width, $height, $type = 'fit')
     {
+        if(!isset($this->pathinfo['dirname'])) {
+            return $this;
+        }
+
         $this->width = $width;
         $this->height = $height;
         $this->type = $type;

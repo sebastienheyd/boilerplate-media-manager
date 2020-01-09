@@ -4,6 +4,11 @@ if (!function_exists('img')) {
     function img($path, $width, $height, $options = [], $type = 'fit')
     {
         $path = preg_replace('`\?.*?$`', '', $path);
+
+        if(empty($path)) {
+            return '';
+        }
+
         $img = new \Sebastienheyd\BoilerplateMediaManager\Lib\ImageResizer($path);
         $img->setSize($width, $height, $type);
         $url = $img->getUrl();
@@ -29,6 +34,10 @@ if (!function_exists('img_url')) {
     function img_url($path, $width, $height, $type = 'fit')
     {
         $path = preg_replace('`\?.*?$`', '', $path);
+
+        if(empty($path)) {
+            return '';
+        }
 
         return \Sebastienheyd\BoilerplateMediaManager\Lib\ImageResizer::url($path, $width, $height, $type);
     }
