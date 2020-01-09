@@ -5,7 +5,7 @@ if (!function_exists('img')) {
     {
         $path = preg_replace('`\?.*?$`', '', $path);
 
-        if(empty($path)) {
+        if (empty($path)) {
             return '';
         }
 
@@ -35,7 +35,7 @@ if (!function_exists('img_url')) {
     {
         $path = preg_replace('`\?.*?$`', '', $path);
 
-        if(empty($path)) {
+        if (empty($path)) {
             return '';
         }
 
