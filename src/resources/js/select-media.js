@@ -13,6 +13,7 @@ $(function () {
     });
 
     $(document).on('click', '#select-media-close span', function () {
+        $('body').css('overflow', '');
         $('#select-media-bg').remove();
     });
 
