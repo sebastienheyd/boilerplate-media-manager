@@ -43,7 +43,7 @@ $(function () {
 
     window.onmessage = function (e) {
         if (e.data.action === 'insertMedia') {
-            $('input[data-id=' + e.data.field + ']').val(e.data.url);
+            $('input[data-id=' + e.data.field + ']').val(e.data.url).trigger('change');
 
             if (e.data.type === 'image') {
                 $('button[data-field=' + e.data.field + ']').html('<img src="' + e.data.url + '" />');
