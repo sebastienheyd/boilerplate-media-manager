@@ -36,7 +36,7 @@ $(function () {
             }
 
             wrapper.removeClass('editable');
-            wrapper.find('input').val('');
+            wrapper.find('input').val('').trigger('change');
             wrapper.find('.btn-select-image').html('<span class="fa fa-image fa-3x"></span>');
         })
     });
