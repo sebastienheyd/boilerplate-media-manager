@@ -97,8 +97,11 @@ class File extends BaseFile
         foreach (['fit', 'resize'] as $type) {
             if ($this->storage->exists($path.'/'.$type)) {
                 foreach ($this->storage->allFiles($path.'/'.$type) as $file) {
-                    if (preg_match('#'.$tPath.'/.*?'.$type.'/(.*?)/'.preg_quote($this->pathinfo['basename']).'$#',
-                        $file, $m)) {
+                    if (preg_match(
+                        '#'.$tPath.'/.*?'.$type.'/(.*?)/'.preg_quote($this->pathinfo['basename']).'$#',
+                        $file,
+                        $m
+                    )) {
                         $info = pathinfo($file);
                         $info['fullpath'] = $file;
                         $info['path'] = $type.'/'.$m[1];
