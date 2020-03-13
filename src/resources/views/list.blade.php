@@ -62,3 +62,8 @@
         @endif
     </div>
 </div>
+@if($error)
+<script>
+    growl('{{ __('boilerplate-media-manager::error.notfound') }}', 'error')
+</script>
+@endif

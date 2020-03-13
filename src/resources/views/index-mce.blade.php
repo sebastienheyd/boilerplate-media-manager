@@ -15,7 +15,7 @@
 </head>
 <body class="sidebar-mini">
 <div id="disable"></div>
-<div class="content-wrapper ml-0">
+<div class="content-wrapper" style="margin-left: 0 !important;">
     <div id="loading">
         <div><span class="fa fa-4x fa-sync-alt fa-spin"></span></div>
     </div>

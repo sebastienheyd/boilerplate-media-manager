@@ -1,6 +1,5 @@
 <?php
 
 return [
-    'notfound' => "Le dossier n'existe pas",
-    'back'     => 'Revenir au dossier racine',
+    'notfound' => "Le média n'a pas été trouvé dans le dossier local",
 ];

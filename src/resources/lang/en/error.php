@@ -1,6 +1,5 @@
 <?php
 
 return [
-    'notfound' => 'The folder does not exist',
-    'back'     => 'Back to the root folder',
+    'notfound' => 'The media does not exist in local storage',
 ];
