@@ -86,12 +86,9 @@ class MediaManagerController extends Controller
         }
 
         $content = new Path($path);
-        $error = false;
 
         if (!$content->exists()) {
-            $path = '/';
-            $content = new Path($path);
-            $error = true;
+            return view('boilerplate-media-manager::error');
         }
 
         if ($request->input('clearcache', 'false') === 'true') {
@@ -105,7 +102,7 @@ class MediaManagerController extends Controller
 
         return view(
             'boilerplate-media-manager::list',
-            compact('content', 'list', 'parent', 'path', 'display', 'breadcrumb', 'error')
+            compact('content', 'list', 'parent', 'path', 'display', 'breadcrumb')
         );
     }
 

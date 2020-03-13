@@ -267,7 +267,6 @@ function loadPath(path, clearcache = false)
             path: path,
             display: $('#media-content').data('display'),
             type: $('#media-content').data('type'),
-            mce: $('#media-content').data('mce'),
             clearcache: clearcache
         },
         success: function (html) {
