@@ -3,11 +3,17 @@
 namespace Sebastienheyd\BoilerplateMediaManager\Controllers;
 
 use App\Http\Controllers\Controller;
+use Exception;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\View\View;
 use Image;
 use Sebastienheyd\BoilerplateMediaManager\Models\Breadcrumb;
 use Sebastienheyd\BoilerplateMediaManager\Models\Path;
+use UnexpectedValueException;
 use Validator;
 
 class MediaManagerController extends Controller
@@ -23,9 +29,9 @@ class MediaManagerController extends Controller
     /**
      * Delete file(s) or a folder.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return JsonResponse|ResponseFactory
      */
     public function delete(Request $request)
     {
@@ -48,7 +54,7 @@ class MediaManagerController extends Controller
             }
 
             return response()->json(['status' => 'success']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
@@ -56,9 +62,9 @@ class MediaManagerController extends Controller
     /**
      * Display the media manager.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function index(Request $request)
     {
@@ -75,9 +81,9 @@ class MediaManagerController extends Controller
     /**
      * Display files and directories list.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function list(Request $request)
     {
@@ -114,9 +120,9 @@ class MediaManagerController extends Controller
     /**
      * Display the media manager for MCE.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function mce(Request $request)
     {
@@ -142,9 +148,9 @@ class MediaManagerController extends Controller
     /**
      * Add a new folder.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return JsonResponse|ResponseFactory
      */
     public function newFolder(Request $request)
     {
@@ -157,9 +163,9 @@ class MediaManagerController extends Controller
     /**
      * Paste file(s) into the given path.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return JsonResponse|ResponseFactory
      */
     public function paste(Request $request)
     {
@@ -184,7 +190,7 @@ class MediaManagerController extends Controller
             }
 
             return response()->json(['status' => 'success']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
@@ -192,9 +198,9 @@ class MediaManagerController extends Controller
     /**
      * Delete a file or a folder.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return JsonResponse|ResponseFactory
      */
     public function rename(Request $request)
     {
@@ -203,7 +209,7 @@ class MediaManagerController extends Controller
             $path->rename($request->input('fileName'), $request->input('newName'));
 
             return response()->json(['status' => 'success']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
@@ -211,11 +217,11 @@ class MediaManagerController extends Controller
     /**
      * Upload file(s) to server.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
-     * @throws \Exception
+     * @throws Exception
      *
+     * @return JsonResponse|ResponseFactory
      */
     public function upload(Request $request)
     {
@@ -242,7 +248,7 @@ class MediaManagerController extends Controller
             $file = $request->file('file');
 
             if (!$file instanceof UploadedFile) {
-                throw new \UnexpectedValueException('File is not instance of UploadedFile');
+                throw new UnexpectedValueException('File is not instance of UploadedFile');
             }
 
             $fullPath = $path->upload($file);
@@ -257,7 +263,7 @@ class MediaManagerController extends Controller
             $path->clearCache();
 
             return response()->json(['status' => 'success']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['status' => 'error', 'error' => $e->getMessage()]);
         }
     }
@@ -265,11 +271,11 @@ class MediaManagerController extends Controller
     /**
      * Upload file to server from TinyMCE.
      *
-     * @param  Request  $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
-     * @throws \Exception
+     * @throws Exception
      *
+     * @return JsonResponse|ResponseFactory
      */
     public function uploadMce(Request $request)
     {
@@ -291,7 +297,7 @@ class MediaManagerController extends Controller
             $file = $request->file('file');
 
             if (!$file instanceof UploadedFile) {
-                throw new \UnexpectedValueException('File is not instance of UploadedFile');
+                throw new UnexpectedValueException('File is not instance of UploadedFile');
             }
 
             $fileExt = strtolower($file->getClientOriginalExtension());
@@ -310,7 +316,7 @@ class MediaManagerController extends Controller
             return response()->json([
                 'location' => '/storage/'.$uploadDir.'/'.$fileName,
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['status' => 'error', 'error' => $e->getMessage()]);
         }
     }
