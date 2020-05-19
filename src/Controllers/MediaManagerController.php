@@ -21,9 +21,42 @@ class MediaManagerController extends Controller
     }
 
     /**
+     * Delete file(s) or a folder.
+     *
+     * @param  Request  $request
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function delete(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'path'  => 'required',
+            'files' => 'required',
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'error'  => implode(' / ', (array) $validation->errors()),
+            ]);
+        }
+        $path = new Path($request->input('path'));
+
+        try {
+            foreach ($request->post('files') as $file) {
+                $path->delete($file);
+            }
+
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
+
+    /**
      * Display the media manager.
      *
-     * @param Request $request
+     * @param  Request  $request
      *
      * @return \Illuminate\View\View
      */
@@ -40,37 +73,9 @@ class MediaManagerController extends Controller
     }
 
     /**
-     * Display the media manager for MCE.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\View\View
-     */
-    public function mce(Request $request)
-    {
-        $path = $request->path;
-
-        if ($selected = $request->input('selected')) {
-            $baseUrl = config('boilerplate.mediamanager.base_url', '/');
-            $pInfo = pathinfo($selected);
-            $path = preg_replace('#^'.$baseUrl.'#', '', $pInfo['dirname']);
-        }
-
-        $data = [
-            'type'        => $request->input('type', 'all'),
-            'path'        => $path,
-            'field'       => $request->input('field'),
-            'return_type' => $request->input('return_type'),
-            'selected'    => $selected,
-        ];
-
-        return view('boilerplate-media-manager::index-mce', $data);
-    }
-
-    /**
      * Display files and directories list.
      *
-     * @param Request $request
+     * @param  Request  $request
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -107,9 +112,37 @@ class MediaManagerController extends Controller
     }
 
     /**
+     * Display the media manager for MCE.
+     *
+     * @param  Request  $request
+     *
+     * @return \Illuminate\View\View
+     */
+    public function mce(Request $request)
+    {
+        $path = $request->path;
+
+        if ($selected = $request->input('selected')) {
+            $baseUrl = config('boilerplate.mediamanager.base_url', '/');
+            $pInfo = pathinfo($selected);
+            $path = preg_replace('#^'.$baseUrl.'#', '', $pInfo['dirname']);
+        }
+
+        $data = [
+            'type'        => $request->input('type', 'all'),
+            'path'        => $path,
+            'field'       => $request->input('field'),
+            'return_type' => $request->input('return_type'),
+            'selected'    => $selected,
+        ];
+
+        return view('boilerplate-media-manager::index-mce', $data);
+    }
+
+    /**
      * Add a new folder.
      *
-     * @param Request $request
+     * @param  Request  $request
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      */
@@ -122,17 +155,18 @@ class MediaManagerController extends Controller
     }
 
     /**
-     * Delete file(s) or a folder.
+     * Paste file(s) into the given path.
      *
-     * @param Request $request
+     * @param  Request  $request
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function delete(Request $request)
+    public function paste(Request $request)
     {
         $validation = Validator::make($request->all(), [
-            'path'  => 'required',
-            'files' => 'required',
+            'from'        => 'required',
+            'files'       => 'required',
+            'destination' => 'required',
         ]);
 
         if ($validation->fails()) {
@@ -141,11 +175,12 @@ class MediaManagerController extends Controller
                 'error'  => implode(' / ', (array) $validation->errors()),
             ]);
         }
-        $path = new Path($request->input('path'));
+
+        $path = new Path($request->post('from'));
 
         try {
             foreach ($request->post('files') as $file) {
-                $path->delete($file);
+                $path->move($file, $request->post('destination'));
             }
 
             return response()->json(['status' => 'success']);
@@ -157,7 +192,7 @@ class MediaManagerController extends Controller
     /**
      * Delete a file or a folder.
      *
-     * @param Request $request
+     * @param  Request  $request
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
      */
@@ -176,11 +211,11 @@ class MediaManagerController extends Controller
     /**
      * Upload file(s) to server.
      *
-     * @param Request $request
-     *
-     * @throws \Exception
+     * @param  Request  $request
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
+     * @throws \Exception
+     *
      */
     public function upload(Request $request)
     {
@@ -228,48 +263,13 @@ class MediaManagerController extends Controller
     }
 
     /**
-     * Paste file(s) into the given path.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
-     */
-    public function paste(Request $request)
-    {
-        $validation = Validator::make($request->all(), [
-            'from'        => 'required',
-            'files'       => 'required',
-            'destination' => 'required',
-        ]);
-
-        if ($validation->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'error'  => implode(' / ', (array) $validation->errors()),
-            ]);
-        }
-
-        $path = new Path($request->post('from'));
-
-        try {
-            foreach ($request->post('files') as $file) {
-                $path->move($file, $request->post('destination'));
-            }
-
-            return response()->json(['status' => 'success']);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
-        }
-    }
-
-    /**
      * Upload file to server from TinyMCE.
      *
-     * @param Request $request
-     *
-     * @throws \Exception
+     * @param  Request  $request
      *
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Contracts\Routing\ResponseFactory
+     * @throws \Exception
+     *
      */
     public function uploadMce(Request $request)
     {
