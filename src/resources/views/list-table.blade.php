@@ -44,7 +44,11 @@
                     </a>
                 @else
                     <a href="{{ $item['url'] }}" class="link-media" data-filename="{{ $item['name'] }}">
+                    @if($item['type'] === 'image')
+                        <img class="lazy mr-2" data-src="{{ $item['thumb'] }}" alt="{{ $item['name'] }}" style="max-width:26px;max-height:26px"> {{ $item['name'] }}
+                    @else
                         <span class="far fa-{{ $item['icon'] }} fa-lg fa-fw media-icon"></span>&nbsp;{{ $item['name'] }}
+                    @endif
                     </a>
                 @endif
             </td>

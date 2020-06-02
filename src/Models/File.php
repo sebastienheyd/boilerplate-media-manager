@@ -137,6 +137,27 @@ class File extends BaseFile
     }
 
     /**
+     * Get thumb url.
+     *
+     * @return string
+     */
+    public function getThumbUrl()
+    {
+        $ext = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif'];
+        if (in_array(strtolower($this->pathinfo['extension'] ?? ''), $ext)) {
+            if (is_file($this->getFullPath($this->getThumbPath()))) {
+                return $this->storage->url($this->getThumbPath());
+            }
+        }
+
+        if (strtolower($this->pathinfo['extension'] ?? '') === 'svg') {
+            return $this->storage->url($this->path.'/'.$this->pathinfo['basename']);
+        }
+
+        return '';
+    }
+
+    /**
      * Automatically generate thumb for image files if not exists.
      */
     public function generateThumb()
@@ -146,10 +167,12 @@ class File extends BaseFile
         }
 
         $ext = ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'tif'];
-        $destFile = $this->getFullPath($this->getThumbPath());
 
-        if (in_array(strtolower($this->pathinfo['extension'] ?? ''), $ext) && !is_file($destFile)) {
-            Image::make($this->getFullPath())->fit(150)->save($destFile, 75);
+        if (in_array(strtolower($this->pathinfo['extension'] ?? ''), $ext)) {
+            $destFile = $this->getFullPath($this->getThumbPath());
+            if (!is_file($destFile)) {
+                Image::make($this->getFullPath())->fit(150)->save($destFile, 75);
+            }
         }
     }
 
@@ -165,6 +188,7 @@ class File extends BaseFile
         return [
             'download' => '',
             'icon'     => $this->getIcon(),
+            'thumb'    => $this->getThumbUrl().'?'.$ts,
             'type'     => $this->detectFileType(),
             'name'     => basename($this->file),
             'isDir'    => false,
