@@ -9,16 +9,19 @@ if (!function_exists('img')) {
             return '';
         }
 
-        $img = new \Sebastienheyd\BoilerplateMediaManager\Lib\ImageResizer($path);
-        $img->setSize($width, $height, $type);
-        $url = $img->getUrl();
+        $url = url($path);
+        if (pathinfo($path, PATHINFO_EXTENSION) !== 'svg') {
+            $img = new \Sebastienheyd\BoilerplateMediaManager\Lib\ImageResizer($path);
+            $img->setSize($width, $height, $type);
+            $url = $img->getUrl();
+
+            if ($type === 'resize') {
+                [$width, $height] = $img->getDestFileSize();
+            }
+        }
 
         if ($url === '') {
             return '';
-        }
-
-        if ($type === 'resize') {
-            list($width, $height) = $img->getDestFileSize();
         }
 
         $opts = '';
@@ -37,6 +40,10 @@ if (!function_exists('img_url')) {
 
         if (empty($path)) {
             return '';
+        }
+
+        if (pathinfo($path, PATHINFO_EXTENSION) === 'svg') {
+            return url($path);
         }
 
         return \Sebastienheyd\BoilerplateMediaManager\Lib\ImageResizer::url($path, $width, $height, $type);
