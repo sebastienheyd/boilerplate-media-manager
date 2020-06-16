@@ -1,8 +1,8 @@
 @php($id = uniqid())
 <div class="form-group">
-    @isset($label)
+    @if(!empty($label))
     {{ Form::label($name ?? 'file', $label) }}
-    @endisset
+    @endif
     <div class="input-group">
         <div class="input-group-prepend">
             <button type="button" class="btn-select-file btn btn-secondary" data-field="{{ $id }}" data-src="{!! route('mediamanager.index', ['mce' => true, 'type' => $type ?? 'all', 'return_type' => 'file', 'field' => $id], false) !!}">

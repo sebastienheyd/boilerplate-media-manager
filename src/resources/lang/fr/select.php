@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'no_file_selected' => 'Aucun fichier sélectionné'
+    'no_file_selected' => 'Aucun fichier sélectionné',
 ];
