@@ -15,5 +15,5 @@
     </div>
     <input type="hidden" name="{{ $name ?? 'image' }}" value="{{ $value ?? '' }}" data-id="{{ $id }}"/>
 </div>
-{!! $errors->first( $name ?? 'image' ,'<p class="text-danger"><strong>:message</strong></p>') !!}
+{!! $errors->first( $name ?? 'image' ,'<div class="error-bubble"><div>:message</div></div>') !!}
 @include('boilerplate-media-manager::select.scripts')
