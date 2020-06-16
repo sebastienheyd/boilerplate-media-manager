@@ -81,9 +81,27 @@ Parameters are :
 | name | description | default |
 |---|---|---|
 | name | Input name | image |
-| value | Input value | - |
+| value | Input value | "" |
 | width | Width of the selector | 300 |
 | height | Height of the selector | 200 |
+
+### File selector
+
+You can use the `boilerplate-media-manager::select.file` view to insert an input field into your forms. 
+This view allows you to use the media manager to select the file to assign to the input field.
+
+```blade
+@include('boilerplate-media-manager::select.file', ['label' => 'My file', 'name' => 'file', 'value' => $myFile, 'type' => 'file'])
+```
+
+Parameters are :
+
+| name | description | default |
+|---|---|---|
+| label | Label of the input field | "" |
+| name |  Input name | file |
+| value | Input value | "" |
+| type | Media list filter (all, file, image, video) | all |
 
 ## Frontend
 
