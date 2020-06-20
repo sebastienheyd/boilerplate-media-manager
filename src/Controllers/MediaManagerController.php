@@ -68,6 +68,15 @@ class MediaManagerController extends Controller
      */
     public function index(Request $request)
     {
+        // Store query string to build correct back link when path does not exists
+        $queryString = '';
+        if(preg_match("#\?(.*)$#", $request->fullUrl(), $m)) {
+            parse_str($m[1], $v);
+            unset($v['selected']);
+            $queryString = http_build_query($v);
+        }
+        session()->put('queryString', $queryString);
+
         if ($request->get('mce')) {
             return $this->mce($request);
         }
@@ -99,7 +108,7 @@ class MediaManagerController extends Controller
         $content = new Path($path);
 
         if (!$content->exists()) {
-            return view('boilerplate-media-manager::error');
+            return view('boilerplate-media-manager::error', ['query' => session()->get('queryString')]);
         }
 
         if ($request->input('clearcache', 'false') === 'true') {
