@@ -70,7 +70,7 @@ class MediaManagerController extends Controller
     {
         // Store query string to build correct back link when path does not exists
         $queryString = '';
-        if(preg_match("#\?(.*)$#", $request->fullUrl(), $m)) {
+        if (preg_match("#\?(.*)$#", $request->fullUrl(), $m)) {
             parse_str($m[1], $v);
             unset($v['selected']);
             $queryString = http_build_query($v);
