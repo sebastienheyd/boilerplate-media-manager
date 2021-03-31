@@ -35,14 +35,27 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-        $this->publishes([__DIR__.'/config' => config_path('boilerplate')], 'config');
-        $this->publishes([__DIR__.'/public' => public_path('assets/vendor/boilerplate-media-manager')], 'public');
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/config' => config_path('boilerplate')
+            ], ['boilerplate', 'boilerplate-config']);
 
-        // If routes file has been published, load routes from the published file
-        $routesPath = base_path('routes/boilerplate-media-manager.php');
-        $this->loadRoutesFrom(is_file($routesPath) ? $routesPath : __DIR__.'/routes/boilerplate-media-manager.php');
+            $this->publishes([
+                __DIR__.'/public' => public_path('assets/vendor/boilerplate-media-manager')
+            ], ['boilerplate', 'boilerplate-public']);
 
-        // Load views, migrations and translations from current directory
+            $this->publishes([
+                __DIR__.'/resources/lang' => resource_path('lang/vendor/boilerplate-media-manager'),
+            ], ['boilerplate-media-manager-lang']);
+
+            $this->publishes([
+                __DIR__.'/resources/views' => resource_path('views/vendor/boilerplate-media-manager'),
+            ], ['boilerplate-media-manager-views']);
+
+            $this->commands([Commands\Clearthumbs::class]);
+        }
+
+        $this->loadRoutesFrom(__DIR__.'/routes/boilerplate-media-manager.php');
         $this->loadViewsFrom(__DIR__.'/resources/views', 'boilerplate-media-manager');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'boilerplate-media-manager');
         $this->loadMigrationsFrom(__DIR__.'/migrations');
@@ -50,10 +63,6 @@ class ServiceProvider extends BaseServiceProvider
         Blade::directive('img', function ($options) {
             return "<?= img($options) ?>";
         });
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([Commands\Clearthumbs::class]);
-        }
     }
 
     /**
