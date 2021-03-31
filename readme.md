@@ -1,18 +1,16 @@
 # Laravel Media Manager for [sebastienheyd/boilerplate](https://github.com/sebastienheyd/boilerplate)
 
-![Package](https://img.shields.io/badge/Package-sebastienheyd%2Fboilerplate--media--manager-lightgrey.svg)
-![Laravel](https://img.shields.io/badge/Laravel-6.x-green.svg)
+[![Packagist](https://img.shields.io/packagist/v/sebastienheyd/boilerplate-media-manager.svg?style=flat-square)](https://packagist.org/packages/sebastienheyd/boilerplate-media-manager)
 [![Build Status](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-media-manager/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-media-manager/build-status/master)
 [![StyleCI](https://github.styleci.io/repos/170482496/shield?branch=master)](https://github.styleci.io/repos/170482496)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-media-manager/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-media-manager/?branch=master)
+![Laravel](https://img.shields.io/badge/Laravel-6.x%20→%208.x-green?logo=Laravel&style=flat-square)
+[![Nb downloads](https://img.shields.io/packagist/dt/sebastienheyd/boilerplate-media-manager.svg?style=flat-square)](https://packagist.org/packages/sebastienheyd/boilerplate-media-manager)
 ![MIT License](https://img.shields.io/github/license/sebastienheyd/boilerplate.svg)
 
 This package adds a media management tool to [`sebastienheyd/boilerplate`](https://github.com/sebastienheyd/boilerplate)
 
 ## Installation
-
-**Important** : Preferably, configure [`sebastienheyd/boilerplate`](https://github.com/sebastienheyd/boilerplate) before 
-installing this package.
 
 1. In order to install Laravel Boilerplate Media Manager run :
 
@@ -20,10 +18,10 @@ installing this package.
 composer require sebastienheyd/boilerplate-media-manager
 ```
 
-2. Run the command below to publish assets, lang files, ...
+2. Run the command below to publish assets and configuration file
 
 ```
-php artisan vendor:publish --provider="Sebastienheyd\BoilerplateMediaManager\ServiceProvider"
+php artisan vendor:publish --tag=boilerplate
 ```
 
 3. Run the migration to add permissions
@@ -143,22 +141,24 @@ php artisan thumbs:clear
 
 ## Package update
 
+## Package update
+
 Laravel Boilerplate Media Manager comes with assets such as Javascript, CSS, and images. Since you typically will need to overwrite the assets
 every time the package is updated, you may use the ```--force``` flag :
 
 ```
-php artisan vendor:publish --provider="Sebastienheyd\BoilerplateMediaManager\ServiceProvider" --tag=public --force
+php artisan vendor:publish --tag=boilerplate-public --force
 ```
 
 To auto update assets each time package is updated, you can add this command to `post-autoload-dump` into the 
 file `composer.json` at the root of your project.
- 
+
 
 ```json
 {
     "scripts": {
         "post-autoload-dump": [
-            "@php artisan vendor:publish --provider=\"Sebastienheyd\\BoilerplateMediaManager\\BoilerplateMediaManagerServiceProvider\" --tag=public --force -q",
+            "@php artisan vendor:publish --tag=boilerplate-public --force -q",
         ]
     }
 }
