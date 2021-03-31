@@ -37,11 +37,11 @@ class ServiceProvider extends BaseServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/config' => config_path('boilerplate')
+                __DIR__.'/config' => config_path('boilerplate'),
             ], ['boilerplate', 'boilerplate-config']);
 
             $this->publishes([
-                __DIR__.'/public' => public_path('assets/vendor/boilerplate-media-manager')
+                __DIR__.'/public' => public_path('assets/vendor/boilerplate-media-manager'),
             ], ['boilerplate', 'boilerplate-public']);
 
             $this->publishes([
