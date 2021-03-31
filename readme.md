@@ -6,7 +6,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-media-manager/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-media-manager/?branch=master)
 ![Laravel](https://img.shields.io/badge/Laravel-6.x%20→%208.x-green?logo=Laravel&style=flat-square)
 [![Nb downloads](https://img.shields.io/packagist/dt/sebastienheyd/boilerplate-media-manager.svg?style=flat-square)](https://packagist.org/packages/sebastienheyd/boilerplate-media-manager)
-![MIT License](https://img.shields.io/github/license/sebastienheyd/boilerplate.svg)
+[![MIT License](https://img.shields.io/github/license/sebastienheyd/boilerplate-media-manager.svg?style=flat-square)](license.md)
 
 This package adds a media management tool to [`sebastienheyd/boilerplate`](https://github.com/sebastienheyd/boilerplate)
 
