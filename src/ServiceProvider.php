@@ -46,11 +46,11 @@ class ServiceProvider extends BaseServiceProvider
 
             $this->publishes([
                 __DIR__.'/resources/lang' => resource_path('lang/vendor/boilerplate-media-manager'),
-            ], ['boilerplate-media-manager-lang']);
+            ], 'boilerplate-media-manager-lang');
 
             $this->publishes([
                 __DIR__.'/resources/views' => resource_path('views/vendor/boilerplate-media-manager'),
-            ], ['boilerplate-media-manager-views']);
+            ], 'boilerplate-media-manager-views');
 
             $this->commands([Commands\Clearthumbs::class]);
         }
