@@ -139,7 +139,17 @@ You can clear all resized image by using the artisan command `thumbs:clear`
 php artisan thumbs:clear
 ```
 
-## Package update
+## Language
+
+You can translate or change translations by running `php artisan vendor:publish --tag=boilerplate-media-manager-lang`.
+After running this command, you will find translations folders into `resources/lang/vendor/boilerplate-media-manager`.
+Copy one of the language folders in the new language you want to create and all you have to do is to translate. If you
+want to share the language you have added, don't hesitate to make a pull request.
+
+### Views
+
+You can override views by running `php artisan vendor:publish --tag=boilerplate-media-manager-views`. You will then find
+the views in the `resources/views/vendor/boilerplate-media-manager` folder.
 
 ## Package update
 
