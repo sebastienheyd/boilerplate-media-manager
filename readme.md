@@ -65,6 +65,14 @@ TinyMCE is supported by using the "load" view included in this package :
 </script>
 ```
 
+Or directly by using the TinyMCE Blade component included with the sebastienheyd/boilerplate package :
+
+```html
+<x-boilerplate:tinymce />
+```
+
+See full [documentation here](https://sebastienheyd.github.io/boilerplate/components/tinymce)
+
 ### Image selector
 
 You can use the `boilerplate-media-manager::select.image` view to insert an input field into your forms. 
