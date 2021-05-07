@@ -145,7 +145,7 @@ class MediaManagerController extends Controller
 
         $data = [
             'type'        => $request->input('type', 'all'),
-            'path'        => $path,
+            'path'        => $path ?? '/',
             'field'       => $request->input('field'),
             'return_type' => $request->input('return_type'),
             'selected'    => $selected,
