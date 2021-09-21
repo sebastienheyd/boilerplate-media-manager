@@ -19,32 +19,17 @@
     background: rgba(255, 255, 255, .7);
     color: #666;
     width: 100%;
-    min-height: 300px;
+    min-height: 200px;
 }
 
 #media-content {
-    .btn-default, a{
+    a:not(.btn) {
         color: #666;
-        cursor: pointer;
-    }
-
-    #fileupload {
-        cursor: pointer;
-    }
-
-    .btn-secondary {
-        background: #F0F0F0;
-        border-color: #ccc;
-
-        &:hover {
-            background: #e6e6e6;
-        }
     }
 
     .card-header {
         position: sticky;
         top: 57px;
-        background: #FFF;
         z-index: 3;
     }
 
@@ -111,11 +96,11 @@
 
         &:hover {
             td {
-                color: #000 !important;
+                color: #000;
             }
 
             a {
-                color: #000 !important;
+                color: #000;
             }
         }
     }
@@ -248,3 +233,63 @@
 }
 
 .content-wrapper { margin-left: 0 }
+
+body.dark-mode {
+    #loading {
+        background: #343a40;
+        color: #CCC;
+    }
+
+    #media-content {
+        a:not(.btn) {
+            color: #CCC;
+
+            &:hover {
+                color: #FFF;
+            }
+        }
+
+        .breadcrumb {
+            background: #31373d;
+        }
+    }
+
+    #media-list {
+        tr {
+            &:hover {
+                td {
+                    color: #CCC;
+                }
+
+                a {
+                    color: #CCC;
+
+                    &:hover {
+                        color: #FFF;
+                    }
+                }
+            }
+        }
+
+        .media.selected {
+            background: #202426;
+        }
+
+        .media-icon {
+            color: #CCC;
+        }
+
+        &.media-tiles .tile {
+            background: #2f373b;
+            border: 2px solid #23272c;
+
+            &-label {
+                background: #23272c;
+            }
+        }
+    }
+
+    #btn-paste-group {
+        background: #343a40;
+    }
+}
