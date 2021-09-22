@@ -85,7 +85,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 15px;
-
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
     font-size:20px;
     font-weight:400;
@@ -93,9 +92,37 @@
     span {
         cursor: pointer;
         transition: color .1s ease-in-out;
+        color: #666;
 
         &:hover {
             color: #000;
         }
+    }
+}
+
+body.dark-mode {
+    .btn-select-image {
+        background: #454b53;
+
+        &:hover {
+            color: #FFF;
+        }
+    }
+
+    #select-media-close {
+        background: #3a4148;
+        color: #FFF;
+
+        span:hover {
+            color: #CCC;
+        }
+    }
+
+    #select-media-bg {
+        background: rgba(47,52,58,.75);
+    }
+
+    #select-media-wrapper {
+        border-color: #595f66;
     }
 }

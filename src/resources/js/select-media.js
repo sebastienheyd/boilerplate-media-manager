@@ -5,7 +5,7 @@ $(function () {
         $('body').css('overflow', 'hidden').append(
             '<div id="select-media-bg">' +
             '<div id="select-media-wrapper">' +
-            '<div id="select-media-close">File manager<span class="fa fa-times text-muted"></span></div>' +
+            '<div id="select-media-close">File manager<span class="fa fa-times"></span></div>' +
             '<iframe src="' + $(this).data('src') + '&selected=' + $('input[data-id=' + $(this).data('field') + ']').val() + '"></iframe>' +
             '</div>' +
             '</div>'
