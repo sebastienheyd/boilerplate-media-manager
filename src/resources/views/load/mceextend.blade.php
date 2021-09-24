@@ -1,10 +1,10 @@
 @push('js')
-    <script>
-        var tinyMediaManager = {
+@component('boilerplate::minify')
+<script>
+        tinymce.defaultSettings = $.extend({}, tinymce.defaultSettings, {
             image_advtab: true,
             images_upload_handler: function (blobInfo, success, failure) {
-
-                var formData = new FormData();
+                let formData = new FormData();
                 formData.append('file', blobInfo.blob(), blobInfo.filename());
 
                 $.ajax({
@@ -47,8 +47,7 @@
                 });
                 return false;
             }
-        };
-
-        tinymce.defaultSettings = $.extend({}, tinymce.defaultSettings, tinyMediaManager);
+        });
     </script>
+@endcomponent
 @endpush
