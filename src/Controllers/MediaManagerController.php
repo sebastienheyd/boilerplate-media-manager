@@ -13,7 +13,6 @@ use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Image;
 use Sebastienheyd\BoilerplateMediaManager\Models\Breadcrumb;
-use Sebastienheyd\BoilerplateMediaManager\Models\File;
 use Sebastienheyd\BoilerplateMediaManager\Models\Path;
 use UnexpectedValueException;
 use Validator;
@@ -215,15 +214,15 @@ class MediaManagerController extends Controller
      */
     public function rename(Request $request)
     {
-        if(! $request->isXmlHttpRequest()) {
+        if (!$request->isXmlHttpRequest()) {
             abort(403);
         }
 
         $validator = Validator::make($request->post(), [
-            'path' => 'required',
-            'type' => ['required', Rule::in(['folder', 'file'])],
+            'path'     => 'required',
+            'type'     => ['required', Rule::in(['folder', 'file'])],
             'fileName' => 'required',
-            'newName' => 'required',
+            'newName'  => 'required',
         ]);
 
         if ($validator->fails()) {
