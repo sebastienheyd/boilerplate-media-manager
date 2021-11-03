@@ -38,7 +38,7 @@
                             <span class="fa fa-download"></span>
                         </a>
                     @endif
-                    <a href="#" class="btn btn-sm btn-default btn-rename" data-filename="{{ $item['name'] }}">
+                    <a href="#" class="btn btn-sm btn-default btn-rename" data-type="{{ $item['type'] === 'folder' ? 'folder' : 'file' }}" data-filename="{{ $item['name']}}" data-name="{{ $item['filename'] ?? '' }}">
                         <span class="fa fa-pencil-alt"></span>
                     </a>
                     <a href="#" class="btn btn-sm btn-default btn-delete" data-filename="{{ $item['name'] }}">

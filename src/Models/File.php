@@ -34,6 +34,9 @@ class File extends BaseFile
      */
     public function rename($newName)
     {
+        $newName = preg_replace('#\.'.$this->pathinfo['extension'].'$#i', '', $newName);
+        $newName = $newName.'.'.$this->pathinfo['extension'];
+
         foreach ($this->getThumbs() as $thumb) {
             $this->storage->move($thumb['fullpath'], $thumb['dirname'].'/'.$newName);
         }
@@ -186,17 +189,19 @@ class File extends BaseFile
         $ts = filemtime($this->getFullPath());
 
         return [
-            'download' => '',
-            'icon'     => $this->getIcon(),
-            'thumb'    => $this->getThumbUrl().'?'.$ts,
-            'type'     => $this->detectFileType(),
-            'name'     => basename($this->file),
-            'isDir'    => false,
-            'size'     => $this->getFilesize(),
-            'link'     => route('mediamanager.index', ['path' => $this->file], false),
-            'url'      => $this->storage->url($this->file).'?'.$ts,
-            'time'     => $this->getFileChangeTime(),
-            'ts'       => $ts,
+            'download'  => '',
+            'icon'      => $this->getIcon(),
+            'thumb'     => $this->getThumbUrl().'?'.$ts,
+            'type'      => $this->detectFileType(),
+            'name'      => basename($this->file),
+            'filename'  => $this->pathinfo['filename'],
+            'extension' => $this->pathinfo['extension'],
+            'isDir'     => false,
+            'size'      => $this->getFilesize(),
+            'link'      => route('mediamanager.index', ['path' => $this->file], false),
+            'url'       => $this->storage->url($this->file).'?'.$ts,
+            'time'      => $this->getFileChangeTime(),
+            'ts'        => $ts,
         ];
     }
 

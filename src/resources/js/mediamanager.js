@@ -200,23 +200,25 @@ $(function () {
         e.preventDefault();
         e.stopPropagation();
 
-        var path = $('#media-content').data('path');
-        var fileName = $(this).attr('data-filename');
+        let path = $('#media-content').data('path');
+        let fileName = $(this).attr('data-filename');
+        let type = $(this).attr('data-type');
+        let name = type === 'folder' ? fileName : $(this).attr('data-name');
 
         bootbox.prompt({
             title: locales.renameTitle,
-            value: fileName,
-            callback: function (name) {
-                if (name !== null && name !== '') {
+            value: name,
+            callback: function (newName) {
+                if (newName !== null && newName !== '') {
                     $.ajax({
                         url: routes.rename,
                         type: 'post',
-                        data: {path: path, fileName: fileName, newName: name},
+                        data: {path: path, type: type, fileName: fileName, newName: newName},
                         success: function (result) {
                             if (result.status === 'success') {
                                 growl(locales.renameSuccess, 'success');
                             } else {
-                                growl(result.message, 'danger');
+                                growl(result.message, 'error');
                             }
                             loadPath(path);
                         }

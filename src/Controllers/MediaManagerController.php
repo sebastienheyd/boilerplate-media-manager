@@ -9,9 +9,11 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Image;
 use Sebastienheyd\BoilerplateMediaManager\Models\Breadcrumb;
+use Sebastienheyd\BoilerplateMediaManager\Models\File;
 use Sebastienheyd\BoilerplateMediaManager\Models\Path;
 use UnexpectedValueException;
 use Validator;
@@ -209,12 +211,27 @@ class MediaManagerController extends Controller
      *
      * @param Request $request
      *
-     * @return JsonResponse|ResponseFactory
+     * @return JsonResponse
      */
     public function rename(Request $request)
     {
+        if(! $request->isXmlHttpRequest()) {
+            abort(403);
+        }
+
+        $validator = Validator::make($request->post(), [
+            'path' => 'required',
+            'type' => ['required', Rule::in(['folder', 'file'])],
+            'fileName' => 'required',
+            'newName' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => $validator->errors()->first()]);
+        }
+
         try {
-            $path = new Path($request->input('path'));
+            $path = new Path($request->post('path'));
             $path->rename($request->input('fileName'), $request->input('newName'));
 
             return response()->json(['status' => 'success']);
