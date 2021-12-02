@@ -50,7 +50,7 @@
             <div class="progress-bar"></div>
         </div>
         @if(empty($list) && empty($parent))
-            <div class="alert alert-info">
+            <div class="alert alert-default-secondary">
                 {{ __('boilerplate-media-manager::list.nocontent') }}
             </div>
         @else

@@ -28,6 +28,7 @@
     }
 
     .card-header {
+        background: #FFF;
         position: sticky;
         top: 57px;
         z-index: 3;
@@ -249,8 +250,12 @@ body.dark-mode {
             }
         }
 
+        .card-header {
+            background: #33393f;
+        }
+
         .breadcrumb {
-            background: #31373d;
+            background: #454d55;
         }
     }
 

@@ -84,6 +84,9 @@ $(function () {
                             $('.media[data-filename="'+e+'"]').remove();
                         });
                         $('.media input[type="checkbox"]').trigger('change');
+                        if ($('#media-list .media').length === 0) {
+                            $('.btn-refresh').trigger('click');
+                        }
                     } else {
                         growl(res.message, 'error');
                     }
@@ -162,6 +165,9 @@ $(function () {
                     $(files).each(function (i, e) {
                         $('.media[data-filename="'+e+'"]').remove();
                     });
+                    if ($('#media-list .media').length === 0) {
+                        $('.btn-refresh').trigger('click');
+                    }
                 }
             });
         });
