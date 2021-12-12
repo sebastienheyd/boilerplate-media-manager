@@ -10,7 +10,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Boilerplate Media Manager Test Suite">
+        <testsuite name="Test Suite">
             <directory suffix="Test.php">tests</directory>
             <exclude>./tests/DuskTest.php</exclude>
         </testsuite>
