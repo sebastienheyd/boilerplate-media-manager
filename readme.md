@@ -55,48 +55,43 @@ After `vendor:publish`, you can find the configuration file `mediamanager.php` i
 
 ### TinyMCE
 
-This media manager will be automatically used by the TinyMCE Blade component included with the sebastienheyd/boilerplate package :
-
-```html
-<x-boilerplate:tinymce />
-```
-
-See full [documentation here](https://sebastienheyd.github.io/boilerplate/components/tinymce)
+This media manager will be automatically used for images and files inclusion by the [TinyMCE Blade component](https://sebastienheyd.github.io/boilerplate/components/tinymce) included with the [sebastienheyd/boilerplate](https://github.com/sebastienheyd/boilerplate) package.
 
 ### Image selector
 
-You can use the `boilerplate-media-manager::select.image` view to insert an input field into your forms. 
-This view allows you to use the media manager to select the image to use.
+You can use the `<x-boilerplate-media-manager::image>` component to easily insert an image selector into your forms. 
+This component allows you to use the media manager to select an image to use.
 
-```blade
-@include('boilerplate-media-manager::select.image', ['name' => 'myImageInputName', 'value' => '/storage/picture.jpg'])
+```html
+<x-boilerplate-media-manager::image name="image">
 ```
 
 Parameters are :
 
-| name | description | default |
-|---|---|---|
-| name | Input name | image |
-| value | Input value | "" |
-| width | Width of the selector | 300 |
-| height | Height of the selector | 200 |
+| name   | description              | default |
+|--------|--------------------------|---|
+| name   | Input name (required)    | "" |
+| value  | Default input value      | "" |
+| label  | Label of the input field | "" |
+| width  | Width of the selector    | 300 |
+| height | Height of the selector   | 200 |
 
 ### File selector
 
-You can use the `boilerplate-media-manager::select.file` view to insert an input field into your forms. 
-This view allows you to use the media manager to select the file to assign to the input field.
+You can use the `<x-boilerplate-media-manager::file>` component to easily insert a file selector into your forms. 
+This component allows you to use the media manager to select a file to assign to the input field.
 
-```blade
-@include('boilerplate-media-manager::select.file', ['label' => 'My file', 'name' => 'file', 'value' => $myFile, 'type' => 'file'])
+```html
+<x-boilerplate-media-manager::file name="file">
 ```
 
 Parameters are :
 
 | name | description | default |
-|---|---|---|
-| label | Label of the input field | "" |
-| name |  Input name | file |
+|---|---|--|
+| name |  Input name (required) | "" |
 | value | Input value | "" |
+| label | Label of the input field | "" |
 | type | Media list filter (all, file, image, video) | all |
 
 ## Frontend
@@ -111,7 +106,7 @@ Parameters are :
 
 will return
 
-```blade
+```html
 <img src="/storage/thumbs/resize/100x100/my_picture.jpg?1555331285" width="100" height="100">
 ```
 
@@ -123,7 +118,7 @@ Or using the `@img` Blade directive :
 
 will return
 
-```blade
+```html
 <img src="/storage/thumbs/fit/250x150/my_picture.png?1555331285" width="250" height="150" class="fluid-image">
 ```
 

@@ -1,1 +1,2 @@
-src/resources/views/* linguist-vendored
+*.js linguist-vendored
+*.css linguist-vendored

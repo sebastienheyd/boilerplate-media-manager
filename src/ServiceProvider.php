@@ -4,10 +4,13 @@ namespace Sebastienheyd\BoilerplateMediaManager;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Intervention\Image\Facades\Image;
 use Intervention\Image\ImageServiceProvider;
 use Sebastienheyd\BoilerplateMediaManager\Lib\ImageResizer;
+use Sebastienheyd\BoilerplateMediaManager\View\Composers\FileComposer;
+use Sebastienheyd\BoilerplateMediaManager\View\Composers\ImageComposer;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -57,8 +60,12 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->loadRoutesFrom(__DIR__.'/routes/boilerplate-media-manager.php');
         $this->loadViewsFrom(__DIR__.'/resources/views', 'boilerplate-media-manager');
+        $this->loadViewsFrom(__DIR__.'/resources/views/components', 'boilerplate-media-manager');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'boilerplate-media-manager');
         $this->loadMigrationsFrom(__DIR__.'/migrations');
+
+        View::composer("boilerplate-media-manager::components.image", ImageComposer::class);
+        View::composer("boilerplate-media-manager::components.file", FileComposer::class);
 
         Blade::directive('img', function ($options) {
             return "<?= img($options) ?>";

@@ -1,6 +1,21 @@
 /** global: selectMediaLocales */
 /** global: bootbox */
 $(function () {
+    $(document).on('change', '[data-action="setMediaFile"]', function() {
+        $(this).next().addClass('d-none')
+        $(this).prev().val('');
+
+        if($(this).val() !== '') {
+            $(this).next().removeClass('d-none')
+            $(this).prev().val($(this).val().replace(/.*\/(.*)\?.*$/, '$1'))
+        }
+    })
+
+    $(document).on('click', '[data-action="clearMediaFile"]', function(e) {
+        e.preventDefault()
+        $(this).prev().val('').trigger('change');
+    })
+
     $(document).on('click', '.btn-select-image, .btn-select-file', function () {
         $('body').css('overflow', 'hidden').append(
             '<div id="select-media-bg">' +

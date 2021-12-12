@@ -1,3 +1,19 @@
+[data-action="clearMediaFile"] {
+    color: #666 !important;
+    &:hover {
+        color: #000 !important;
+    }
+}
+
+.dark-mode {
+    [data-action="clearMediaFile"] {
+        color: #FFF;
+        &:hover {
+            color: #CCC;
+        }
+    }
+}
+
 .select-image-wrapper {
     display: block;
     overflow: hidden;
