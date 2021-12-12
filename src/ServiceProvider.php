@@ -42,7 +42,7 @@ class ServiceProvider extends BaseServiceProvider
 
             $this->publishes([
                 __DIR__.'/public' => public_path('assets/vendor/boilerplate-media-manager'),
-            ], ['boilerplate', 'boilerplate-public']);
+            ], ['boilerplate', 'boilerplate-public', 'laravel-assets']);
 
             $this->publishes([
                 __DIR__.'/resources/lang' => resource_path('lang/vendor/boilerplate-media-manager'),

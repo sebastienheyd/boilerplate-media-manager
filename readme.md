@@ -55,17 +55,7 @@ After `vendor:publish`, you can find the configuration file `mediamanager.php` i
 
 ### TinyMCE
 
-TinyMCE is supported by using the "load" view included in this package :
-
-```blade
-@include('boilerplate-media-manager::load.tinymce')
-
-<script>
-    $('#content').tinymce({})
-</script>
-```
-
-Or directly by using the TinyMCE Blade component included with the sebastienheyd/boilerplate package :
+This media manager will be automatically used by the TinyMCE Blade component included with the sebastienheyd/boilerplate package :
 
 ```html
 <x-boilerplate:tinymce />
@@ -159,7 +149,7 @@ want to share the language you have added, don't hesitate to make a pull request
 You can override views by running `php artisan vendor:publish --tag=boilerplate-media-manager-views`. You will then find
 the views in the `resources/views/vendor/boilerplate-media-manager` folder.
 
-## Package update
+## Package update (Laravel < 8.6.9)
 
 Laravel Boilerplate Media Manager comes with assets such as Javascript, CSS, and images. Since you typically will need to overwrite the assets
 every time the package is updated, you may use the ```--force``` flag :
