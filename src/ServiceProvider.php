@@ -20,8 +20,7 @@ class ServiceProvider extends BaseServiceProvider
     /**
      * Create a new boilerplate service provider instance.
      *
-     * @param \Illuminate\Foundation\Application $app
-     *
+     * @param  \Illuminate\Foundation\Application  $app
      * @return void
      */
     public function __construct($app)

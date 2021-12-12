@@ -15,7 +15,7 @@ class Directory
     /**
      * File constructor.
      *
-     * @param string $directory
+     * @param  string  $directory
      */
     public function __construct($directory)
     {
@@ -28,7 +28,7 @@ class Directory
     /**
      * Rename current directory.
      *
-     * @param string $newName
+     * @param  string  $newName
      */
     public function rename($newName)
     {
@@ -42,7 +42,7 @@ class Directory
     /**
      * Move current directory.
      *
-     * @param string $destinationPath
+     * @param  string  $destinationPath
      */
     public function move($destinationPath)
     {

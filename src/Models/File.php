@@ -17,7 +17,7 @@ class File extends BaseFile
     /**
      * File constructor.
      *
-     * @param string $file
+     * @param  string  $file
      */
     public function __construct($file)
     {
@@ -30,7 +30,7 @@ class File extends BaseFile
     /**
      * Rename current file.
      *
-     * @param string $newName
+     * @param  string  $newName
      */
     public function rename($newName)
     {
@@ -67,7 +67,7 @@ class File extends BaseFile
     /**
      * Move current file.
      *
-     * @param string $destinationPath
+     * @param  string  $destinationPath
      */
     public function move($destinationPath)
     {
@@ -120,8 +120,7 @@ class File extends BaseFile
     /**
      * Get full path for a given relative path.
      *
-     * @param string $file
-     *
+     * @param  string  $file
      * @return mixed
      */
     public function getFullPath($file = '')
@@ -173,7 +172,7 @@ class File extends BaseFile
 
         if (in_array(strtolower($this->pathinfo['extension'] ?? ''), $ext)) {
             $destFile = $this->getFullPath($this->getThumbPath());
-            if (!is_file($destFile)) {
+            if (! is_file($destFile)) {
                 Image::make($this->getFullPath())->fit(150)->save($destFile, 75);
             }
         }

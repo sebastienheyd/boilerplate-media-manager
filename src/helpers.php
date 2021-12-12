@@ -1,6 +1,6 @@
 <?php
 
-if (!function_exists('img')) {
+if (! function_exists('img')) {
     function img($path, $width, $height, $options = [], $type = 'fit')
     {
         $path = preg_replace('`\?.*?$`', '', $path);
@@ -33,7 +33,7 @@ if (!function_exists('img')) {
     }
 }
 
-if (!function_exists('img_url')) {
+if (! function_exists('img_url')) {
     function img_url($path, $width, $height, $type = 'fit')
     {
         $path = preg_replace('`\?.*?$`', '', $path);

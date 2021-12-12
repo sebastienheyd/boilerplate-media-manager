@@ -19,11 +19,10 @@ class ImageResizer
     /**
      * Get resized image url from the given public path.
      *
-     * @param string $path   Image public path (/storage/*)
-     * @param int    $width
-     * @param int    $height
-     * @param string $type
-     *
+     * @param  string  $path  Image public path (/storage/*)
+     * @param  int  $width
+     * @param  int  $height
+     * @param  string  $type
      * @return string
      */
     public static function url(string $path, $width, $height, $type = 'fit')
@@ -38,7 +37,7 @@ class ImageResizer
     /**
      * ImageResizer constructor.
      *
-     * @param string $path
+     * @param  string  $path
      */
     public function __construct(string $path)
     {
@@ -50,15 +49,14 @@ class ImageResizer
     /**
      * Set thumbnail size.
      *
-     * @param int    $width
-     * @param int    $height
-     * @param string $type
-     *
+     * @param  int  $width
+     * @param  int  $height
+     * @param  string  $type
      * @return $this
      */
     public function setSize($width, $height, $type = 'fit')
     {
-        if (!isset($this->pathinfo['dirname'])) {
+        if (! isset($this->pathinfo['dirname'])) {
             return $this;
         }
 
@@ -83,7 +81,7 @@ class ImageResizer
      */
     public function getDestFileSize()
     {
-        if (!$this->storage->exists($this->dest_file)) {
+        if (! $this->storage->exists($this->dest_file)) {
             return false;
         }
 
@@ -99,11 +97,11 @@ class ImageResizer
      */
     public function getUrl()
     {
-        if (empty($this->path) || !$this->storage->exists($this->path)) {
+        if (empty($this->path) || ! $this->storage->exists($this->path)) {
             return '';
         }
 
-        if (!in_array(strtolower($this->pathinfo['extension']), ['jpg', 'jpeg', 'png', 'gif'])) {
+        if (! in_array(strtolower($this->pathinfo['extension']), ['jpg', 'jpeg', 'png', 'gif'])) {
             return '';
         }
 

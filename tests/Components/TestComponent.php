@@ -21,9 +21,8 @@ abstract class TestComponent extends TestCase
     /**
      * Render the contents of the given Blade template string.
      *
-     * @param string $template
-     * @param array  $data
-     *
+     * @param  string  $template
+     * @param  array  $data
      * @return string
      */
     protected function blade(string $template, array $data = [])
@@ -31,7 +30,7 @@ abstract class TestComponent extends TestCase
         $this->withoutMix();
         $tempDirectory = sys_get_temp_dir();
 
-        if (!in_array($tempDirectory, ViewFacade::getFinder()->getPaths())) {
+        if (! in_array($tempDirectory, ViewFacade::getFinder()->getPaths())) {
             ViewFacade::addLocation(sys_get_temp_dir());
         }
 

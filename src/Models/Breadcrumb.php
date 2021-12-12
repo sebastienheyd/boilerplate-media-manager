@@ -60,7 +60,7 @@ class Breadcrumb
 
         $path = '';
 
-        if (!empty($bc)) {
+        if (! empty($bc)) {
             $last = end($bc);
             $path = $last['path'];
         }
@@ -71,8 +71,7 @@ class Breadcrumb
     /**
      * Format an array of directories.
      *
-     * @param array $dirs
-     *
+     * @param  array  $dirs
      * @return \Illuminate\Support\Collection
      */
     private function formatDirectories($dirs = [])

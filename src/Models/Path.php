@@ -21,8 +21,7 @@ class Path
     /**
      * Get current path or file path.
      *
-     * @param string $name
-     *
+     * @param  string  $name
      * @return string
      */
     public function path($name = '', $path = null)
@@ -52,7 +51,7 @@ class Path
 
         if (config('boilerplate.mediamanager.hide_thumbs_dir')) {
             $directories = collect($directories)->filter(function ($directory) {
-                return !preg_match('#^'.config('boilerplate.mediamanager.thumbs_dir').'#', $directory);
+                return ! preg_match('#^'.config('boilerplate.mediamanager.thumbs_dir').'#', $directory);
             })->toArray();
         }
 
@@ -67,9 +66,8 @@ class Path
     /**
      * Filter media collection.
      *
-     * @param \Illuminate\Support\Collection $collection
-     * @param string                         $type
-     *
+     * @param  \Illuminate\Support\Collection  $collection
+     * @param  string  $type
      * @return mixed
      */
     private function filterMedia($collection, $type)
@@ -87,7 +85,7 @@ class Path
 
             switch ($type) {
                 case 'file':
-                    return !in_array($value['type'], ['image', 'video']);
+                    return ! in_array($value['type'], ['image', 'video']);
 
                 case 'image':
                     return $value['type'] === 'image';
@@ -104,8 +102,7 @@ class Path
     /**
      * Format an array of files.
      *
-     * @param array $files
-     *
+     * @param  array  $files
      * @return \Illuminate\Support\Collection
      */
     private function formatFiles($files = [])
@@ -123,8 +120,7 @@ class Path
     /**
      * Format an array of directories.
      *
-     * @param array $dirs
-     *
+     * @param  array  $dirs
      * @return \Illuminate\Support\Collection
      */
     private function formatDirectories($dirs = [])
@@ -153,8 +149,8 @@ class Path
     /**
      * Rename a folder or media in the current path.
      *
-     * @param string $name
-     * @param string $newName
+     * @param  string  $name
+     * @param  string  $newName
      */
     public function rename($name, $newName)
     {
@@ -172,8 +168,8 @@ class Path
     /**
      * Move a folder or media to the given path.
      *
-     * @param string $name
-     * @param string $destinationPath
+     * @param  string  $name
+     * @param  string  $destinationPath
      */
     public function move($name, $destinationPath)
     {
@@ -192,9 +188,8 @@ class Path
     /**
      * Store file.
      *
-     * @param \Illuminate\Http\UploadedFile $file
-     * @param string                        $fileName
-     *
+     * @param  \Illuminate\Http\UploadedFile  $file
+     * @param  string  $fileName
      * @return string
      */
     public function upload($file, $fileName = null)
@@ -213,7 +208,6 @@ class Path
      * Delete a folder or a file in the current path.
      *
      * @param $name
-     *
      * @return bool
      */
     public function delete($name)
@@ -221,7 +215,7 @@ class Path
         $path = $this->path($name);
         $fullPath = $this->getFullPath($path);
 
-        if (!is_readable($fullPath)) {
+        if (! is_readable($fullPath)) {
             return false;
         }
 
@@ -243,7 +237,6 @@ class Path
      * Get relative path from root.
      *
      * @param $path
-     *
      * @return mixed|string
      */
     private function getRelativePath($path)
@@ -256,8 +249,7 @@ class Path
     /**
      * Check if current path exists.
      *
-     * @param string $name
-     *
+     * @param  string  $name
      * @return bool
      */
     public function exists($name = null)
@@ -273,8 +265,7 @@ class Path
     /**
      * Get full path for a given relative path.
      *
-     * @param string $name
-     *
+     * @param  string  $name
      * @return string
      */
     public function getFullPath($name)
@@ -285,7 +276,7 @@ class Path
     /**
      * Clear current path cache.
      *
-     * @param string $path
+     * @param  string  $path
      */
     public function clearCache($path = null)
     {

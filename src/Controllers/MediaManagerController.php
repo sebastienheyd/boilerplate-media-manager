@@ -30,8 +30,7 @@ class MediaManagerController extends Controller
     /**
      * Delete file(s) or a folder.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return JsonResponse|ResponseFactory
      */
     public function delete(Request $request)
@@ -63,8 +62,7 @@ class MediaManagerController extends Controller
     /**
      * Display the media manager.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return View
      */
     public function index(Request $request)
@@ -91,8 +89,7 @@ class MediaManagerController extends Controller
     /**
      * Display files and directories list.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return Factory|View
      */
     public function list(Request $request)
@@ -108,7 +105,7 @@ class MediaManagerController extends Controller
 
         $content = new Path($path);
 
-        if (!$content->exists()) {
+        if (! $content->exists()) {
             return view('boilerplate-media-manager::error', ['query' => session()->get('queryString')]);
         }
 
@@ -130,8 +127,7 @@ class MediaManagerController extends Controller
     /**
      * Display the media manager for MCE.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return View
      */
     public function mce(Request $request)
@@ -158,8 +154,7 @@ class MediaManagerController extends Controller
     /**
      * Add a new folder.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return JsonResponse|ResponseFactory
      */
     public function newFolder(Request $request)
@@ -173,8 +168,7 @@ class MediaManagerController extends Controller
     /**
      * Paste file(s) into the given path.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return JsonResponse|ResponseFactory
      */
     public function paste(Request $request)
@@ -208,13 +202,12 @@ class MediaManagerController extends Controller
     /**
      * Delete a file or a folder.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return JsonResponse
      */
     public function rename(Request $request)
     {
-        if (!$request->isXmlHttpRequest()) {
+        if (! $request->isXmlHttpRequest()) {
             abort(403);
         }
 
@@ -242,11 +235,10 @@ class MediaManagerController extends Controller
     /**
      * Upload file(s) to server.
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return JsonResponse|ResponseFactory
      *
      * @throws Exception
-     *
-     * @return JsonResponse|ResponseFactory
      */
     public function upload(Request $request)
     {
@@ -272,7 +264,7 @@ class MediaManagerController extends Controller
         try {
             $file = $request->file('file');
 
-            if (!$file instanceof UploadedFile) {
+            if (! $file instanceof UploadedFile) {
                 throw new UnexpectedValueException('File is not instance of UploadedFile');
             }
 
@@ -296,11 +288,10 @@ class MediaManagerController extends Controller
     /**
      * Upload file to server from TinyMCE.
      *
-     * @param Request $request
+     * @param  Request  $request
+     * @return JsonResponse|ResponseFactory
      *
      * @throws Exception
-     *
-     * @return JsonResponse|ResponseFactory
      */
     public function uploadMce(Request $request)
     {
@@ -321,7 +312,7 @@ class MediaManagerController extends Controller
         try {
             $file = $request->file('file');
 
-            if (!$file instanceof UploadedFile) {
+            if (! $file instanceof UploadedFile) {
                 throw new UnexpectedValueException('File is not instance of UploadedFile');
             }
 
