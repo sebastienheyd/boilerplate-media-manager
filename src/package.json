@@ -13,18 +13,18 @@
     "axios": "^0.21",
     "clean-webpack-plugin": "^3.0.0",
     "cross-env": "^6.0.3",
-    "laravel-mix": "^6.0.6",
+    "laravel-mix": "^6.0.39",
+    "lodash": "^4.17.19",
+    "postcss": "^8.4.4",
     "resolve-url-loader": "^3.1.2",
     "sass": "1.32.13",
-    "sass-loader": "^8.0.2",
-    "lodash": "^4.17.19",
-    "postcss": "^8.1.14"
+    "sass-loader": "^8.0.2"
   },
   "dependencies": {
-    "jquery": "^3.1.1",
-    "bootstrap-sass": "^3.4.1",
     "blueimp-file-upload": "^9.28.0",
+    "bootstrap-sass": "^3.4.1",
+    "jquery": "^3.1.1",
     "jquery-lazy": "^1.7.10",
-    "jquery-ui": "^1.12.1"
+    "jquery-ui": "^1.13.0"
   }
 }
