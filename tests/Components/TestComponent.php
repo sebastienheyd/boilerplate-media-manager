@@ -21,8 +21,9 @@ abstract class TestComponent extends TestCase
     /**
      * Render the contents of the given Blade template string.
      *
-     * @param  string  $template
-     * @param  array  $data
+     * @param string $template
+     * @param array  $data
+     *
      * @return string
      */
     protected function blade(string $template, array $data = [])
@@ -30,7 +31,7 @@ abstract class TestComponent extends TestCase
         $this->withoutMix();
         $tempDirectory = sys_get_temp_dir();
 
-        if (! in_array($tempDirectory, ViewFacade::getFinder()->getPaths())) {
+        if (!in_array($tempDirectory, ViewFacade::getFinder()->getPaths())) {
             ViewFacade::addLocation(sys_get_temp_dir());
         }
 
@@ -38,7 +39,7 @@ abstract class TestComponent extends TestCase
         $tempFile = $tempFileInfo['dirname'].'/'.$tempFileInfo['filename'].'.blade.php';
         file_put_contents($tempFile, $template);
 
-        ViewFacade::share('errors', (new ViewErrorBag)->put('default', new MessageBag([
+        ViewFacade::share('errors', (new ViewErrorBag())->put('default', new MessageBag([
             'fielderror' => ['Error message'],
         ])));
 

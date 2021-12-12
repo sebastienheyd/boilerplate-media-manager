@@ -64,8 +64,8 @@ class ServiceProvider extends BaseServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'boilerplate-media-manager');
         $this->loadMigrationsFrom(__DIR__.'/migrations');
 
-        View::composer("boilerplate-media-manager::components.image", ImageComposer::class);
-        View::composer("boilerplate-media-manager::components.file", FileComposer::class);
+        View::composer('boilerplate-media-manager::components.image', ImageComposer::class);
+        View::composer('boilerplate-media-manager::components.file', FileComposer::class);
 
         Blade::directive('img', function ($options) {
             return "<?= img($options) ?>";
