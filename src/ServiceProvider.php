@@ -58,13 +58,20 @@ class ServiceProvider extends BaseServiceProvider
         }
 
         $this->loadRoutesFrom(__DIR__.'/routes/boilerplate-media-manager.php');
-        $this->loadViewsFrom(__DIR__.'/resources/views', 'boilerplate-media-manager');
         $this->loadViewsFrom(__DIR__.'/resources/views/components', 'boilerplate-media-manager');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'boilerplate-media-manager');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'boilerplate-media-manager');
         $this->loadMigrationsFrom(__DIR__.'/migrations');
 
-        View::composer('boilerplate-media-manager::components.image', ImageComposer::class);
-        View::composer('boilerplate-media-manager::components.file', FileComposer::class);
+        View::composer([
+            'boilerplate-media-manager::image',
+            'boilerplate-media-manager::components.image',
+        ], ImageComposer::class);
+
+        View::composer([
+            'boilerplate-media-manager::file',
+            'boilerplate-media-manager::components.file',
+        ], FileComposer::class);
 
         Blade::directive('img', function ($options) {
             return "<?= img($options) ?>";

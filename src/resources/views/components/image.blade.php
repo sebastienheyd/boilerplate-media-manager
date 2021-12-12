@@ -23,5 +23,5 @@
 <div class="error-bubble"><div>{{ $message }}</div></div>
 @enderror
 </div>
-@include('boilerplate-media-manager::components.scripts')
+@include('boilerplate-media-manager::components.async_scripts')
 @endif
