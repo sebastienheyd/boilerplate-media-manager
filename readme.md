@@ -40,16 +40,16 @@ php artisan storage:link
 
 After `vendor:publish`, you can find the configuration file `mediamanager.php` in the `app/config/boilerplate` folder
 
-| configuration | description |
-|---|---|
-| mediamanager.base_url | Relative path to the public storage folder  |
-| mediamanager.tinymce_upload_dir | Directory where TinyMCE will store his edited image  |
-| mediamanager.thumbs_dir | Directory where to store dynamically generated thumbs |
-| mediamanager.authorized.size | Upload max size in bytes, default is 2048 |
-| mediamanager.authorized.mimes | Mime types by extension, see [Laravel documentation](https://laravel.com/docs/5.7/validation#rule-mimes)
-| mediamanager.filetypes | Associative array to get file type by extension |
-| mediamanager.icons | Associative array to get icon class (Fontawesome) by file type |
-| mediamanager.filter | Array of filtered files to hide |
+| configuration                   | description                                                                                              |
+|---------------------------------|----------------------------------------------------------------------------------------------------------|
+| mediamanager.base_url           | Relative path to the public storage folder                                                               |
+| mediamanager.tinymce_upload_dir | Directory where TinyMCE will store his edited image                                                      |
+| mediamanager.thumbs_dir         | Directory where to store dynamically generated thumbs                                                    |
+| mediamanager.authorized.size    | Upload max size in bytes, default is 2048                                                                |
+| mediamanager.authorized.mimes   | Mime types by extension, see [Laravel documentation](https://laravel.com/docs/5.7/validation#rule-mimes) |
+| mediamanager.filetypes          | Associative array to get file type by extension                                                          |
+| mediamanager.icons              | Associative array to get icon class (Fontawesome) by file type                                           |
+| mediamanager.filter             | Array of filtered files to hide                                                                          |
 
 ## Backend
 
@@ -68,13 +68,16 @@ This component allows you to use the media manager to select an image to use.
 
 Parameters are :
 
-| name   | description              | default |
-|--------|--------------------------|---|
-| name   | Input name (required)    | "" |
-| value  | Default input value      | "" |
-| label  | Label of the input field | "" |
-| width  | Width of the selector    | 300 |
-| height | Height of the selector   | 200 |
+| name        | description                    | default |
+|-------------|--------------------------------|---------|
+| name        | Input name (required)          | ""      |
+| value       | Default input value            | ""      |
+| label       | Label of the input field       | ""      |
+| width       | Width of the selector          | 300     |
+| height      | Height of the selector         | 200     |
+| help        | Help text                      | ""      |
+| group-class | Additional class to form-group | ""      |
+| group-id    | Form-group ID                  | ""      |
 
 ### File selector
 
@@ -87,12 +90,15 @@ This component allows you to use the media manager to select a file to assign to
 
 Parameters are :
 
-| name | description | default |
-|---|---|--|
-| name |  Input name (required) | "" |
-| value | Input value | "" |
-| label | Label of the input field | "" |
-| type | Media list filter (all, file, image, video) | all |
+| name        | description                                 | default |
+|-------------|---------------------------------------------|---------|
+| name        | Input name (required)                       | ""      |
+| value       | Input value                                 | ""      |
+| label       | Label of the input field                    | ""      |
+| type        | Media list filter (all, file, image, video) | all     |
+| help        | Help text                                   | ""      |
+| group-class | Additional class to form-group              | ""      |
+| group-id    | Form-group ID                               | ""      |
 
 ## Frontend
 

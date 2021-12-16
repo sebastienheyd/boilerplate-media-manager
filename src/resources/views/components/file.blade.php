@@ -1,7 +1,7 @@
 @if(empty($name))
     <code>&lt;x-boilerplate-media-manager::file> The name attribute has not been set</code>
 @else
-<div class="form-group">
+<div class="form-group{{ isset($groupClass) ? ' '.$groupClass : '' }}"{!! isset($groupId) ? ' id="'.$groupId.'"' : '' !!}>
     @if(!empty($label))
     {{ Form::label($name ?? 'file', $label) }}
     @endif
@@ -15,9 +15,12 @@
         <input type="hidden" name="{{ $name }}" value="{{ old($name, $value ?? '') }}" data-id="{{ $id }}" data-action="setMediaFile"/>
         <button class="btn {{ old($name, $value ?? false)  ? '' : 'd-none' }}" id="clear-{{ $id }}" type="button" data-action="clearMediaFile" style="position:absolute;right:0"><span class="fa fa-times"></span></button>
     </div>
-    @error($name)
+@if($help ?? false)
+    <small class="form-text text-muted">@lang($help)</small>
+@endif
+@error($name)
     <div class="error-bubble"><div>{{ $message }}</div></div>
-    @enderror
+@enderror
 </div>
 @include('boilerplate-media-manager::components.async_scripts')
 @endif

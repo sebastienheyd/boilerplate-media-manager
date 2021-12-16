@@ -1,7 +1,7 @@
 @if(empty($name))
     <code>&lt;x-boilerplate-media-manager::image> The name attribute has not been set</code>
 @else
-<div class="form-group">
+<div class="form-group{{ isset($groupClass) ? ' '.$groupClass : '' }}"{!! isset($groupId) ? ' id="'.$groupId.'"' : '' !!}>
 @isset($label)
     {!! Form::label($name, __($label)) !!}
 @endisset
@@ -19,8 +19,11 @@
     </div>
     <input type="hidden" name="{{ $name }}" value="{{ old($name, $value ?? '') }}" data-id="{{ $id }}"/>
 </div>
+@if($help ?? false)
+    <small class="form-text text-muted">@lang($help)</small>
+@endif
 @error($name)
-<div class="error-bubble"><div>{{ $message }}</div></div>
+    <div class="error-bubble"><div>{{ $message }}</div></div>
 @enderror
 </div>
 @include('boilerplate-media-manager::components.async_scripts')

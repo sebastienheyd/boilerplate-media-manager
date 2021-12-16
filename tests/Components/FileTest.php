@@ -33,7 +33,7 @@ HTML;
         <input type="hidden" name="file" value="" data-id="test" data-action="setMediaFile"/>
         <button class="btn d-none" id="clear-test" type="button" data-action="clearMediaFile" style="position:absolute;right:0"><span class="fa fa-times"></span></button>
     </div>
-    </div>
+</div>
 <script>loadStylesheet("",()=>{loadScript("",()=>{window.selectMediaLocales={confirm:"Remove image ?"}})});</script>
 HTML;
 
@@ -61,7 +61,7 @@ HTML;
         <input type="hidden" name="file" value="file.pdf" data-id="test" data-action="setMediaFile"/>
         <button class="btn " id="clear-test" type="button" data-action="clearMediaFile" style="position:absolute;right:0"><span class="fa fa-times"></span></button>
     </div>
-    </div>
+</div>
 <script>loadStylesheet("",()=>{loadScript("",()=>{window.selectMediaLocales={confirm:"Remove image ?"}})});</script>
 HTML;
 
