@@ -74,7 +74,7 @@ class Directory
      */
     public function getFullPath()
     {
-        return $this->storage->getDriver()->getAdapter()->applyPathPrefix($this->directory);
+        return config('filesystems.disks.public.root').'/'.ltrim($this->directory, '\\/');
     }
 
     /**

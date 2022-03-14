@@ -2,8 +2,8 @@
 
 namespace Sebastienheyd\BoilerplateMediaManager\Models;
 
-use Cache;
-use Storage;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 class Path
 {
@@ -270,7 +270,7 @@ class Path
      */
     public function getFullPath($name)
     {
-        return $this->storage->getDriver()->getAdapter()->applyPathPrefix($name);
+        return config('filesystems.disks.public.root').'/'.ltrim($name, '\\/');
     }
 
     /**

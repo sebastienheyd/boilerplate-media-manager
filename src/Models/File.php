@@ -125,7 +125,7 @@ class File extends BaseFile
      */
     public function getFullPath($file = '')
     {
-        return $this->storage->getDriver()->getAdapter()->applyPathPrefix($file === '' ? $this->file : $file);
+        return config('filesystems.disks.public.root').'/'.ltrim($file === '' ? $this->file : $file, '\\/');
     }
 
     /**
