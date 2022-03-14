@@ -15,7 +15,6 @@ Route::group($default, function () {
         Route::post('delete', ['as' => 'delete', 'uses' => 'MediaManagerController@delete']);
         Route::post('rename', ['as' => 'rename', 'uses' => 'MediaManagerController@rename']);
         Route::post('upload', ['as' => 'upload', 'uses' => 'MediaManagerController@upload']);
-        Route::post('mce-upload', ['as' => 'mce-upload', 'uses' => 'MediaManagerController@uploadMce']);
         Route::post('paste', ['as' => 'paste', 'uses' => 'MediaManagerController@paste']);
     });
 

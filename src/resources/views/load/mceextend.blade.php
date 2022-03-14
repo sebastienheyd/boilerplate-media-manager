@@ -1,23 +1,4 @@
 image_advtab: true,
-images_upload_handler: function (blobInfo, success, failure) {
-    let formData = new FormData();
-    formData.append('file', blobInfo.blob(), blobInfo.filename());
-
-    $.ajax({
-        url: '{{ route('mediamanager.ajax.mce-upload') }}',
-        type: 'post',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(json){
-            if (!json || typeof json.location != 'string') {
-                failure('Invalid JSON');
-                return;
-            }
-            success(json.location);
-        }
-    });
-},
 file_picker_callback: function (callback, value, meta) {
     tinymce.activeEditor.windowManager.openUrl({
         url: '{{ route('mediamanager.index', [], false) }}?mce=1&type=' + meta.filetype + '&selected=' + value,
