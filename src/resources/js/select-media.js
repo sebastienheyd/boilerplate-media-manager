@@ -56,7 +56,7 @@ $(function () {
         })
     });
 
-    window.onmessage = function (e) {
+    window.addEventListener('message', function (e) {
         if (e.data.action === 'insertMedia') {
             $('input[data-id=' + e.data.field + ']').val(e.data.url).trigger('change');
 
@@ -68,5 +68,5 @@ $(function () {
             $('#select-media-bg').remove();
             $('body').css('overflow', 'auto');
         }
-    };
+    });
 });
