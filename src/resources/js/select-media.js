@@ -56,6 +56,14 @@ $(function () {
         })
     });
 
+    $(document).on('change', 'input[data-name="hidden-image-selector-value"]', function() {
+        window.postMessage({
+            action: 'updateMedia',
+            name: $(this).attr('name'),
+            value: $(this).val(),
+        }, '*');
+    });
+
     window.addEventListener('message', function (e) {
         if (e.data.action === 'insertMedia') {
             $('input[data-id=' + e.data.field + ']').val(e.data.url).trigger('change');

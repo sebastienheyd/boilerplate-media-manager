@@ -17,7 +17,7 @@
         <button class="btn select-image-view"><span class="fa fa-eye"></span></button>
         <button class="btn select-image-delete"><span class="fa fa-times"></span></button>
     </div>
-    <input type="hidden" name="{{ $name }}" value="{{ old($name, $value ?? '') }}" data-id="{{ $id }}"/>
+    <input type="hidden" name="{{ $name }}" value="{{ old($name, $value ?? '') }}" data-id="{{ $id }}" data-name="hidden-image-selector-value"/>
 </div>
 @if($help ?? false)
     <small class="form-text text-muted">@lang($help)</small>
