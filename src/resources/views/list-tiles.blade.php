@@ -34,7 +34,7 @@
                         <a href="{{ $item['url'] }}" class="btn btn-sm btn-default btn-view">
                             <span class="fa fa-eye"></span>
                         </a>
-                        <a href="{{ $item['url'] }}" class="btn btn-sm btn-default" download="{{ $item['url'] }}" target="_blank">
+                        <a href="{{ $item['url'] }}" class="btn btn-sm btn-default" download target="_blank">
                             <span class="fa fa-download"></span>
                         </a>
                     @endif
