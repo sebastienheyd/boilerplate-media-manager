@@ -1,10 +1,9 @@
 # Laravel Media Manager for [sebastienheyd/boilerplate](https://github.com/sebastienheyd/boilerplate)
 
 [![Packagist](https://img.shields.io/packagist/v/sebastienheyd/boilerplate-media-manager.svg?style=flat-square)](https://packagist.org/packages/sebastienheyd/boilerplate-media-manager)
-[![Build Status](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-media-manager/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-media-manager/build-status/master)
 [![StyleCI](https://github.styleci.io/repos/170482496/shield?branch=master)](https://github.styleci.io/repos/170482496)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-media-manager/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-media-manager/?branch=master)
-![Laravel](https://img.shields.io/badge/Laravel-6.x%20→%209.x-green?logo=Laravel&style=flat-square)
+![Laravel](https://img.shields.io/badge/Laravel-6.x%20→%2011.x-green?logo=Laravel&style=flat-square)
 [![Nb downloads](https://img.shields.io/packagist/dt/sebastienheyd/boilerplate-media-manager.svg?style=flat-square)](https://packagist.org/packages/sebastienheyd/boilerplate-media-manager)
 [![MIT License](https://img.shields.io/github/license/sebastienheyd/boilerplate-media-manager.svg?style=flat-square)](license.md)
 
