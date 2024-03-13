@@ -56,7 +56,16 @@ $(function () {
         })
     });
 
-    $(document).on('change', 'input[data-name="hidden-image-selector-value"]', function() {
+    $(document).on('change', 'input[data-name="hidden-image-selector-value"]', function () {
+        let event = new CustomEvent('updateMedia', {
+            detail: {
+                name: $(this).attr('name'),
+                value: $(this).val()
+            }
+        });
+
+        this.dispatchEvent(event);
+
         window.postMessage({
             action: 'updateMedia',
             name: $(this).attr('name'),
