@@ -36,14 +36,14 @@ class MediaManagerController extends Controller
     public function delete(Request $request)
     {
         $validation = Validator::make($request->all(), [
-            'path'  => 'required',
+            'path' => 'required',
             'files' => 'required',
         ]);
 
         if ($validation->fails()) {
             return response()->json([
                 'status' => 'error',
-                'error'  => implode(' / ', (array) $validation->errors()),
+                'error' => implode(' / ', (array) $validation->errors()),
             ]);
         }
         $path = new Path($request->input('path'));
@@ -141,11 +141,11 @@ class MediaManagerController extends Controller
         }
 
         $data = [
-            'type'        => $request->input('type', 'all'),
-            'path'        => $path ?? '/',
-            'field'       => $request->input('field'),
+            'type' => $request->input('type', 'all'),
+            'path' => $path ?? '/',
+            'field' => $request->input('field'),
             'return_type' => $request->input('return_type'),
-            'selected'    => $selected,
+            'selected' => $selected,
         ];
 
         return view('boilerplate-media-manager::index-mce', $data);
@@ -174,15 +174,15 @@ class MediaManagerController extends Controller
     public function paste(Request $request)
     {
         $validation = Validator::make($request->all(), [
-            'from'        => 'required',
-            'files'       => 'required',
+            'from' => 'required',
+            'files' => 'required',
             'destination' => 'required',
         ]);
 
         if ($validation->fails()) {
             return response()->json([
                 'status' => 'error',
-                'error'  => implode(' / ', (array) $validation->errors()),
+                'error' => implode(' / ', (array) $validation->errors()),
             ]);
         }
 
@@ -212,10 +212,10 @@ class MediaManagerController extends Controller
         }
 
         $validator = Validator::make($request->post(), [
-            'path'     => 'required',
-            'type'     => ['required', Rule::in(['folder', 'file'])],
+            'path' => 'required',
+            'type' => ['required', Rule::in(['folder', 'file'])],
             'fileName' => 'required',
-            'newName'  => 'required',
+            'newName' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -255,7 +255,7 @@ class MediaManagerController extends Controller
         if ($validation->fails()) {
             return response()->json([
                 'status' => 'error',
-                'error'  => $validation->errors()->first('file'),
+                'error' => $validation->errors()->first('file'),
             ]);
         }
 

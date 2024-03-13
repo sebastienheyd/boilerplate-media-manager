@@ -137,7 +137,7 @@ class Path
     /**
      * Create a new folder in the current path.
      *
-     * @param $name
+     * @param  $name
      */
     public function newFolder($name)
     {
@@ -207,7 +207,7 @@ class Path
     /**
      * Delete a folder or a file in the current path.
      *
-     * @param $name
+     * @param  $name
      * @return bool
      */
     public function delete($name)
@@ -236,7 +236,7 @@ class Path
     /**
      * Get relative path from root.
      *
-     * @param $path
+     * @param  $path
      * @return mixed|string
      */
     private function getRelativePath($path)

@@ -2,5 +2,5 @@
 
 return [
     'notfound' => 'The folder does not exist',
-    'back'     => 'Back to the root folder',
+    'back' => 'Back to the root folder',
 ];

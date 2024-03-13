@@ -10,8 +10,8 @@ class BoilerplateMediaManager
     {
         $menu->add(__('boilerplate-media-manager::menu.medialibrary'), [
             'permission' => 'media_manager',
-            'icon'       => 'images',
-            'route'      => 'mediamanager.index', ])
+            'icon' => 'images',
+            'route' => 'mediamanager.index', ])
             ->activeIfRoute('mediamanager.*')
             ->order(500);
     }

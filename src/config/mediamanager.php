@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'base_url'           => '/storage',
+    'base_url' => '/storage',
     'tinymce_upload_dir' => 'edition',
-    'thumbs_dir'         => 'thumbs',
-    'hide_thumbs_dir'    => true,
-    'authorized'         => [
-        'size'  => '2048',
+    'thumbs_dir' => 'thumbs',
+    'hide_thumbs_dir' => true,
+    'authorized' => [
+        'size' => '2048',
         'mimes' => [// @see https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
             'jpg',
             'jpeg',
@@ -34,32 +34,32 @@ return [
             'wmv',
         ],
     ],
-    'filetypes'     => [// Recognized filetypes
-        'image'   => 'png|jpg|jpeg|gif|svg',
-        'word'    => 'doc|docx|odt',
-        'excel'   => 'xls|xlsx|ods',
-        'ppt'     => 'ppt|pptx',
-        'pdf'     => 'pdf',
-        'code'    => 'php|js|java|python|ruby|go|c|cpp|sql|m|h|json|html|aspx',
+    'filetypes' => [// Recognized filetypes
+        'image' => 'png|jpg|jpeg|gif|svg',
+        'word' => 'doc|docx|odt',
+        'excel' => 'xls|xlsx|ods',
+        'ppt' => 'ppt|pptx',
+        'pdf' => 'pdf',
+        'code' => 'php|js|java|python|ruby|go|c|cpp|sql|m|h|json|html|aspx',
         'archive' => 'zip|tar\.gz|rar|rpm',
-        'txt'     => 'txt|pac|log|md',
-        'audio'   => 'mp3|wav|flac|3pg|aa|aac|ape|au|m4a|mpc|ogg',
-        'video'   => 'mkv|rmvb|flv|mp4|avi|wmv|rm|asf|mpeg',
+        'txt' => 'txt|pac|log|md',
+        'audio' => 'mp3|wav|flac|3pg|aa|aac|ape|au|m4a|mpc|ogg',
+        'video' => 'mkv|rmvb|flv|mp4|avi|wmv|rm|asf|mpeg',
     ],
-    'icons'     => [// Icons linked to filetypes
-        'file'    => 'file', // default
-        'image'   => 'file-image',
-        'word'    => 'file-word',
-        'excel'   => 'file-excel',
-        'ppt'     => 'file-powerpoint',
-        'pdf'     => 'file-pdf',
-        'code'    => 'file-code',
+    'icons' => [// Icons linked to filetypes
+        'file' => 'file', // default
+        'image' => 'file-image',
+        'word' => 'file-word',
+        'excel' => 'file-excel',
+        'ppt' => 'file-powerpoint',
+        'pdf' => 'file-pdf',
+        'code' => 'file-code',
         'archive' => 'file-zip',
-        'txt'     => 'file-text',
-        'audio'   => 'file-audio',
-        'video'   => 'file-video',
+        'txt' => 'file-text',
+        'audio' => 'file-audio',
+        'video' => 'file-video',
     ],
-    'filter'             => [
+    'filter' => [
         '.gitignore',
         '.git',
         '.htaccess',

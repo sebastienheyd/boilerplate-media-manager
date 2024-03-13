@@ -6,11 +6,11 @@ return [
         'success' => 'La suppression a été effectuée',
     ],
     'folder' => [
-        'name'    => 'Nom du dossier',
+        'name' => 'Nom du dossier',
         'success' => 'Le dossier a été créé',
     ],
     'rename' => [
-        'title'   => 'Renommer',
+        'title' => 'Renommer',
         'success' => 'Le renommage a été effectué',
     ],
     'upload' => [
@@ -18,7 +18,7 @@ return [
     ],
     'paste' => [
         'success' => 'Élément(s) correctement déplacé(s)',
-        'files'   => 'élément(s) sélectionné(s)',
+        'files' => 'élément(s) sélectionné(s)',
     ],
     'deletemedia' => "Déselectionner l'image ?",
 ];

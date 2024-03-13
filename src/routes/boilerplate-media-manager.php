@@ -1,11 +1,11 @@
 <?php
 
 $default = [
-    'prefix'     => config('boilerplate.app.prefix', '').'/medias',
-    'domain'     => config('boilerplate.app.domain', ''),
+    'prefix' => config('boilerplate.app.prefix', '').'/medias',
+    'domain' => config('boilerplate.app.domain', ''),
     'middleware' => ['web', 'boilerplatelocale', 'boilerplateauth', 'ability:admin,backend_access,media-manager'],
-    'as'         => 'mediamanager.',
-    'namespace'  => '\Sebastienheyd\BoilerplateMediaManager\Controllers',
+    'as' => 'mediamanager.',
+    'namespace' => '\Sebastienheyd\BoilerplateMediaManager\Controllers',
 ];
 
 Route::group($default, function () {

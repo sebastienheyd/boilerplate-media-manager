@@ -6,11 +6,11 @@ return [
         'success' => 'The deletion has been completed',
     ],
     'folder' => [
-        'name'    => 'Name of the folder',
+        'name' => 'Name of the folder',
         'success' => 'The folder has been created',
     ],
     'rename' => [
-        'title'   => 'Rename',
+        'title' => 'Rename',
         'success' => 'The renaming has been done',
     ],
     'upload' => [
@@ -18,7 +18,7 @@ return [
     ],
     'paste' => [
         'success' => 'Item(s) successfully moved',
-        'files'   => 'item(s) selected',
+        'files' => 'item(s) selected',
     ],
     'deletemedia' => 'Remove image ?',
 ];

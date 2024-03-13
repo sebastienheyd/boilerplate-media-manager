@@ -14,11 +14,11 @@ class Permission extends Migration
     public function up()
     {
         DB::table('permissions')->insert([
-            'name'         => 'media_manager',
+            'name' => 'media_manager',
             'display_name' => 'boilerplate-media-manager::permissions.media_manager.display_name',
-            'description'  => 'boilerplate-media-manager::permissions.media_manager.description',
-            'created_at'   => date('Y-m-d H:i:s'),
-            'updated_at'   => date('Y-m-d H:i:s'),
+            'description' => 'boilerplate-media-manager::permissions.media_manager.description',
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
         ]);
     }
 

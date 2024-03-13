@@ -86,13 +86,13 @@ class Directory
     {
         return [
             'download' => '',
-            'isDir'    => true,
-            'type'     => 'folder',
-            'name'     => basename($this->directory),
-            'size'     => '-',
-            'link'     => route('mediamanager.index', ['path' => $this->directory], false),
-            'url'      => $this->storage->url($this->directory),
-            'time'     => $this->getFileChangeTime(),
+            'isDir' => true,
+            'type' => 'folder',
+            'name' => basename($this->directory),
+            'size' => '-',
+            'link' => route('mediamanager.index', ['path' => $this->directory], false),
+            'url' => $this->storage->url($this->directory),
+            'time' => $this->getFileChangeTime(),
         ];
     }
 
