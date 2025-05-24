@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
-use Image;
+use Intervention\Image\Laravel\Facades\Image;
 use Sebastienheyd\BoilerplateMediaManager\Models\Breadcrumb;
 use Sebastienheyd\BoilerplateMediaManager\Models\Path;
 use UnexpectedValueException;
@@ -265,7 +265,9 @@ class MediaManagerController
 
             if (in_array(strtolower($file->getClientOriginalExtension()), $ext)) {
                 $fInfo = pathinfo($fullPath);
-                Image::read($fullPath)->cover(150, 150)->save($fInfo['dirname'].'/thumb_'.$file->getClientOriginalName(), 75);
+                Image::read($fullPath)
+                    ->cover(150, 150)
+                    ->save($fInfo['dirname'].'/thumb_'.$file->getClientOriginalName(), 75);
             }
 
             $path->clearCache();
