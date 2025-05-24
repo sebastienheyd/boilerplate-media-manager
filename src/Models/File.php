@@ -4,8 +4,8 @@ namespace Sebastienheyd\BoilerplateMediaManager\Models;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File as BaseFile;
-use Intervention\Image\Facades\Image;
-use Storage;
+use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class File extends BaseFile
 {
@@ -173,7 +173,7 @@ class File extends BaseFile
         if (in_array(strtolower($this->pathinfo['extension'] ?? ''), $ext)) {
             $destFile = $this->getFullPath($this->getThumbPath());
             if (! is_file($destFile)) {
-                Image::make($this->getFullPath())->fit(150)->save($destFile, 75);
+                Image::read($this->getFullPath())->cover(150, 150)->save($destFile, 75);
             }
         }
     }

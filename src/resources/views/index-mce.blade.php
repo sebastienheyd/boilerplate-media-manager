@@ -32,7 +32,7 @@
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}});
     bootbox.setLocale('{{ App::getLocale() }}');
     var session = {
-        keepalive: "{{ route('boilerplate.keepalive', null, false) }}",
+        keepalive: "{{ route('boilerplate.session.keepalive', null, false) }}",
         expire: {{ time() +  config('session.lifetime') * 60 }},
         lifetime:  {{ config('session.lifetime') * 60 }},
         id: "{{ session()->getId() }}"

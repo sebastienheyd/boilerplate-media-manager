@@ -85,7 +85,7 @@ class ImageResizer
             return false;
         }
 
-        $img = Image::make($this->storage->path($this->dest_file));
+        $img = Image::read($this->storage->path($this->dest_file));
 
         return [$img->width(), $img->height()];
     }
@@ -115,11 +115,15 @@ class ImageResizer
                 try {
                     $mime = $this->storage->mimeType($this->path);
 
-                    $image = Image::make($this->original_file)
-                        ->{$this->type}($this->width, $this->height, function ($constraint) {
-                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        })->encode($mime);
+                    $image = Image::read($this->original_file);
+                    
+                    if ($this->type === 'fit') {
+                        $image = $image->cover($this->width, $this->height);
+                    } else {
+                        $image = $image->scale($this->width, $this->height);
+                    }
+                    
+                    $image = $image->encode();
 
                     $this->storage->put($this->dest_file, (string) $image);
 

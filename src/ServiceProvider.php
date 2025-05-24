@@ -6,8 +6,8 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
-use Intervention\Image\Facades\Image;
-use Intervention\Image\ImageServiceProvider;
+use Intervention\Image\Laravel\ServiceProvider as InterventionImageServiceProvider;
+use Intervention\Image\Laravel\Facades\Image as ImageFacade;
 use Sebastienheyd\BoilerplateMediaManager\Lib\ImageResizer;
 use Sebastienheyd\BoilerplateMediaManager\View\Composers\FileComposer;
 use Sebastienheyd\BoilerplateMediaManager\View\Composers\ImageComposer;
@@ -96,8 +96,8 @@ class ServiceProvider extends BaseServiceProvider
      */
     private function registerIntervention()
     {
-        $this->app->register(ImageServiceProvider::class);
-        $this->loader->alias('Image', Image::class);
+        $this->app->register(InterventionImageServiceProvider::class);
+        $this->loader->alias('Image', ImageFacade::class);
         $this->loader->alias('ImageResizer', ImageResizer::class);
     }
 }

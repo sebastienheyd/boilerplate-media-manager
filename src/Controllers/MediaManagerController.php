@@ -2,7 +2,6 @@
 
 namespace Sebastienheyd\BoilerplateMediaManager\Controllers;
 
-use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
@@ -17,16 +16,8 @@ use Sebastienheyd\BoilerplateMediaManager\Models\Path;
 use UnexpectedValueException;
 use Validator;
 
-class MediaManagerController extends Controller
+class MediaManagerController
 {
-    /**
-     * EmailController constructor.
-     */
-    public function __construct()
-    {
-        $this->middleware('ability:admin,media_manager');
-    }
-
     /**
      * Delete file(s) or a folder.
      *
@@ -274,7 +265,7 @@ class MediaManagerController extends Controller
 
             if (in_array(strtolower($file->getClientOriginalExtension()), $ext)) {
                 $fInfo = pathinfo($fullPath);
-                Image::make($fullPath)->fit(150)->save($fInfo['dirname'].'/thumb_'.$file->getClientOriginalName(), 75);
+                Image::read($fullPath)->cover(150, 150)->save($fInfo['dirname'].'/thumb_'.$file->getClientOriginalName(), 75);
             }
 
             $path->clearCache();

@@ -1,28 +1,32 @@
-.PHONY:help
+.PHONY:help cs csfix test testcoverage testcoveragehtml clean
 .DEFAULT_GOAL=help
 
-COMPOSER=./composer.phar
+PHP?=php
 
 help:
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-$(COMPOSER):
-	curl -sS https://getcomposer.org/installer | php -- --filename=composer.phar
-	chmod +x composer.phar
+composer.phar:
+	@curl -sS https://getcomposer.org/installer | $(PHP) -- --filename=composer.phar
+	@chmod +x composer.phar
 
-vendor: $(COMPOSER) composer.json
-	$(COMPOSER) update
+vendor: composer.phar composer.json
+	@$(PHP) composer.phar install --no-interaction --optimize-autoloader
 
 cs: vendor ## Check for coding standards
-	php vendor/bin/phpcs
+	@$(PHP) vendor/bin/phpcs
 
 csfix: vendor ## Check and fix for coding standards
-	php vendor/bin/phpcbf
+	@$(PHP) vendor/bin/phpcbf
 
 test: vendor phpunit.xml ## Unit testing
-	php vendor/bin/phpunit --stop-on-error
+	@$(PHP) vendor/bin/phpunit --stop-on-failure
+
+testcoverage: composer.phar vendor phpunit.xml ## Unit testing with code coverage
+	@XDEBUG_MODE=coverage $(PHP) vendor/bin/phpunit --coverage-text
+
+testcoveragehtml: composer.phar vendor phpunit.xml ## Unit testing with code coverage in HTML
+	@XDEBUG_MODE=coverage $(PHP) vendor/bin/phpunit --coverage-html coverage
 
 clean: ## Remove files needed for tests
-	rm -rf ./vendor
-	rm -f ./composer.phar
-	rm -f ./composer.lock
+	@rm -rf composer.phar composer.lock vendor testbench coverage .phpunit.result.cache .phpunit.cache
