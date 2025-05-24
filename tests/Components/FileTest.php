@@ -11,11 +11,11 @@ class FileTest extends TestComponent
 HTML;
 
         if ($this->isLaravelEqualOrGreaterThan7) {
-            $view = $this->blade('<x-boilerplate-media-manager::file />');
+            $view = $this->renderBlade('<x-boilerplate-media-manager::file />');
             $this->assertEquals($expected, $view);
         }
 
-        $view = $this->blade("@component('boilerplate-media-manager::file') @endcomponent");
+        $view = $this->renderBlade("@component('boilerplate-media-manager::file') @endcomponent");
         $this->assertEquals($expected, $view);
     }
 
@@ -38,11 +38,11 @@ HTML;
 HTML;
 
         if ($this->isLaravelEqualOrGreaterThan7) {
-            $view = $this->blade('<x-boilerplate-media-manager::file name="file" id="test"/>');
+            $view = $this->renderBlade('<x-boilerplate-media-manager::file name="file" id="test"/>');
             $this->assertEquals($expected, $view);
         }
 
-        $view = $this->blade("@component('boilerplate-media-manager::file', ['name' => 'file', 'id' => 'test']) @endcomponent");
+        $view = $this->renderBlade("@component('boilerplate-media-manager::file', ['name' => 'file', 'id' => 'test']) @endcomponent");
         $this->assertEquals($expected, $view);
     }
 
@@ -66,11 +66,11 @@ HTML;
 HTML;
 
         if ($this->isLaravelEqualOrGreaterThan7) {
-            $view = $this->blade('<x-boilerplate-media-manager::file name="file" id="test" label="label" value="file.pdf"/>');
+            $view = $this->renderBlade('<x-boilerplate-media-manager::file name="file" id="test" label="label" value="file.pdf"/>');
             $this->assertEquals($expected, $view);
         }
 
-        $view = $this->blade("@component('boilerplate-media-manager::file', ['name' => 'file', 'id' => 'test', 'label' => 'label', 'value' => 'file.pdf']) @endcomponent");
+        $view = $this->renderBlade("@component('boilerplate-media-manager::file', ['name' => 'file', 'id' => 'test', 'label' => 'label', 'value' => 'file.pdf']) @endcomponent");
         $this->assertEquals($expected, $view);
     }
 }

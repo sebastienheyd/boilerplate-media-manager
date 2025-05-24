@@ -1,7 +1,7 @@
 @php($id = uniqid())
 <div class="form-group">
     @if(!empty($label))
-    {{ Form::label($name ?? 'file', $label) }}
+    {!! html()->label($label)->for($name ?? 'file') !!}
     @endif
     <div class="input-group">
         <div class="input-group-prepend">

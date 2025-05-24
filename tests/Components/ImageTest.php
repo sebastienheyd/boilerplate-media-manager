@@ -11,11 +11,11 @@ class ImageTest extends TestComponent
 HTML;
 
         if ($this->isLaravelEqualOrGreaterThan7) {
-            $view = $this->blade('<x-boilerplate-media-manager::image />');
+            $view = $this->renderBlade('<x-boilerplate-media-manager::image />');
             $this->assertEquals($expected, $view);
         }
 
-        $view = $this->blade("@component('boilerplate-media-manager::image') @endcomponent");
+        $view = $this->renderBlade("@component('boilerplate-media-manager::image') @endcomponent");
         $this->assertEquals($expected, $view);
     }
 
@@ -31,19 +31,19 @@ HTML;
         <button class="btn select-image-view"><span class="fa fa-eye"></span></button>
         <button class="btn select-image-delete"><span class="fa fa-times"></span></button>
     </div>
-    <input type="hidden" name="file" value="" data-id="test"/>
+    <input type="hidden" name="file" value="" data-id="test" data-name="hidden-image-selector-value"/>
 </div>
 </div>
 <script>loadStylesheet("",()=>{loadScript("",()=>{window.selectMediaLocales={confirm:"Remove image ?"}})});</script>
 HTML;
 
         if ($this->isLaravelEqualOrGreaterThan7) {
-            $view = $this->blade('<x-boilerplate-media-manager::image name="file" id="test"/>');
+            $view = $this->renderBlade('<x-boilerplate-media-manager::image name="file" id="test"/>');
 
             $this->assertEquals($expected, $view);
         }
 
-        $view = $this->blade("@component('boilerplate-media-manager::image', ['name' => 'file', 'id' => 'test']) @endcomponent");
+        $view = $this->renderBlade("@component('boilerplate-media-manager::image', ['name' => 'file', 'id' => 'test']) @endcomponent");
         $this->assertEquals($expected, $view);
     }
 
@@ -60,18 +60,18 @@ HTML;
         <button class="btn select-image-view"><span class="fa fa-eye"></span></button>
         <button class="btn select-image-delete"><span class="fa fa-times"></span></button>
     </div>
-    <input type="hidden" name="image" value="image.jpg" data-id="test"/>
+    <input type="hidden" name="image" value="image.jpg" data-id="test" data-name="hidden-image-selector-value"/>
 </div>
 </div>
 <script>loadStylesheet("",()=>{loadScript("",()=>{window.selectMediaLocales={confirm:"Remove image ?"}})});</script>
 HTML;
 
         if ($this->isLaravelEqualOrGreaterThan7) {
-            $view = $this->blade('<x-boilerplate-media-manager::image name="image" id="test" label="label" value="image.jpg"/>');
+            $view = $this->renderBlade('<x-boilerplate-media-manager::image name="image" id="test" label="label" value="image.jpg"/>');
             $this->assertEquals($expected, $view);
         }
 
-        $view = $this->blade("@component('boilerplate-media-manager::image', ['name' => 'image', 'id' => 'test', 'label' => 'label', 'value' => 'image.jpg']) @endcomponent");
+        $view = $this->renderBlade("@component('boilerplate-media-manager::image', ['name' => 'image', 'id' => 'test', 'label' => 'label', 'value' => 'image.jpg']) @endcomponent");
         $this->assertEquals($expected, $view);
     }
 }

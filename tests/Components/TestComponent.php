@@ -12,10 +12,10 @@ abstract class TestComponent extends TestCase
 {
     protected $isLaravelEqualOrGreaterThan7;
 
-    public function __construct(?string $name = null, array $data = [], $dataName = '')
+    protected function setUp(): void
     {
+        parent::setUp();
         $this->isLaravelEqualOrGreaterThan7 = version_compare(Laravel::VERSION, '7.0', '>=');
-        parent::__construct($name, $data, $dataName);
     }
 
     /**
@@ -25,7 +25,7 @@ abstract class TestComponent extends TestCase
      * @param  array  $data
      * @return string
      */
-    protected function blade(string $template, array $data = [])
+    protected function renderBlade(string $template, array $data = [])
     {
         $this->withoutMix();
         $tempDirectory = sys_get_temp_dir();

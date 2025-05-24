@@ -3,7 +3,7 @@
 @else
 <div class="form-group{{ isset($groupClass) ? ' '.$groupClass : '' }}"{!! isset($groupId) ? ' id="'.$groupId.'"' : '' !!}>
     @if(!empty($label))
-    {{ Form::label($name ?? 'file', $label) }}
+    {!! html()->label($label)->for($name) !!}
     @endif
     <div class="input-group">
         <div class="input-group-prepend">

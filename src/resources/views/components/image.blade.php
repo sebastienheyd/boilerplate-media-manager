@@ -3,7 +3,7 @@
 @else
 <div class="form-group{{ isset($groupClass) ? ' '.$groupClass : '' }}"{!! isset($groupId) ? ' id="'.$groupId.'"' : '' !!}>
 @isset($label)
-    {!! Form::label($name, __($label)) !!}
+    {!! html()->label(__($label))->for($name) !!}
 @endisset
 <div class="select-image-wrapper {{ empty(old($name, $value ?? '')) ? '' : 'editable' }}" style="width:{{ $width ?? 300 }}px;height:{{ $height ?? 200 }}px">
     <button type="button" style="max-width:{{ $width ?? 300 }}px;height:{{ $height ?? 200 }}px" class="btn-select-image" data-field="{{ $id }}" data-src="{!! route('mediamanager.index', ['mce' => true, 'type' => 'image', 'return_type' => 'image', 'field' => $id], false) !!}">
