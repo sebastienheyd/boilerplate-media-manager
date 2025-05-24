@@ -13,10 +13,10 @@ $default = [
 Route::group($default, function () {
     Route::controller(MediaManagerController::class)->group(function () {
         Route::group(['prefix' => 'ajax', 'as' => 'ajax.'], function () {
-            Route::post('list', 'list')->name('list');;
+            Route::post('list', 'list')->name('list');
             Route::post('folder', 'newFolder')->name('new-folder');
             Route::post('delete', 'delete')->name('delete');
-            Route::post('rename', 'rename')->name('rename');;
+            Route::post('rename', 'rename')->name('rename');
             Route::post('upload', 'upload')->name('upload');
             Route::post('paste', 'paste')->name('paste');
         });

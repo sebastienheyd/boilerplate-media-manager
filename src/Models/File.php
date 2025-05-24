@@ -4,8 +4,8 @@ namespace Sebastienheyd\BoilerplateMediaManager\Models;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File as BaseFile;
-use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Laravel\Facades\Image;
 
 class File extends BaseFile
 {

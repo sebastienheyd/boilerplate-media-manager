@@ -116,13 +116,13 @@ class ImageResizer
                     $mime = $this->storage->mimeType($this->path);
 
                     $image = Image::read($this->original_file);
-                    
+
                     if ($this->type === 'fit') {
                         $image = $image->cover($this->width, $this->height);
                     } else {
                         $image = $image->scale($this->width, $this->height);
                     }
-                    
+
                     $image = $image->encode();
 
                     $this->storage->put($this->dest_file, (string) $image);
