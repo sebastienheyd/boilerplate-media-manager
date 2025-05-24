@@ -2,8 +2,7 @@
 
 [![Packagist](https://img.shields.io/packagist/v/sebastienheyd/boilerplate-media-manager.svg?style=flat-square)](https://packagist.org/packages/sebastienheyd/boilerplate-media-manager)
 [![StyleCI](https://github.styleci.io/repos/170482496/shield?branch=master)](https://github.styleci.io/repos/170482496)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-media-manager/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sebastienheyd/boilerplate-media-manager/?branch=master)
-![Laravel](https://img.shields.io/badge/Laravel-6.x%20→%2011.x-green?logo=Laravel&style=flat-square)
+![Laravel](https://img.shields.io/badge/Laravel-6.x%20→%2012.x-green?logo=Laravel&style=flat-square)
 [![Nb downloads](https://img.shields.io/packagist/dt/sebastienheyd/boilerplate-media-manager.svg?style=flat-square)](https://packagist.org/packages/sebastienheyd/boilerplate-media-manager)
 [![MIT License](https://img.shields.io/github/license/sebastienheyd/boilerplate-media-manager.svg?style=flat-square)](license.md)
 
@@ -17,22 +16,24 @@ This package adds a media management tool to [`sebastienheyd/boilerplate`](https
 composer require sebastienheyd/boilerplate-media-manager
 ```
 
-2. Run the command below to publish assets and configuration file
-
-```
-php artisan vendor:publish --tag=boilerplate
-```
-
-3. Run the migration to add permissions
+2. Run the migration to add permissions
 
 ```
 php artisan migrate
 ```
 
-4. Create the symbolic link from `public/storage` to `storage/app/public`
+3. Create the symbolic link from `public/storage` to `storage/app/public`
 
 ```
 php artisan storage:link
+```
+
+**Optional**: 
+
+To publish configuration files, you can run:
+
+```
+php artisan vendor:publish --tag=boilerplate
 ```
 
 ## Configuration
@@ -54,7 +55,7 @@ After `vendor:publish`, you can find the configuration file `mediamanager.php` i
 
 ### TinyMCE
 
-This media manager will be automatically used for images and files inclusion by the [TinyMCE Blade component](https://sebastienheyd.github.io/boilerplate/components/tinymce) included with the [sebastienheyd/boilerplate](https://github.com/sebastienheyd/boilerplate) package.
+This media manager will be automatically used for images and files inclusion by the [TinyMCE Blade component](https://sebastienheyd.github.io/boilerplate/docs/8.x/components/tinymce.html) included with the [sebastienheyd/boilerplate](https://github.com/sebastienheyd/boilerplate) package.
 
 ### Image selector
 
@@ -148,26 +149,3 @@ want to share the language you have added, don't hesitate to make a pull request
 
 You can override views by running `php artisan vendor:publish --tag=boilerplate-media-manager-views`. You will then find
 the views in the `resources/views/vendor/boilerplate-media-manager` folder.
-
-## Package update (Laravel < 8.6.9)
-
-Laravel Boilerplate Media Manager comes with assets such as Javascript, CSS, and images. Since you typically will need to overwrite the assets
-every time the package is updated, you may use the ```--force``` flag :
-
-```
-php artisan vendor:publish --tag=boilerplate-public --force
-```
-
-To auto update assets each time package is updated, you can add this command to `post-autoload-dump` into the 
-file `composer.json` at the root of your project.
-
-
-```json
-{
-    "scripts": {
-        "post-autoload-dump": [
-            "@php artisan vendor:publish --tag=boilerplate-public --force -q",
-        ]
-    }
-}
-```
