@@ -6,4 +6,9 @@ return [
     'type' => 'Type',
     'date' => 'Date',
     'nocontent' => 'No content for the moment, click on upload to add medias',
+    'search' => 'Search...',
+    'searchresults' => 'Search results for ":term"',
+    'noresults' => 'No results found for ":term"',
+    'path' => 'Path',
+    'back' => 'Back',
 ];

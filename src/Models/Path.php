@@ -135,6 +135,43 @@ class Path
     }
 
     /**
+     * Search for files matching the given term.
+     *
+     * @param  string  $term
+     * @param  string  $type
+     * @return array
+     */
+    public function search($term, $type = 'all')
+    {
+        $allFiles = $this->storage->allFiles('/');
+        $thumbsDir = config('boilerplate.mediamanager.thumbs_dir');
+
+        $matched = array_filter($allFiles, function ($file) use ($term, $thumbsDir) {
+            if ($thumbsDir && preg_match('#^'.preg_quote($thumbsDir, '#').'#', $file)) {
+                return false;
+            }
+
+            if (preg_match('#(^|/)thumb_#', $file)) {
+                return false;
+            }
+
+            return stripos(basename($file), $term) !== false;
+        });
+
+        $result = $this->formatFiles(array_values($matched));
+        $result = $result->map(function ($item) {
+            $dir = dirname($item['link']);
+            $prefix = route('mediamanager.index', [], false);
+            $item['dir'] = str_replace($prefix, '', $dir);
+            $item['dir'] = $item['dir'] === '' ? '/' : $item['dir'];
+
+            return $item;
+        });
+
+        return $this->filterMedia($result, $type)->values()->all();
+    }
+
+    /**
      * Create a new folder in the current path.
      *
      * @param  $name
