@@ -19,6 +19,7 @@
             ajaxPaste: "{{ route('mediamanager.ajax.paste', [], false) }}",
             newFolder: "{{ route('mediamanager.ajax.new-folder', [], false) }}",
             rename: "{{ route('mediamanager.ajax.rename', [], false) }}",
+            ajaxSearch: "{{ route('mediamanager.ajax.search', [], false) }}",
         }
     </script>
     <script src="{{ mix('/vendor/blueimp-file-upload/jquery.fileupload.min.js', '/assets/vendor/boilerplate-media-manager') }}"></script>

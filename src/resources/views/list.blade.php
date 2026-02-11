@@ -38,6 +38,14 @@
                 <span class="fa fa-sync-alt"></span>
             </a>
         </div>
+        <div class="input-group input-group-sm float-right mr-2" style="width:200px">
+            <input type="text" class="form-control" id="search-input" placeholder="{{ __('boilerplate-media-manager::list.search') }}">
+            <div class="input-group-append">
+                <button class="btn btn-default btn-search" type="button">
+                    <span class="fa fa-search"></span>
+                </button>
+            </div>
+        </div>
     </div>
     <div class="card-body pt-0">
         <ol id="media-breadcrumb" class="breadcrumb mb-3 py-2">

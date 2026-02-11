@@ -224,6 +224,27 @@ class MediaManagerController
     }
 
     /**
+     * Search for files by name.
+     *
+     * @param  Request  $request
+     * @return Factory|View|JsonResponse
+     */
+    public function search(Request $request)
+    {
+        $term = $request->input('term', '');
+
+        if (mb_strlen($term) < 2) {
+            return response()->json(['status' => 'error', 'message' => 'Search term too short']);
+        }
+
+        $type = $request->input('type', 'all');
+        $path = new Path('/');
+        $results = $path->search($term, $type);
+
+        return view('boilerplate-media-manager::search-results', compact('results', 'term'));
+    }
+
+    /**
      * Upload file(s) to server.
      *
      * @param  Request  $request

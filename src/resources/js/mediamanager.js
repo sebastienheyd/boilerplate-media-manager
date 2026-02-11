@@ -255,6 +255,40 @@ $(function () {
         loadPath(location.pathname);
     });
 
+    // Search
+    $(document).on('click', '.btn-search', function (e) {
+        e.preventDefault();
+        var term = $('#search-input').val().trim();
+        if (term.length >= 2) {
+            searchFiles(term);
+        }
+    });
+
+    $(document).on('keypress', '#search-input', function (e) {
+        if (e.which === 13) {
+            e.preventDefault();
+            var term = $(this).val().trim();
+            if (term.length >= 2) {
+                searchFiles(term);
+            }
+        }
+    });
+
+    // Back to list from search results
+    $(document).on('click', '.btn-back-to-list', function (e) {
+        e.preventDefault();
+        loadPath($('#media-content').data('path'));
+    });
+
+    // Navigate to path from search results
+    $(document).on('click', '.link-search-path', function (e) {
+        e.preventDefault();
+        var path = $(this).data('path');
+        var href = routes.ajaxList.replace('/ajax/list', '') + path;
+        history.pushState({page: href}, '', href);
+        loadPath(href);
+    });
+
     // Default on page load
     loadPath($('#media-content').data('path'));
 });
@@ -320,6 +354,30 @@ function uploadButton(path)
                 $('#disable').hide();
                 loadPath(path);
             }
+        }
+    });
+}
+
+function searchFiles(term)
+{
+    $('#loading').css({
+        position: 'absolute',
+        display: 'flex',
+        width: $('#media-content').width(),
+        height: $('#media-content').height() === 0 ? 200 : $('#media-content').height()
+    });
+
+    $.ajax({
+        url: routes.ajaxSearch,
+        type: 'post',
+        data: {
+            term: term,
+            type: $('#media-content').data('type')
+        },
+        success: function (html) {
+            $('#media-content').html(html);
+            $('.lazy').lazy();
+            $('#loading').css('display', 'none');
         }
     });
 }

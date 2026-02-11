@@ -19,6 +19,7 @@ Route::group($default, function () {
             Route::post('rename', 'rename')->name('rename');
             Route::post('upload', 'upload')->name('upload');
             Route::post('paste', 'paste')->name('paste');
+            Route::post('search', 'search')->name('search');
         });
 
         Route::get('/{path?}', 'index')->name('index')->where('path', '.*');
