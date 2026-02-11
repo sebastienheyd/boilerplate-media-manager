@@ -38,7 +38,7 @@
                 <span class="fa fa-sync-alt"></span>
             </a>
         </div>
-        <div class="input-group input-group-sm float-right mr-2" style="width:200px">
+        <div class="input-group float-right mr-2" style="width:200px">
             <input type="text" class="form-control" id="search-input" placeholder="{{ __('boilerplate-media-manager::list.search') }}">
             <div class="input-group-append">
                 <button class="btn btn-default btn-search" type="button">
