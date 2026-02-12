@@ -185,7 +185,7 @@ class File extends BaseFile
      */
     public function toArray()
     {
-        $ts = filemtime($this->getFullPath());
+        $ts = filectime($this->getFullPath());
 
         return [
             'download' => '',
