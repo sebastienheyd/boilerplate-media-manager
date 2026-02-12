@@ -85,6 +85,19 @@
 
 #media-list {
 
+    th.sortable {
+        cursor: pointer;
+        user-select: none;
+
+        &:hover {
+            background: rgba(0, 0, 0, .05);
+        }
+
+        .fa {
+            font-size: .75rem;
+        }
+    }
+
     tr {
 
         display: table-row;
@@ -260,6 +273,10 @@ body.dark-mode {
     }
 
     #media-list {
+        th.sortable:hover {
+            background: rgba(255, 255, 255, .05);
+        }
+
         tr {
             &:hover {
                 td {

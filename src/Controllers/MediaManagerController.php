@@ -87,6 +87,8 @@ class MediaManagerController
     {
         $type = $request->input('type', 'all');
         $display = $request->input('display', 'list');
+        $sort = $request->input('sort', 'name');
+        $order = $request->input('order', 'asc');
 
         $path = str_replace(route('mediamanager.index', [], false), '', $request->input('path'));
 
@@ -104,15 +106,51 @@ class MediaManagerController
             $content->clearCache();
         }
 
-        $list = $content->ls($type);
+        $list = $this->sortList($content->ls($type), $sort, $order);
 
         $breadcrumb = new Breadcrumb($path);
         $parent = $breadcrumb->parent();
 
         return view(
             'boilerplate-media-manager::list',
-            compact('content', 'list', 'parent', 'path', 'display', 'breadcrumb')
+            compact('content', 'list', 'parent', 'path', 'display', 'breadcrumb', 'sort', 'order')
         );
+    }
+
+    /**
+     * Sort a list of files and directories.
+     *
+     * @param  array  $list
+     * @param  string  $sort
+     * @param  string  $order
+     * @return array
+     */
+    private function sortList($list, $sort, $order)
+    {
+        $allowedFields = ['name' => 'name', 'size' => 'bytes', 'date' => 'ts', 'type' => 'type'];
+        $field = $allowedFields[$sort] ?? 'name';
+        $stringFields = ['name', 'type'];
+
+        $dirs = array_filter($list, fn ($item) => $item['isDir']);
+        $files = array_filter($list, fn ($item) => ! $item['isDir']);
+
+        $sorter = function ($a, $b) use ($field, $order, $stringFields) {
+            $valA = $a[$field] ?? 0;
+            $valB = $b[$field] ?? 0;
+
+            if (in_array($field, $stringFields)) {
+                $cmp = strnatcasecmp($valA, $valB);
+            } else {
+                $cmp = $valA <=> $valB;
+            }
+
+            return $order === 'desc' ? -$cmp : $cmp;
+        };
+
+        usort($dirs, $sorter);
+        usort($files, $sorter);
+
+        return array_merge($dirs, $files);
     }
 
     /**

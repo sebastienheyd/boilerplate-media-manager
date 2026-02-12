@@ -7,10 +7,22 @@
                 <label for="check-all"></label>
             </div>
         </th>
-        <th>{{ __('boilerplate-media-manager::list.name') }}</th>
-        <th style="width: 100px">{{ __('boilerplate-media-manager::list.weight') }}</th>
-        <th style="width: 80px">{{ __('boilerplate-media-manager::list.type') }}</th>
-        <th style="width: 160px">{{ __('boilerplate-media-manager::list.date') }}</th>
+        <th class="sortable" data-sort="name">
+            {{ __('boilerplate-media-manager::list.name') }}
+            @if($sort === 'name') <span class="fa fa-sort-{{ $order === 'asc' ? 'up' : 'down' }}"></span> @endif
+        </th>
+        <th class="sortable" data-sort="size" style="width: 100px">
+            {{ __('boilerplate-media-manager::list.weight') }}
+            @if($sort === 'size') <span class="fa fa-sort-{{ $order === 'asc' ? 'up' : 'down' }}"></span> @endif
+        </th>
+        <th class="sortable" data-sort="type" style="width: 80px">
+            {{ __('boilerplate-media-manager::list.type') }}
+            @if($sort === 'type') <span class="fa fa-sort-{{ $order === 'asc' ? 'up' : 'down' }}"></span> @endif
+        </th>
+        <th class="sortable" data-sort="date" style="width: 160px">
+            {{ __('boilerplate-media-manager::list.date') }}
+            @if($sort === 'date') <span class="fa fa-sort-{{ $order === 'asc' ? 'up' : 'down' }}"></span> @endif
+        </th>
         <th style="width: 150px"></th>
     </tr>
     </thead>

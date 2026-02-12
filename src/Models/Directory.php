@@ -90,9 +90,11 @@ class Directory
             'type' => 'folder',
             'name' => basename($this->directory),
             'size' => '-',
+            'bytes' => 0,
             'link' => route('mediamanager.index', ['path' => $this->directory], false),
             'url' => $this->storage->url($this->directory),
             'time' => $this->getFileChangeTime(),
+            'ts' => filectime($this->getFullPath()),
         ];
     }
 

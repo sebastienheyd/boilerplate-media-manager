@@ -197,6 +197,7 @@ class File extends BaseFile
             'extension' => $this->pathinfo['extension'],
             'isDir' => false,
             'size' => $this->getFilesize(),
+            'bytes' => filesize($this->getFullPath()),
             'link' => route('mediamanager.index', ['path' => $this->file], false),
             'url' => $this->storage->url($this->file).'?'.$ts,
             'time' => $this->getFileChangeTime(),

@@ -11,6 +11,10 @@ $(function () {
         $('#media-content').attr('data-display', localStorage.getItem('mediamanager_list_display'));
     }
 
+    // Sort state
+    var currentSort = localStorage.getItem('mediamanager_sort') || 'name';
+    var currentOrder = localStorage.getItem('mediamanager_order') || 'asc';
+
     // Click on media
     $(document).on('click', '.link-media', function (e) {
         e.preventDefault();
@@ -289,6 +293,36 @@ $(function () {
         loadPath(href);
     });
 
+    // Sort via table headers
+    $(document).on('click', 'th.sortable', function (e) {
+        e.preventDefault();
+        var sort = $(this).data('sort');
+        if (sort === currentSort) {
+            currentOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+        } else {
+            currentSort = sort;
+            currentOrder = 'asc';
+        }
+        localStorage.setItem('mediamanager_sort', currentSort);
+        localStorage.setItem('mediamanager_order', currentOrder);
+        loadPath($('#media-content').data('path'));
+    });
+
+    // Sort via dropdown
+    $(document).on('click', '.btn-sort', function (e) {
+        e.preventDefault();
+        var sort = $(this).data('sort');
+        if (sort === currentSort) {
+            currentOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+        } else {
+            currentSort = sort;
+            currentOrder = 'asc';
+        }
+        localStorage.setItem('mediamanager_sort', currentSort);
+        localStorage.setItem('mediamanager_order', currentOrder);
+        loadPath($('#media-content').data('path'));
+    });
+
     // Default on page load
     loadPath($('#media-content').data('path'));
 });
@@ -302,6 +336,9 @@ function loadPath(path, clearcache = false)
         height: $('#media-content').height() === 0 ? 200 : $('#media-content').height()
     });
 
+    var sort = localStorage.getItem('mediamanager_sort') || 'name';
+    var order = localStorage.getItem('mediamanager_order') || 'asc';
+
     $.ajax({
         url: routes.ajaxList,
         type: 'post',
@@ -309,7 +346,9 @@ function loadPath(path, clearcache = false)
             path: path,
             display: $('#media-content').data('display'),
             type: $('#media-content').data('type'),
-            clearcache: clearcache
+            clearcache: clearcache,
+            sort: sort,
+            order: order
         },
         success: function (html) {
             $('#media-content').html(html);

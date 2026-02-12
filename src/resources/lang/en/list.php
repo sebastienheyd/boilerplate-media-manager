@@ -9,6 +9,7 @@ return [
     'search' => 'Search...',
     'searchresults' => 'Search results for ":term"',
     'noresults' => 'No results found for ":term"',
+    'sort' => 'Sort',
     'path' => 'Path',
     'back' => 'Back',
 ];
