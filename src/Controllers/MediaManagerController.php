@@ -98,7 +98,7 @@ class MediaManagerController
             $sortCriteria = [['field' => $request->input('sort', 'name'), 'order' => $request->input('order', 'asc')]];
         }
 
-        $path = str_replace(route('mediamanager.index', [], false), '', $request->input('path'));
+        $path = str_replace(route('mediamanager.index', [], false), '', urldecode($request->input('path')));
 
         if (empty($path)) {
             $path = '/';
