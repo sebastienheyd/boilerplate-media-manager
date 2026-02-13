@@ -296,7 +296,8 @@ $(function () {
     $(document).on('click', 'th.sortable', function (e) {
         e.preventDefault();
         var field = $(this).data('sort');
-        var idx = sortColumns.findIndex(function (s) { return s.field === field; });
+        var idx = sortColumns.findIndex(function (s) {
+            return s.field === field; });
 
         if (e.shiftKey) {
             if (idx !== -1) {
@@ -320,7 +321,8 @@ $(function () {
     $(document).on('click', '.btn-sort', function (e) {
         e.preventDefault();
         var field = $(this).data('sort');
-        var idx = sortColumns.findIndex(function (s) { return s.field === field; });
+        var idx = sortColumns.findIndex(function (s) {
+            return s.field === field; });
 
         if (e.shiftKey) {
             if (idx !== -1) {
