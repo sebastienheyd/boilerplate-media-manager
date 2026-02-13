@@ -9,7 +9,6 @@ return [
     'search' => 'Rechercher...',
     'searchresults' => 'Résultats de recherche pour ":term"',
     'noresults' => 'Aucun résultat pour ":term"',
-    'sort' => 'Tri',
     'path' => 'Chemin',
     'back' => 'Retour',
 ];

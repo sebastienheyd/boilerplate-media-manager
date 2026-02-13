@@ -38,29 +38,6 @@
                 <span class="fa fa-sync-alt"></span>
             </a>
         </div>
-        <div class="btn-group float-right mr-2">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="fa fa-sort"></span> {{ __('boilerplate-media-manager::list.sort') }}
-            </button>
-            <div class="dropdown-menu dropdown-menu-right">
-                <a href="#" class="dropdown-item btn-sort" data-sort="name">
-                    {{ __('boilerplate-media-manager::list.name') }}
-                    @if($sort === 'name') <span class="fa fa-sort-{{ $order === 'asc' ? 'up' : 'down' }} ml-1"></span> @endif
-                </a>
-                <a href="#" class="dropdown-item btn-sort" data-sort="size">
-                    {{ __('boilerplate-media-manager::list.weight') }}
-                    @if($sort === 'size') <span class="fa fa-sort-{{ $order === 'asc' ? 'up' : 'down' }} ml-1"></span> @endif
-                </a>
-                <a href="#" class="dropdown-item btn-sort" data-sort="type">
-                    {{ __('boilerplate-media-manager::list.type') }}
-                    @if($sort === 'type') <span class="fa fa-sort-{{ $order === 'asc' ? 'up' : 'down' }} ml-1"></span> @endif
-                </a>
-                <a href="#" class="dropdown-item btn-sort" data-sort="date">
-                    {{ __('boilerplate-media-manager::list.date') }}
-                    @if($sort === 'date') <span class="fa fa-sort-{{ $order === 'asc' ? 'up' : 'down' }} ml-1"></span> @endif
-                </a>
-            </div>
-        </div>
         <div class="input-group float-right mr-2" style="width:200px">
             <input type="text" class="form-control" id="search-input" placeholder="{{ __('boilerplate-media-manager::list.search') }}">
             <div class="input-group-append">
