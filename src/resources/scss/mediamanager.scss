@@ -85,6 +85,10 @@
 
 #media-list {
 
+    th {
+        vertical-align: middle;
+    }
+
     th.sortable {
         cursor: pointer;
         user-select: none;
@@ -95,6 +99,22 @@
 
         .fa {
             font-size: .75rem;
+        }
+
+        .sort-priority {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            font-size: .6rem;
+            font-weight: bold;
+            line-height: 1;
+            color: #fff;
+            background: #6c757d;
+            border-radius: 50%;
+            margin-left: 2px;
+            vertical-align: middle;
         }
     }
 

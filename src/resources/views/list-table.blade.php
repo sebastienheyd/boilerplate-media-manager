@@ -9,19 +9,31 @@
         </th>
         <th class="sortable" data-sort="name">
             {{ __('boilerplate-media-manager::list.name') }}
-            @if($sort === 'name') <span class="fa fa-sort-{{ $order === 'asc' ? 'up' : 'down' }}"></span> @endif
+            @if(isset($sorts['name']))
+                <span class="fa fa-sort-{{ $sorts['name']['order'] === 'asc' ? 'up' : 'down' }}"></span>
+                @if(count($sorts) > 1)<span class="sort-priority">{{ $sorts['name']['priority'] }}</span>@endif
+            @endif
         </th>
         <th class="sortable" data-sort="size" style="width: 100px">
             {{ __('boilerplate-media-manager::list.weight') }}
-            @if($sort === 'size') <span class="fa fa-sort-{{ $order === 'asc' ? 'up' : 'down' }}"></span> @endif
+            @if(isset($sorts['size']))
+                <span class="fa fa-sort-{{ $sorts['size']['order'] === 'asc' ? 'up' : 'down' }}"></span>
+                @if(count($sorts) > 1)<span class="sort-priority">{{ $sorts['size']['priority'] }}</span>@endif
+            @endif
         </th>
         <th class="sortable" data-sort="type" style="width: 80px">
             {{ __('boilerplate-media-manager::list.type') }}
-            @if($sort === 'type') <span class="fa fa-sort-{{ $order === 'asc' ? 'up' : 'down' }}"></span> @endif
+            @if(isset($sorts['type']))
+                <span class="fa fa-sort-{{ $sorts['type']['order'] === 'asc' ? 'up' : 'down' }}"></span>
+                @if(count($sorts) > 1)<span class="sort-priority">{{ $sorts['type']['priority'] }}</span>@endif
+            @endif
         </th>
         <th class="sortable" data-sort="date" style="width: 160px">
             {{ __('boilerplate-media-manager::list.date') }}
-            @if($sort === 'date') <span class="fa fa-sort-{{ $order === 'asc' ? 'up' : 'down' }}"></span> @endif
+            @if(isset($sorts['date']))
+                <span class="fa fa-sort-{{ $sorts['date']['order'] === 'asc' ? 'up' : 'down' }}"></span>
+                @if(count($sorts) > 1)<span class="sort-priority">{{ $sorts['date']['priority'] }}</span>@endif
+            @endif
         </th>
         <th style="width: 150px"></th>
     </tr>

@@ -87,8 +87,16 @@ class MediaManagerController
     {
         $type = $request->input('type', 'all');
         $display = $request->input('display', 'list');
-        $sort = $request->input('sort', 'name');
-        $order = $request->input('order', 'asc');
+
+        // Multi-sort: read JSON array, fallback to single sort/order for compatibility
+        if ($request->has('sorts')) {
+            $sortCriteria = json_decode($request->input('sorts'), true);
+            if (! is_array($sortCriteria) || empty($sortCriteria)) {
+                $sortCriteria = [['field' => 'name', 'order' => 'asc']];
+            }
+        } else {
+            $sortCriteria = [['field' => $request->input('sort', 'name'), 'order' => $request->input('order', 'asc')]];
+        }
 
         $path = str_replace(route('mediamanager.index', [], false), '', $request->input('path'));
 
@@ -106,14 +114,20 @@ class MediaManagerController
             $content->clearCache();
         }
 
-        $list = $this->sortList($content->ls($type), $sort, $order);
+        $list = $this->sortList($content->ls($type), $sortCriteria);
+
+        // Build indexed sorts map for the view: ['name' => ['order' => 'asc', 'priority' => 1], ...]
+        $sorts = [];
+        foreach ($sortCriteria as $i => $criteria) {
+            $sorts[$criteria['field']] = ['order' => $criteria['order'], 'priority' => $i + 1];
+        }
 
         $breadcrumb = new Breadcrumb($path);
         $parent = $breadcrumb->parent();
 
         return view(
             'boilerplate-media-manager::list',
-            compact('content', 'list', 'parent', 'path', 'display', 'breadcrumb', 'sort', 'order')
+            compact('content', 'list', 'parent', 'path', 'display', 'breadcrumb', 'sorts')
         );
     }
 
@@ -121,30 +135,52 @@ class MediaManagerController
      * Sort a list of files and directories.
      *
      * @param  array  $list
-     * @param  string  $sort
-     * @param  string  $order
+     * @param  array  $sortCriteria
      * @return array
      */
-    private function sortList($list, $sort, $order)
+    private function sortList($list, $sortCriteria)
     {
         $allowedFields = ['name' => 'name', 'size' => 'bytes', 'date' => 'ts', 'type' => 'type'];
-        $field = $allowedFields[$sort] ?? 'name';
         $stringFields = ['name', 'type'];
+
+        // Resolve field names and filter invalid criteria
+        $resolved = [];
+        foreach ($sortCriteria as $criteria) {
+            $field = $allowedFields[$criteria['field']] ?? null;
+            if ($field !== null) {
+                $resolved[] = ['field' => $field, 'order' => $criteria['order'] ?? 'asc'];
+            }
+        }
+
+        if (empty($resolved)) {
+            $resolved = [['field' => 'name', 'order' => 'asc']];
+        }
 
         $dirs = array_filter($list, fn ($item) => $item['isDir']);
         $files = array_filter($list, fn ($item) => ! $item['isDir']);
 
-        $sorter = function ($a, $b) use ($field, $order, $stringFields) {
-            $valA = $a[$field] ?? 0;
-            $valB = $b[$field] ?? 0;
+        $sorter = function ($a, $b) use ($resolved, $stringFields) {
+            foreach ($resolved as $criteria) {
+                $field = $criteria['field'];
+                $valA = $a[$field] ?? 0;
+                $valB = $b[$field] ?? 0;
 
-            if (in_array($field, $stringFields)) {
-                $cmp = strnatcasecmp($valA, $valB);
-            } else {
-                $cmp = $valA <=> $valB;
+                if (in_array($field, $stringFields)) {
+                    $cmp = strnatcasecmp($valA, $valB);
+                } else {
+                    $cmp = $valA <=> $valB;
+                }
+
+                if ($criteria['order'] === 'desc') {
+                    $cmp = -$cmp;
+                }
+
+                if ($cmp !== 0) {
+                    return $cmp;
+                }
             }
 
-            return $order === 'desc' ? -$cmp : $cmp;
+            return 0;
         };
 
         usort($dirs, $sorter);

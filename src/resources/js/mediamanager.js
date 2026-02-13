@@ -11,9 +11,8 @@ $(function () {
         $('#media-content').attr('data-display', localStorage.getItem('mediamanager_list_display'));
     }
 
-    // Sort state
-    var currentSort = localStorage.getItem('mediamanager_sort') || 'name';
-    var currentOrder = localStorage.getItem('mediamanager_order') || 'asc';
+    // Sort state (multi-sort)
+    var sortColumns = JSON.parse(localStorage.getItem('mediamanager_sorts') || '[{"field":"name","order":"asc"}]');
 
     // Click on media
     $(document).on('click', '.link-media', function (e) {
@@ -293,33 +292,27 @@ $(function () {
         loadPath(href);
     });
 
-    // Sort via table headers
+    // Sort via table headers (Shift+Click for multi-sort)
     $(document).on('click', 'th.sortable', function (e) {
         e.preventDefault();
-        var sort = $(this).data('sort');
-        if (sort === currentSort) {
-            currentOrder = currentOrder === 'asc' ? 'desc' : 'asc';
-        } else {
-            currentSort = sort;
-            currentOrder = 'asc';
-        }
-        localStorage.setItem('mediamanager_sort', currentSort);
-        localStorage.setItem('mediamanager_order', currentOrder);
-        loadPath($('#media-content').data('path'));
-    });
+        var field = $(this).data('sort');
+        var idx = sortColumns.findIndex(function (s) { return s.field === field; });
 
-    // Sort via dropdown
-    $(document).on('click', '.btn-sort', function (e) {
-        e.preventDefault();
-        var sort = $(this).data('sort');
-        if (sort === currentSort) {
-            currentOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+        if (e.shiftKey) {
+            if (idx !== -1) {
+                sortColumns[idx].order = sortColumns[idx].order === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumns.push({field: field, order: 'asc'});
+            }
         } else {
-            currentSort = sort;
-            currentOrder = 'asc';
+            if (idx !== -1 && sortColumns.length === 1) {
+                sortColumns[0].order = sortColumns[0].order === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumns = [{field: field, order: 'asc'}];
+            }
         }
-        localStorage.setItem('mediamanager_sort', currentSort);
-        localStorage.setItem('mediamanager_order', currentOrder);
+
+        localStorage.setItem('mediamanager_sorts', JSON.stringify(sortColumns));
         loadPath($('#media-content').data('path'));
     });
 
@@ -336,8 +329,7 @@ function loadPath(path, clearcache = false)
         height: $('#media-content').height() === 0 ? 200 : $('#media-content').height()
     });
 
-    var sort = localStorage.getItem('mediamanager_sort') || 'name';
-    var order = localStorage.getItem('mediamanager_order') || 'asc';
+    var sorts = localStorage.getItem('mediamanager_sorts') || '[{"field":"name","order":"asc"}]';
 
     $.ajax({
         url: routes.ajaxList,
@@ -347,8 +339,7 @@ function loadPath(path, clearcache = false)
             display: $('#media-content').data('display'),
             type: $('#media-content').data('type'),
             clearcache: clearcache,
-            sort: sort,
-            order: order
+            sorts: sorts
         },
         success: function (html) {
             $('#media-content').html(html);
