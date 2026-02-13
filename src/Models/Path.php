@@ -278,6 +278,7 @@ class Path
      */
     private function getRelativePath($path)
     {
+        $path = urldecode($path);
         $path = str_replace([route('mediamanager.index', [], false), '..'], '', $path);
 
         return empty($path) ? '/' : $path;
