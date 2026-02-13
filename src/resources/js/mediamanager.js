@@ -316,6 +316,30 @@ $(function () {
         loadPath($('#media-content').data('path'));
     });
 
+    // Sort via dropdown (tiles mode)
+    $(document).on('click', '.btn-sort', function (e) {
+        e.preventDefault();
+        var field = $(this).data('sort');
+        var idx = sortColumns.findIndex(function (s) { return s.field === field; });
+
+        if (e.shiftKey) {
+            if (idx !== -1) {
+                sortColumns[idx].order = sortColumns[idx].order === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumns.push({field: field, order: 'asc'});
+            }
+        } else {
+            if (idx !== -1 && sortColumns.length === 1) {
+                sortColumns[0].order = sortColumns[0].order === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumns = [{field: field, order: 'asc'}];
+            }
+        }
+
+        localStorage.setItem('mediamanager_sorts', JSON.stringify(sortColumns));
+        loadPath($('#media-content').data('path'));
+    });
+
     // Default on page load
     loadPath($('#media-content').data('path'));
 });
