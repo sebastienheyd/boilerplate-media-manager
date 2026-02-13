@@ -38,6 +38,24 @@
                 <span class="fa fa-sync-alt"></span>
             </a>
         </div>
+        @if($display === 'tiles')
+        <div class="btn-group float-right mr-2">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="fa fa-sort"></span> {{ __('boilerplate-media-manager::list.sort') }}
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                @foreach(['name', 'size', 'type', 'date'] as $col)
+                <a href="#" class="dropdown-item btn-sort" data-sort="{{ $col }}">
+                    {{ __('boilerplate-media-manager::list.' . ($col === 'size' ? 'weight' : $col)) }}
+                    @if(isset($sorts[$col]))
+                        <span class="fa fa-sort-{{ $sorts[$col]['order'] === 'asc' ? 'up' : 'down' }} ml-1"></span>
+                        @if(count($sorts) > 1)<span class="sort-priority">{{ $sorts[$col]['priority'] }}</span>@endif
+                    @endif
+                </a>
+                @endforeach
+            </div>
+        </div>
+        @endif
         <div class="input-group float-right mr-2" style="width:200px">
             <input type="text" class="form-control" id="search-input" placeholder="{{ __('boilerplate-media-manager::list.search') }}">
             <div class="input-group-append">

@@ -85,6 +85,39 @@
 
 #media-list {
 
+    th {
+        vertical-align: middle;
+    }
+
+    th.sortable {
+        cursor: pointer;
+        user-select: none;
+
+        &:hover {
+            background: rgba(0, 0, 0, .05);
+        }
+
+        .fa {
+            font-size: .75rem;
+        }
+
+        .sort-priority {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            font-size: .6rem;
+            font-weight: bold;
+            line-height: 1;
+            color: #fff;
+            background: #6c757d;
+            border-radius: 50%;
+            margin-left: 2px;
+            vertical-align: middle;
+        }
+    }
+
     tr {
 
         display: table-row;
@@ -260,6 +293,10 @@ body.dark-mode {
     }
 
     #media-list {
+        th.sortable:hover {
+            background: rgba(255, 255, 255, .05);
+        }
+
         tr {
             &:hover {
                 td {
