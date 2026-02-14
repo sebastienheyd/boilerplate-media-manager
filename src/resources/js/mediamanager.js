@@ -220,12 +220,34 @@ $(function () {
             var count = clipboard.files.length;
 
             $.when.apply($, requests).done(function () {
+                // Validate all responses - arguments contains each ajax response
+                var allSuccess = true;
+                var successCount = 0;
+                var responses = arguments.length === 1 ? [arguments[0]] : Array.prototype.slice.call(arguments);
+
+                responses.forEach(function (response) {
+                    var res = Array.isArray(response) ? response[0] : response;
+                    if (res && res.status === 'success') {
+                        successCount++;
+                    } else {
+                        allSuccess = false;
+                    }
+                });
+
                 clipboard.files = [];
                 $('.btn-paste').hide();
-                growl(locales.pasteSuccess.replace(':count', count), 'success');
+
+                if (allSuccess) {
+                    growl(locales.pasteSuccess.replace(':count', count), 'success');
+                } else if (successCount > 0) {
+                    growl(locales.pastePartial || (successCount + ' of ' + count + ' files moved'), 'warning');
+                } else {
+                    growl(locales.pasteError || 'Failed to move files', 'error');
+                }
+
                 loadPath(currentPath);
             }).fail(function () {
-                growl(locales.pasteSuccess.replace(':count', 0), 'error');
+                growl(locales.pasteError || 'Failed to move files', 'error');
             });
         });
     });

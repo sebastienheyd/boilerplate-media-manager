@@ -316,8 +316,23 @@ class MediaManagerController
 
         if ($request->has('sorts')) {
             $sortCriteria = json_decode($request->input('sorts'), true);
+
+            // Validate that sortCriteria is a non-empty array with valid structure
             if (! is_array($sortCriteria) || empty($sortCriteria)) {
                 $sortCriteria = [['field' => 'name', 'order' => 'asc']];
+            } else {
+                // Validate each criterion has required fields
+                $validCriteria = [];
+                foreach ($sortCriteria as $criterion) {
+                    if (is_array($criterion) && isset($criterion['field']) && isset($criterion['order'])) {
+                        $validCriteria[] = $criterion;
+                    }
+                }
+
+                // Fallback if no valid criteria found
+                $sortCriteria = empty($validCriteria)
+                    ? [['field' => 'name', 'order' => 'asc']]
+                    : $validCriteria;
             }
         } else {
             $sortCriteria = [['field' => 'name', 'order' => 'asc']];
