@@ -106,7 +106,7 @@ $(function () {
                     var allSuccess = true;
                     var responses = arguments.length === 1 ? [arguments[0]] : Array.prototype.slice.call(arguments);
 
-                    responses.forEach(function(response) {
+                    responses.forEach(function (response) {
                         var res = Array.isArray(response) ? response[0] : response;
                         if (!res || res.status !== 'success') {
                             allSuccess = false;
