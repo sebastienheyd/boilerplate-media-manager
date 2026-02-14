@@ -384,6 +384,12 @@ $(function () {
         e.preventDefault();
         var href = $(this).attr('href');
         history.pushState({page: href}, '', href);
+        clearTimeout(searchDebounceTimer);
+        if (searchXhr) {
+            searchXhr.abort();
+            searchXhr = null;
+        }
+        isSearching = false;
         $('#search-input').val('');
         $('.btn-search-clear').hide();
         loadPath(href);
@@ -391,6 +397,12 @@ $(function () {
 
     // History back
     $(window).on('popstate', function () {
+        clearTimeout(searchDebounceTimer);
+        if (searchXhr) {
+            searchXhr.abort();
+            searchXhr = null;
+        }
+        isSearching = false;
         loadPath(location.pathname);
     });
 
