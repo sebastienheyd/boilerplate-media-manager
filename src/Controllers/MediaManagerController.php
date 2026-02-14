@@ -90,10 +90,7 @@ class MediaManagerController
 
         // Multi-sort: read JSON array, fallback to single sort/order for compatibility
         if ($request->has('sorts')) {
-            $sortCriteria = json_decode($request->input('sorts'), true);
-            if (! is_array($sortCriteria) || empty($sortCriteria)) {
-                $sortCriteria = [['field' => 'name', 'order' => 'asc']];
-            }
+            $sortCriteria = $this->parseSortCriteria($request->input('sorts'));
         } else {
             $sortCriteria = [['field' => $request->input('sort', 'name'), 'order' => $request->input('order', 'asc')]];
         }
@@ -129,6 +126,36 @@ class MediaManagerController
             'boilerplate-media-manager::list',
             compact('content', 'list', 'parent', 'path', 'display', 'breadcrumb', 'sorts')
         );
+    }
+
+    /**
+     * Parse and validate sort criteria from a JSON string.
+     *
+     * @param  string  $json
+     * @return array
+     */
+    private function parseSortCriteria($json)
+    {
+        $sortCriteria = json_decode($json, true);
+
+        if (! is_array($sortCriteria) || empty($sortCriteria)) {
+            return [['field' => 'name', 'order' => 'asc']];
+        }
+
+        $validCriteria = [];
+        foreach ($sortCriteria as $criterion) {
+            $isValid = is_array($criterion)
+                && isset($criterion['field']) && is_string($criterion['field'])
+                && isset($criterion['order']) && is_string($criterion['order']);
+
+            if ($isValid) {
+                $validCriteria[] = $criterion;
+            }
+        }
+
+        return empty($validCriteria)
+            ? [['field' => 'name', 'order' => 'asc']]
+            : $validCriteria;
     }
 
     /**
@@ -307,15 +334,28 @@ class MediaManagerController
     {
         $term = $request->input('term', '');
 
-        if (mb_strlen($term) < 2) {
+        if (mb_strlen($term) < 3) {
             return response()->json(['status' => 'error', 'message' => 'Search term too short']);
         }
 
         $type = $request->input('type', 'all');
-        $path = new Path('/');
-        $results = $path->search($term, $type);
+        $display = $request->input('display', 'list');
 
-        return view('boilerplate-media-manager::search-results', compact('results', 'term'));
+        if ($request->has('sorts')) {
+            $sortCriteria = $this->parseSortCriteria($request->input('sorts'));
+        } else {
+            $sortCriteria = [['field' => 'name', 'order' => 'asc']];
+        }
+
+        $path = new Path('/');
+        $results = $this->sortList($path->search($term, $type), $sortCriteria);
+
+        $sorts = [];
+        foreach ($sortCriteria as $i => $criteria) {
+            $sorts[$criteria['field']] = ['order' => $criteria['order'], 'priority' => $i + 1];
+        }
+
+        return view('boilerplate-media-manager::search-results', compact('results', 'term', 'display', 'sorts'));
     }
 
     /**

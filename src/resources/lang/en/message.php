@@ -17,8 +17,12 @@ return [
         'success' => 'The upload is complete',
     ],
     'paste' => [
-        'success' => 'Item(s) successfully moved',
+        'success' => ':count item(s) successfully moved',
         'files' => 'item(s) selected',
+        'confirm' => 'Move selected files to',
+    ],
+    'cut' => [
+        'files' => 'file(s) cut',
     ],
     'deletemedia' => 'Remove image ?',
 ];
