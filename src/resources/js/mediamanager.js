@@ -102,13 +102,30 @@ $(function () {
                 });
 
                 $.when.apply($, requests).done(function () {
-                    growl(locales.deleteSuccess, 'success');
-                    $('#disable').hide();
-                    checkedFiles.each(function (i, e) {
-                        $(e).closest('.media').remove();
+                    // Validate all responses - arguments contains each ajax response
+                    var allSuccess = true;
+                    var responses = arguments.length === 1 ? [arguments[0]] : Array.prototype.slice.call(arguments);
+
+                    responses.forEach(function(response) {
+                        var res = Array.isArray(response) ? response[0] : response;
+                        if (!res || res.status !== 'success') {
+                            allSuccess = false;
+                        }
                     });
-                    $('.media input[type="checkbox"]').trigger('change');
-                    if ($('#media-list .media').length === 0) {
+
+                    if (allSuccess) {
+                        growl(locales.deleteSuccess, 'success');
+                        $('#disable').hide();
+                        checkedFiles.each(function (i, e) {
+                            $(e).closest('.media').remove();
+                        });
+                        $('.media input[type="checkbox"]').trigger('change');
+                        if ($('#media-list .media').length === 0) {
+                            loadPath($('#media-content').data('path'));
+                        }
+                    } else {
+                        growl(locales.deleteError || 'Some files could not be deleted', 'error');
+                        $('#disable').hide();
                         loadPath($('#media-content').data('path'));
                     }
                 });
@@ -236,7 +253,12 @@ $(function () {
                 success: function () {
                     growl(locales.deleteSuccess, 'success');
                     $(files).each(function (i, e) {
-                        $('.media[data-filename="'+e+'"]').remove();
+                        if (isSearching) {
+                            // In search mode, scope by both path and filename to avoid removing wrong files
+                            $('.media[data-path="'+path+'"][data-filename="'+e+'"]').remove();
+                        } else {
+                            $('.media[data-filename="'+e+'"]').remove();
+                        }
                     });
                     if ($('#media-list .media').length === 0) {
                         if (isSearching) {
