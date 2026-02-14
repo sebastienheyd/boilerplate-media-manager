@@ -324,7 +324,11 @@ class MediaManagerController
                 // Validate each criterion has required fields
                 $validCriteria = [];
                 foreach ($sortCriteria as $criterion) {
-                    if (is_array($criterion) && isset($criterion['field']) && isset($criterion['order'])) {
+                    $isValid = is_array($criterion)
+                        && isset($criterion['field']) && is_string($criterion['field'])
+                        && isset($criterion['order']) && is_string($criterion['order']);
+
+                    if ($isValid) {
                         $validCriteria[] = $criterion;
                     }
                 }
