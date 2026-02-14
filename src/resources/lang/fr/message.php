@@ -17,8 +17,12 @@ return [
         'success' => 'Le téléchargement est terminé',
     ],
     'paste' => [
-        'success' => 'Élément(s) correctement déplacé(s)',
+        'success' => ':count élément(s) correctement déplacé(s)',
         'files' => 'élément(s) sélectionné(s)',
+        'confirm' => 'Déplacer les fichiers sélectionnés vers',
+    ],
+    'cut' => [
+        'files' => 'fichier(s) coupé(s)',
     ],
     'deletemedia' => "Déselectionner l'image ?",
 ];

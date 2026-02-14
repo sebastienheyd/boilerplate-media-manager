@@ -143,10 +143,21 @@ class Path
      */
     public function search($term, $type = 'all')
     {
-        $allFiles = $this->storage->allFiles('/');
         $thumbsDir = config('boilerplate.mediamanager.thumbs_dir');
 
-        $matched = array_filter($allFiles, function ($file) use ($term, $thumbsDir) {
+        // Search directories
+        $allDirs = $this->storage->allDirectories('/');
+        $matchedDirs = array_filter($allDirs, function ($dir) use ($term, $thumbsDir) {
+            if ($thumbsDir && preg_match('#^'.preg_quote($thumbsDir, '#').'#', $dir)) {
+                return false;
+            }
+
+            return stripos(basename($dir), $term) !== false;
+        });
+
+        // Search files
+        $allFiles = $this->storage->allFiles('/');
+        $matchedFiles = array_filter($allFiles, function ($file) use ($term, $thumbsDir) {
             if ($thumbsDir && preg_match('#^'.preg_quote($thumbsDir, '#').'#', $file)) {
                 return false;
             }
@@ -158,7 +169,9 @@ class Path
             return stripos(basename($file), $term) !== false;
         });
 
-        $result = $this->formatFiles(array_values($matched));
+        $result = $this->formatDirectories(array_values($matchedDirs))
+            ->merge($this->formatFiles(array_values($matchedFiles)));
+
         $result = $result->map(function ($item) {
             $dir = dirname($item['link']);
             $prefix = route('mediamanager.index', [], false);

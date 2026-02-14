@@ -1,7 +1,7 @@
 
 @push('js')
     <script>
-        var clipboard = {path: '', files: []};
+        var clipboard = {files: []};
         var locales = {
             deleteConfirm: "{{ __('boilerplate-media-manager::message.delete.confirm') }}",
             deleteSuccess: "{{ __('boilerplate-media-manager::message.delete.success') }}",
@@ -11,6 +11,8 @@
             renameSuccess: "{{ __('boilerplate-media-manager::message.rename.success') }}",
             uploadSuccess: "{{ __('boilerplate-media-manager::message.upload.success') }}",
             pasteSuccess: "{{ __('boilerplate-media-manager::message.paste.success') }}",
+            cutFiles: "{{ __('boilerplate-media-manager::message.cut.files') }}",
+            pasteConfirm: "{{ __('boilerplate-media-manager::message.paste.confirm') }}",
         };
         var routes = {
             ajaxList: "{{ route('mediamanager.ajax.list', [], false) }}",

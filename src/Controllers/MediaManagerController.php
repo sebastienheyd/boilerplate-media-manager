@@ -307,15 +307,31 @@ class MediaManagerController
     {
         $term = $request->input('term', '');
 
-        if (mb_strlen($term) < 2) {
+        if (mb_strlen($term) < 3) {
             return response()->json(['status' => 'error', 'message' => 'Search term too short']);
         }
 
         $type = $request->input('type', 'all');
-        $path = new Path('/');
-        $results = $path->search($term, $type);
+        $display = $request->input('display', 'list');
 
-        return view('boilerplate-media-manager::search-results', compact('results', 'term'));
+        if ($request->has('sorts')) {
+            $sortCriteria = json_decode($request->input('sorts'), true);
+            if (! is_array($sortCriteria) || empty($sortCriteria)) {
+                $sortCriteria = [['field' => 'name', 'order' => 'asc']];
+            }
+        } else {
+            $sortCriteria = [['field' => 'name', 'order' => 'asc']];
+        }
+
+        $path = new Path('/');
+        $results = $this->sortList($path->search($term, $type), $sortCriteria);
+
+        $sorts = [];
+        foreach ($sortCriteria as $i => $criteria) {
+            $sorts[$criteria['field']] = ['order' => $criteria['order'], 'priority' => $i + 1];
+        }
+
+        return view('boilerplate-media-manager::search-results', compact('results', 'term', 'display', 'sorts'));
     }
 
     /**

@@ -1,20 +1,14 @@
 <div class="card card-outline card-info">
-    <div id="btn-paste-group" style="display: none">
-        <div class="files-selected">
-            <span id="nb-files-selected"></span> {{ __('boilerplate-media-manager::message.paste.files') }}
-        </div>
-        <div class="btn-group">
-            <button class="btn btn-primary btn-paste" disabled>{{ __('boilerplate-media-manager::menu.paste') }}</button>
-            <button class="btn btn-default btn-paste-cancel">{{ __('boilerplate-media-manager::menu.cancel') }}</button>
-        </div>
-    </div>
     <div class="card-header border-bottom-0">
         <div class="btn-group">
             <button href="#" class="btn btn-default delete-checked" disabled>
                 <span class="fa fa-trash"></span>
             </button>
-            <button href="#" class="btn btn-default copy-checked" disabled>
-                <span class="fa fa-clipboard"></span>
+            <button href="#" class="btn btn-default cut-checked" disabled>
+                <span class="fa fa-cut"></span>
+            </button>
+            <button href="#" class="btn btn-default btn-paste" style="display:none">
+                <span class="fa fa-paste"></span>
             </button>
         </div>
         <span href="#" class="btn btn-default fileinput-button">
@@ -56,11 +50,11 @@
             </div>
         </div>
         @endif
-        <div class="input-group float-right mr-2" style="width:200px">
+        <div class="input-group float-right mr-2" style="width:250px">
             <input type="text" class="form-control" id="search-input" placeholder="{{ __('boilerplate-media-manager::list.search') }}">
             <div class="input-group-append">
-                <button class="btn btn-default btn-search" type="button">
-                    <span class="fa fa-search"></span>
+                <button class="btn btn-default btn-search-clear" type="button" style="display:none">
+                    <span class="fa fa-times"></span>
                 </button>
             </div>
         </div>

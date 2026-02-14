@@ -11,12 +11,9 @@
 }
 
 #loading {
-    position: relative;
-    z-index: 100;
     display: flex;
     justify-content: center;
-    padding-top: 90px;
-    background: rgba(255, 255, 255, .7);
+    align-items: center;
     color: #666;
     width: 100%;
     min-height: 200px;
@@ -146,13 +143,24 @@
         }
     }
 
+    tr td:has(.link-folder, .link-media) {
+        position: relative;
+    }
+
     .link-folder {
         display: flex;
         align-items: center;
     }
 
-    .link-media {
-        display: block;
+    .link-folder, .link-media {
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
     }
 
     .media-icon {
@@ -266,11 +274,19 @@
     }
 }
 
+.btn-search-clear {
+    cursor: pointer;
+}
+
+.fileinput-button.disabled, .add-folder.disabled, .copy-checked.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
 .content-wrapper { margin-left: 0 }
 
 body.dark-mode {
     #loading {
-        background: #343a40;
         color: #CCC;
     }
 
