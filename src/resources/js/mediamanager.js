@@ -383,8 +383,17 @@ $(function () {
             searchDebounceTimer = setTimeout(function () {
                 searchFiles(term);
             }, 300);
-        } else if (isSearching) {
-            loadPath($('#media-content').data('path'));
+        } else {
+            // Cancel in-flight search request if any
+            if (searchXhr) {
+                searchXhr.abort();
+                searchXhr = null;
+            }
+
+            if (isSearching) {
+                isSearching = false;
+                loadPath($('#media-content').data('path'));
+            }
         }
     });
 
@@ -577,6 +586,12 @@ function searchFiles(term)
         },
         error: function (xhr) {
             searchXhr = null;
+
+            // Restore UI state on error
+            if (xhr.statusText !== 'abort') {
+                growl(locales.searchError || 'Search failed. Please try again.', 'error');
+                loadPath($('#media-content').data('path'));
+            }
         }
     });
 }
