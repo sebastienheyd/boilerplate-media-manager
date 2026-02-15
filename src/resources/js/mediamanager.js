@@ -447,20 +447,6 @@ $(function () {
         }
     });
 
-    // Back to list from search results
-    $(document).on('click', '.btn-back-to-list', function (e) {
-        e.preventDefault();
-        clearTimeout(searchDebounceTimer);
-        if (searchXhr) {
-            searchXhr.abort();
-            searchXhr = null;
-        }
-        isSearching = false;
-        $('#search-input').val('');
-        $('.btn-search-clear').hide();
-        loadPath($('#media-content').data('path'));
-    });
-
     // Navigate to path from search results
     $(document).on('click', '.link-search-path', function (e) {
         e.preventDefault();
