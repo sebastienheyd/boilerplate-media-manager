@@ -434,9 +434,15 @@ $(function () {
     // Clear search
     $(document).on('click', '.btn-search-clear', function (e) {
         e.preventDefault();
+        clearTimeout(searchDebounceTimer);
+        if (searchXhr) {
+            searchXhr.abort();
+            searchXhr = null;
+        }
         $('#search-input').val('');
         $(this).hide();
         if (isSearching) {
+            isSearching = false;
             loadPath($('#media-content').data('path'));
         }
     });
@@ -444,6 +450,12 @@ $(function () {
     // Back to list from search results
     $(document).on('click', '.btn-back-to-list', function (e) {
         e.preventDefault();
+        clearTimeout(searchDebounceTimer);
+        if (searchXhr) {
+            searchXhr.abort();
+            searchXhr = null;
+        }
+        isSearching = false;
         $('#search-input').val('');
         $('.btn-search-clear').hide();
         loadPath($('#media-content').data('path'));
