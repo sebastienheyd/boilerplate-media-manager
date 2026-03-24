@@ -8,13 +8,13 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use Intervention\Image\Laravel\Facades\Image;
 use Sebastienheyd\BoilerplateMediaManager\Models\Breadcrumb;
 use Sebastienheyd\BoilerplateMediaManager\Models\Path;
 use UnexpectedValueException;
-use Illuminate\Support\Facades\Validator;
 
 class MediaManagerController
 {
