@@ -14,7 +14,7 @@ use Intervention\Image\Laravel\Facades\Image;
 use Sebastienheyd\BoilerplateMediaManager\Models\Breadcrumb;
 use Sebastienheyd\BoilerplateMediaManager\Models\Path;
 use UnexpectedValueException;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class MediaManagerController
 {

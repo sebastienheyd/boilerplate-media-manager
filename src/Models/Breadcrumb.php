@@ -2,7 +2,7 @@
 
 namespace Sebastienheyd\BoilerplateMediaManager\Models;
 
-use Storage;
+use Illuminate\Support\Facades\Storage;
 
 class Breadcrumb
 {

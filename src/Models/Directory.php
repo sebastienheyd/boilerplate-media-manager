@@ -3,7 +3,7 @@
 namespace Sebastienheyd\BoilerplateMediaManager\Models;
 
 use Carbon\Carbon;
-use Storage;
+use Illuminate\Support\Facades\Storage;
 
 class Directory
 {

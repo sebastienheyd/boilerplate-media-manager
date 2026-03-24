@@ -2,8 +2,8 @@
 
 namespace Sebastienheyd\BoilerplateMediaManager\Lib;
 
-use Image;
-use Storage;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Laravel\Facades\Image;
 
 class ImageResizer
 {
