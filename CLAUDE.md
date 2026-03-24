@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Laravel "Media Manager" package for [sebastienheyd/boilerplate](https://github.com/sebastienheyd/boilerplate). Provides a file/image manager integrated into the boilerplate admin panel. Supports Laravel 6.x to 12.x.
+Laravel "Media Manager" package for [sebastienheyd/boilerplate](https://github.com/sebastienheyd/boilerplate). Provides a file/image manager integrated into the boilerplate admin panel. Supports Laravel 6.x to 13.x.
 
 Composer package: `sebastienheyd/boilerplate-media-manager`
 
