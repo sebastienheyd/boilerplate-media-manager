@@ -14,7 +14,6 @@ use Sebastienheyd\BoilerplateMediaManager\View\Composers\ImageComposer;
 
 class ServiceProvider extends BaseServiceProvider
 {
-    protected $defer = false;
     protected $loader;
 
     /**
