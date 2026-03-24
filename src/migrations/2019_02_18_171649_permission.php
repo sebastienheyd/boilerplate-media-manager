@@ -1,10 +1,9 @@
 <?php
 
-// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
-
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
-class Permission extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -31,4 +30,4 @@ class Permission extends Migration
     {
         DB::table('permissions')->where('name', 'media_manager')->delete();
     }
-}
+};
